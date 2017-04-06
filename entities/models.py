@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -111,6 +113,15 @@ class Event(models.Model):
         (HELD, 'Проведено'),
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PLANNED, blank=True, )
+
+    start_date = models.DateField(default=date.today, blank=True, )
+    end_date = models.DateField(default=date.today, blank=True, )
+
+    def get_start_date_day_of_week(self):
+        return ''.join(self.start_date.strftime("%A"))
+
+    def get_end_date_day_of_week(self):
+        return ''.join(self.end_date.strftime("%A"))
 
     event_types = models.ManyToManyField(EventType, blank=True)
     dance_types = models.ManyToManyField(DanceType, blank=True)

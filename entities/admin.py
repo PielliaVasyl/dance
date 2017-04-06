@@ -28,9 +28,14 @@ admin.site.register(User, UserProfileAdmin)
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ["title", "note", "status", "get_event_types", "get_dance_types", "get_locations",
-                    'get_links', "author", 'created', 'updated']
+    list_display = ["title", "note", "status", 'start_date', 'end_date', 'duration', "get_event_types",
+                    "get_dance_types", "get_locations", 'get_links', "author", 'created', 'updated']
     form = EventForm
+
+    def duration(self, instance):
+        if instance.start_date and instance.end_date:
+            return '%s day(s)' % str(int((instance.end_date - instance.start_date).days) + 1)
+        return '0 days'
 
 admin.site.register(Event, EventAdmin)
 
