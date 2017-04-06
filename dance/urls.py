@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from classes import views as classes_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^event_scheme/$', classes_views.classes_show)
 ]
