@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+{% for class in classes %}
+<p>{{ class.title }} |
+    {% if class.first_lesson_free %}
+    {{ class.first_lesson_date }} |
+    {% endif %}
+    {{ class.date_start }} - {{ class.date_end }} |
+    {% if class.schedule_week_days %}
+        {% for week_day in class.schedule_week_days %}
+            {{ week_day }},
+        {% endfor %}
+    {% endif %}
+    {% for dance_type in class.dance_types.all %}
+        {{ dance_type }},
+    {% endfor %} |
+    {% for link in class.links.all %}
+        {{ link }},
+    {% endfor %} |
+</p>
+{% endfor%}
+</body>
+</html>
