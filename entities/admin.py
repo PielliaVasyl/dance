@@ -2,8 +2,10 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import UserProfile, Event, Location, EventType, DanceType, Link
-from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm
+from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
+    WeekDay
+from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
+    DanceClassForm, WeekDayForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -32,7 +34,8 @@ class EventAdmin(admin.ModelAdmin):
                     "get_dance_types", "get_locations", 'get_links', "author", 'created', 'updated']
     form = EventForm
 
-    def duration(self, instance):
+    @staticmethod
+    def duration(instance):
         if instance.start_date and instance.end_date:
             return '%s day(s)' % str(int((instance.end_date - instance.start_date).days) + 1)
         return '0 days'
@@ -66,3 +69,34 @@ class LinkAdmin(admin.ModelAdmin):
     form = LinkForm
 
 admin.site.register(Link, LinkAdmin)
+
+
+class InstructorAdmin(admin.ModelAdmin):
+    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
+    form = InstructorForm
+
+admin.site.register(Instructor, InstructorAdmin)
+
+
+class DanceStudioAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'get_dance_types', 'get_links', 'get_instructors', 'get_locations',
+                    "author", 'created', 'updated']
+    form = DanceStudioForm
+
+admin.site.register(DanceStudio, DanceStudioAdmin)
+
+
+class WeekDayAdmin(admin.ModelAdmin):
+    list_display = ["day"]
+    form = WeekDayForm
+
+admin.site.register(WeekDay, WeekDayAdmin)
+
+
+class DanceClassAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'first_lesson_free', 'free_lesson_date', 'every_first_lesson_free',
+                    'start_date', 'end_date', 'get_schedule_week_days', 'dance_studio', 'get_dance_types',
+                    'get_instructors', 'get_links', "author", 'created', 'updated']
+    form = DanceClassForm
+
+admin.site.register(DanceClass, DanceClassAdmin)
