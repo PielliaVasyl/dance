@@ -12,7 +12,7 @@
     {% endif %}
     {{ class.date_start }} - {{ class.date_end }} |
     {% if class.schedule_week_days %}
-        {% for week_day in class.schedule_week_days %}
+        {% for week_day in class.schedule_week_days.all %}
             {{ week_day }},
         {% endfor %}
     {% endif %}
