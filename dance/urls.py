@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from event_scheme import views as event_scheme_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^event_scheme/$', event_scheme_views.event_scheme_show)
 ]
