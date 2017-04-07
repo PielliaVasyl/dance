@@ -336,7 +336,7 @@ class Article(models.Model):
 
     def __str__(self):
         if self.author:
-            return '%s by %s' % (self.title, self.author.name)
+            return '%s by %s' % (self.title, self.author.user.name)
         return '%s' % (self.title,)
 
     class Meta:
