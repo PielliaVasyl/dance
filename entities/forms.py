@@ -1,6 +1,6 @@
 # coding: utf-8
 from django import forms
-from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay
+from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article
 
 
 class EventForm(forms.ModelForm):
@@ -68,3 +68,9 @@ class DanceClassForm(forms.ModelForm):
         fields = ["title", 'description', 'first_lesson_free', 'free_lesson_date', 'every_first_lesson_free',
                   'start_date', 'end_date', 'schedule_week_days', 'dance_studio', 'dance_types', 'instructors',
                   'links', "author"]
+
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['title', 'description', 'image', 'is_linked_article', 'article_link', "author"]

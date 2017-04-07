@@ -11,6 +11,9 @@ class UserProfile(models.Model):
 
     role = models.CharField(max_length=50, blank=True, default=None, null=True)
 
+    def name(self):
+        return self.user.name
+
     def __str__(self):
         return "%s's profile" % self.user
 
@@ -316,3 +319,25 @@ class DanceClass(models.Model):
 
     class Meta:
         ordering = ('title',)
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    image = models.ImageField(blank=True)
+
+    is_linked_article = models.BooleanField(default=False)
+    article_link = models.URLField(blank=True)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        if self.author:
+            return '%s by %s' % (self.title, self.author.name)
+        return '%s' % (self.title,)
+
+    class Meta:
+        ordering = ('created',)
