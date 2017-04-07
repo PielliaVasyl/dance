@@ -7,7 +7,7 @@
 <body>
 {% for article in articles %}
 <p>{{ article.title }} |
-    {{ article.author.name }} |
+    {{ article.author.user.name }} |
     {{ article.description }} |
     {{ article.article_link  }}
 </p>

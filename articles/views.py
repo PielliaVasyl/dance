@@ -10,4 +10,4 @@ def article_list_show(request):
         'title': title,
         'articles': articles
     }
-    return render(request, 'article_list.html', context)
+    return render(request, 'articles.html', context)
