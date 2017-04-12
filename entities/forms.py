@@ -47,7 +47,7 @@ class LinkForm(forms.ModelForm):
 class InstructorForm(forms.ModelForm):
     class Meta:
         model = Instructor
-        fields = ["name", 'description', 'dance_types', 'links', 'events', "author"]
+        fields = ["name", 'description', 'dance_types', 'links', 'locations', 'events', "author"]
 
 
 class DanceStudioForm(forms.ModelForm):

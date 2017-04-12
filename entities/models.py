@@ -176,6 +176,7 @@ class Instructor(models.Model):
     dance_types = models.ManyToManyField(DanceType, blank=True)
     events = models.ManyToManyField(Event, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    locations = models.ManyToManyField(Location, blank=True)
 
     def get_dance_types(self):
         if self.dance_types.all():
@@ -190,6 +191,11 @@ class Instructor(models.Model):
     def get_links(self):
         if self.links.all():
             return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.title for p in self.locations.all()])
         return ''
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)

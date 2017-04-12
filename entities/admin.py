@@ -72,7 +72,8 @@ admin.site.register(Link, LinkAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
+    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', 'get_locations', "author",
+                    'created', 'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)
