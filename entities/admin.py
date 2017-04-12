@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article
+    WeekDay, Article, Shop
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm
+    DanceClassForm, WeekDayForm, ArticleForm, ShopForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -84,6 +84,13 @@ class DanceStudioAdmin(admin.ModelAdmin):
     form = DanceStudioForm
 
 admin.site.register(DanceStudio, DanceStudioAdmin)
+
+
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'get_links', 'get_locations', "author", 'created', 'updated']
+    form = ShopForm
+
+admin.site.register(Shop, ShopAdmin)
 
 
 class WeekDayAdmin(admin.ModelAdmin):

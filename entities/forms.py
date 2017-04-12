@@ -56,6 +56,12 @@ class DanceStudioForm(forms.ModelForm):
         fields = ["title", 'description', 'logo', 'locations', 'links', 'instructors', 'dance_types', "author"]
 
 
+class ShopForm(forms.ModelForm):
+    class Meta:
+        model = DanceStudio
+        fields = ["title", 'description', 'logo', 'locations', 'links', "author"]
+
+
 class WeekDayForm(forms.ModelForm):
     class Meta:
         model = WeekDay

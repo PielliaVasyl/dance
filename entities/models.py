@@ -45,6 +45,8 @@ class DanceType(models.Model):
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)
 
+    # some properties like initiative, Proximity, technical difficulty, physical complexity, etc
+
     # parent_dance_type =
     # child_dance_type =
 
@@ -230,6 +232,36 @@ class DanceStudio(models.Model):
     def get_links(self):
         if self.links.all():
             return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('title',)
+
+
+class Shop(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    logo = models.ImageField(blank=True)
+
+    links = models.ManyToManyField(Link, blank=True)
+    locations = models.ManyToManyField(Location, blank=True)
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.title for p in self.locations.all()])
         return ''
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
