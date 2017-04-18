@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.defaultfilters import truncatechars
 
 
 class UserProfile(models.Model):
@@ -48,6 +49,10 @@ class DanceType(models.Model):
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)
 
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
     # parent_dance_type =
     # child_dance_type =
 
@@ -65,6 +70,10 @@ class DanceType(models.Model):
 class EventType(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
 
     def title_show(self):
         title_show_dict = {
@@ -92,6 +101,10 @@ class Location(models.Model):
     description = models.TextField(blank=True)
     address = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50, blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
 
     def title_show(self):
         if self.address and self.city:
@@ -124,6 +137,10 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     note = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
 
     PLANNED = 'PL'
     DENIED = 'DN'
@@ -231,6 +248,10 @@ class Instructor(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
     image = models.ImageField(blank=True)
 
     dance_types = models.ManyToManyField(DanceType, blank=True)
@@ -266,6 +287,10 @@ class Instructor(models.Model):
 class DanceStudio(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
 
     logo = models.ImageField(blank=True)
 
@@ -334,6 +359,10 @@ class DanceClass(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
     is_opened_lesson = models.BooleanField(default=False)
 
     first_lesson_free = models.BooleanField(default=False, blank=True)
@@ -385,6 +414,10 @@ class DanceClass(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
 
     image = models.ImageField(blank=True)
 

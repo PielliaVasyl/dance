@@ -44,21 +44,21 @@ admin.site.register(Event, EventAdmin)
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', "address", "city", "get_dance_types", "author", 'created', 'updated']
+    list_display = ["title", 'short_description', "address", "city", "get_dance_types", "author", 'created', 'updated']
     form = LocationForm
 
 admin.site.register(Location, LocationAdmin)
 
 
 class EventTypeAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', "author", 'created', 'updated']
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
     form = EventTypeForm
 
 admin.site.register(EventType, EventTypeAdmin)
 
 
 class DanceTypeAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'image', "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'image', "author", 'created', 'updated']
     form = DanceTypeForm
 
 admin.site.register(DanceType, DanceTypeAdmin)
@@ -72,14 +72,14 @@ admin.site.register(Link, LinkAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
+    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)
 
 
 class DanceStudioAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'get_dance_types', 'get_links', 'get_instructors', 'get_locations',
+    list_display = ["title", 'short_description', 'get_dance_types', 'get_links', 'get_instructors', 'get_locations',
                     "author", 'created', 'updated']
     form = DanceStudioForm
 
@@ -94,7 +94,7 @@ admin.site.register(WeekDay, WeekDayAdmin)
 
 
 class DanceClassAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'is_opened_lesson', 'first_lesson_free', 'free_lesson_date',
+    list_display = ["title", 'short_description', 'is_opened_lesson', 'first_lesson_free', 'free_lesson_date',
                     'every_first_lesson_free', 'start_date', 'end_date', 'get_schedule_week_days', 'dance_studio',
                     'get_dance_types', 'get_instructors', 'get_links', "author", 'created', 'updated']
     form = DanceClassForm
@@ -103,7 +103,7 @@ admin.site.register(DanceClass, DanceClassAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'image', 'is_linked_article', 'article_link', "author", 'created',
+    list_display = ['title', 'short_description', 'image', 'is_linked_article', 'article_link', "author", 'created',
                     'updated']
     form = ArticleForm
 
