@@ -2,6 +2,7 @@
 {% block title %}{{ title }} - {% endblock %}
 
 {% block wrapper %}
+{% load crispy_forms_tags %}
         <!-- WRAPPER -->
 		<div id="wrapper">
             <!-- PAGE TITLE -->
@@ -22,8 +23,14 @@
 					<div class="col-md-8">
 
 						<h2>Рады всем: <strong><em>кто любит танцы или еще не успел!</em></strong></h2>
+						{% if msg_sent %} <div>Ваше сообщение отправлено</div> {% endif %}
+						<form role="form" action="" method="post">
+						    {% csrf_token %}
+						    {{ form|crispy }}
+						    <button type="submit" class="btn btn-primary">Отправить нам сообщение</button>
+						</form>
 
-						form id="contactForm" class="white-row" action="" method="post">
+						<!--<form id="contactForm" class="white-row" action="" method="post">
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-4">
@@ -61,7 +68,7 @@
 									<input id="contact_submit" type="submit" value="Send Message" class="btn btn-primary btn-lg" data-loading-text="Loading...">
 								</div>
 							</div>
-						</form>
+						</form> -->
 
 					</div>
 					<!-- /FORM -->

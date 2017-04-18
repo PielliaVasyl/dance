@@ -1,6 +1,7 @@
 # coding: utf-8
 from django import forms
-from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article
+from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
+    VisitorMessage
 
 
 class EventForm(forms.ModelForm):
@@ -74,3 +75,19 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ['title', 'description', 'image', 'is_linked_article', 'article_link', "author"]
+
+
+class VisitorMessageForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(VisitorMessageForm, self).__init__(*args, **kwargs)
+
+        self.fields['visitor_name'].label = "Как к Вам обращаться?"
+        self.fields['visitor_email'].label = "Ваш email"
+        self.fields['visitor_phone_number'].label = "Ваш номер телефона"
+        self.fields['message_subject'].label = "Тема Вашего письма"
+        self.fields['message_text'].label = "Текст письма"
+
+
+    class Meta:
+        model = VisitorMessage
+        fields = ['visitor_name', 'visitor_email', 'visitor_phone_number', 'message_subject', 'message_text']
