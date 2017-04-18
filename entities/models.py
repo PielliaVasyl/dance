@@ -188,7 +188,7 @@ class Event(models.Model):
         if self.start_date and self.end_date:
             return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
         if self.start_date:
-            return 'c {0}'.format(self.start_date.strftime('%d.%m'),)
+            return 'c {0}'.format(self.start_date.strftime('%d.%m'), )
         if self.end_date:
             return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
         return 'Неизвестно'
@@ -376,6 +376,8 @@ class DanceClass(models.Model):
         return truncatechars(self.description, 100)
 
     is_opened_lesson = models.BooleanField(default=False)
+    # условно-бесплатное - получение билетов при репосте и выигрыше в лоттерее
+    is_probably_free = models.BooleanField(default=False)
 
     first_lesson_free = models.BooleanField(default=False, blank=True)
     free_lesson_date = models.DateField(default=date.today, null=True, blank=True)
@@ -388,7 +390,7 @@ class DanceClass(models.Model):
         if self.start_date and self.end_date:
             return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
         if self.start_date:
-            return 'c {0}'.format(self.start_date.strftime('%d.%m'),)
+            return 'c {0}'.format(self.start_date.strftime('%d.%m'), )
         if self.end_date:
             return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
         return 'Неизвестно'
