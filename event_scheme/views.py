@@ -62,4 +62,4 @@ def event_scheme_show(request):
         'title': title,
         'events_months': events_months
     }
-    return render(request, 'event_scheme.html', context)
+    return render(request, 'event_scheme/event-scheme.html', context)
