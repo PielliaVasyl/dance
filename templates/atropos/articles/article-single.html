@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+<style>
+.article_text p:first-child:first-letter {
+    float: left;
+    font-size: 70px;
+    line-height: 60px;
+    padding: 4px 8px 4px 4px;
+    margin-right: 6px;
+    margin-top: 0;
+    display: inline-block;
+    color: #F07057;
+}
+</style>
+
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<div id="blog">
+
+				<!-- PAGE TITLE -->
+				<header id="page-title">
+					<div class="container">
+						<h1>Atropos Blog</h1>
+
+						<ul class="breadcrumb">
+							<li><a href="/">Главная</a></li>
+							<li><a href="/articles/">Статьи</a></li>
+                            <li class="active">{{ article.title|truncatechars:100 }}</li>
+						</ul>
+					</div>
+				</header>
+
+				<section class="container">
+
+					<!-- article title -->
+					<header class="blog-post">
+						<h1>{{ article.title }}</h1>
+						<small class="fsize13">
+							<span class="label label-default light">{{ article.created }}</span>
+						</small>
+					</header>
+
+					<img src="{{ article.image.url }}" class="img-responsive" alt="{{ article.title }}" />
+
+
+					<!-- article content -->
+					<article class="article_text">
+                        {{ article.description|linebreaks }}
+
+						<!-- BLOCKQUOTE -->
+						<!--<blockquote>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+							<cite>Source Title</cite>
+						</blockquote> -->
+					</article>
+
+					<hr />
+
+					<!-- TAGS -->
+					<p class="fsize16"> Разделы:
+						<a class="label label-default light" href="#"><i class="fa fa-tags"></i> Business</a>
+						<a class="label label-default light" href="#"><i class="fa fa-tags"></i> Design</a>
+						<a class="label label-default light" href="#"><i class="fa fa-tags"></i> Technology</a>
+					</p>
+
+
+					<div class="divider"><!-- divider -->
+						<i class="fa fa-star"></i>
+					</div>
+
+				</section>
+
+			</div>
+		</div>
+		<!-- /WRAPPER -->
+
+
+{% endblock %}

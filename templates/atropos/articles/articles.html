@@ -3,7 +3,7 @@
 
 {% block wrapper %}
 <style>
-	.my_article p {
+.my_article p {
 	margin-bottom: 0px
 	}
 </style>
@@ -32,7 +32,7 @@
 
 					{% for article in articles %}
 
-					<!-- article summary -->
+						<!-- article summary -->
 						<div class="row">
 							<div class="col-md-4 text-center">
 								<a href="{% if not article.is_linked_article %}/articles/article-{{ article.id }}{% else %}{{ article.article_link }}{% endif %}">
