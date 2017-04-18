@@ -7,3 +7,13 @@
 		<script type="text/javascript" src="{% static 'plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 
 		<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+		<script>
+			$.expr[':'].external = function(obj){
+				return !obj.href.match(/^mailto\:/)
+					   && (obj.hostname != location.hostname)
+					   && !obj.href.match(/^javascript\:/)
+					   && !obj.href.match(/^$/)
+			};
+			$('a:external').attr('target', '_blank');
+		</script>
