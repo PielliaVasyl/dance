@@ -48,7 +48,13 @@
 					{% for class in classes.instances %}
 						<tr class="{% if class.is_opened_lesson or class.is_first_lesson_free %}success{% endif %}"><!-- item -->
 							<td>{{ class.title }}</td>
-							<td>{{ class.date }}</td>
+							<td>{{ class.date }}
+								{% if class.schedule_week_days.all %} |
+								    {% for week_day in class.schedule_week_days.all %}
+								        {{ week_day.week_day_show }}
+								        {% if not forloop.last %}, {% endif %}
+								    {% endfor %}
+								{% endif %}</td>
 							<td class="hidden-sm hidden-xs">{{ class.dance_studio.title }}</td>
 							<td>{{ class.get_dance_types }}</td>
 							<td class="hidden-sm hidden-xs">{% for link in class.links.all %}<a href="{{ link }}">Перейти</a> <br />{% endfor %}</td>

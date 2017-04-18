@@ -351,6 +351,18 @@ class WeekDay(models.Model):
 
     day = models.CharField(max_length=3, choices=DAY_CHOICES, blank=True)
 
+    def week_day_show(self):
+        week_day_show_dict = {
+            'MON': 'Пн',
+            'TUE': 'Вт',
+            'WED': 'Ср',
+            'THU': 'Чт',
+            'FRI': 'Пт',
+            'SAT': 'Сб',
+            'SUN': 'Вс'
+        }
+        return "%s" % week_day_show_dict.get(self.day, self.day)
+
     def __str__(self):
         return '%s' % self.day
 
