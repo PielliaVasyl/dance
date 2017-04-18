@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<!-- PAGE TITLE -->
+			<header id="page-title">
+
+				<div class="container">
+					<h1>Группы и открытые уроки</h1>
+
+					<ul class="breadcrumb">
+						<li><a href="/">Главная</a></li>
+						<li class="active">Занятия</li>
+					</ul>
+				</div>
+			</header>
+
+			<section class="container">
+
+				<h2>Список активных или запланорованных групп и открытых уроков</h2>
+				<p class="lead">Собраны наборы танцевальных групп и открытые уроки, которые могут стать для Вас первой ступенькой на пути познания себя в танце или же очередным этапом в развитии.</p>
+				<p>Найдете информацию о школе, которая организовывает группу/урок, дате проведения, направлении танца и другой полезной информации.</p>
+
+				<div class="divider"><!-- divider -->
+					<i class="fa fa-star"></i>
+				</div>
+
+				{% for classes in classes_months %}
+				<h2>{{ classes.month }}</h2>
+				<table class="table table-striped">
+					<!-- table head -->
+					<thead>
+						<tr>
+							<th>Название</th>
+							<th>Даты проведения</th>
+							<th class="hidden-sm hidden-xs">Школа</th>
+							<th>Направления танцев</th>
+							<th class="hidden-sm hidden-xs">Ссылка</th>
+							<th class="hidden-sm hidden-xs">Подробнее</th>
+						</tr>
+					</thead>
+
+					<!-- table items -->
+					<tbody>
+					{% for class in classes.classes %}
+						<tr class="{% if class.is_opened_lesson or class.is_first_lesson_free %}success{% endif %}"><!-- item -->
+							<td>{{ class.title }}</td>
+							<td>{{ class.date }}</td>
+							<td class="hidden-sm hidden-xs">{{ class.dance_studio.title }}</td>
+							<td>{{ class.get_dance_types }}</td>
+							<td class="hidden-sm hidden-xs">{% for link in class.links.all %}<a href="{{ link }}">Перейти</a> <br />{% endfor %}</td>
+							<td class="hidden-sm hidden-xs">{% if class.is_opened_lesson or class.is_first_lesson_free %}<i class="fa fa-gift" title="Бесплатное занятие"></i>{% endif %}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				{% endfor %}
+
+			</section>
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

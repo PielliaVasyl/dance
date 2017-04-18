@@ -371,6 +371,16 @@ class DanceClass(models.Model):
 
     start_date = models.DateField(default=date.today, null=True, blank=True)
     end_date = models.DateField(default=date.today, null=True, blank=True)
+
+    def date(self):
+        if self.start_date and self.end_date:
+            return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
+        if self.start_date:
+            return 'c {0}'.format(self.start_date.strftime('%d.%m'),)
+        if self.end_date:
+            return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
+        return 'Неизвестно'
+
     schedule_week_days = models.ManyToManyField(WeekDay, blank=True)
 
     def get_schedule_week_days(self):
