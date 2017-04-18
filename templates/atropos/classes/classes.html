@@ -45,7 +45,7 @@
 
 					<!-- table items -->
 					<tbody>
-					{% for class in classes.classes %}
+					{% for class in classes.instances %}
 						<tr class="{% if class.is_opened_lesson or class.is_first_lesson_free %}success{% endif %}"><!-- item -->
 							<td>{{ class.title }}</td>
 							<td>{{ class.date }}</td>
