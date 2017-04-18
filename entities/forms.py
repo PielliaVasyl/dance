@@ -78,6 +78,16 @@ class ArticleForm(forms.ModelForm):
 
 
 class VisitorMessageForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(VisitorMessageForm, self).__init__(*args, **kwargs)
+
+        self.fields['visitor_name'].label = "Как к Вам обращаться?"
+        self.fields['visitor_email'].label = "Ваш email"
+        self.fields['visitor_phone_number'].label = "Ваш номер телефона"
+        self.fields['message_subject'].label = "Тема Вашего письма"
+        self.fields['message_text'].label = "Текст письма"
+
+
     class Meta:
         model = VisitorMessage
         fields = ['visitor_name', 'visitor_email', 'visitor_phone_number', 'message_subject', 'message_text']

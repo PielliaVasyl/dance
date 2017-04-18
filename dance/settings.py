@@ -38,12 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3d party libraries
+    'crispy_forms',
+
     # my_apps
     'home_page',
     'entities',
     'articles',
     'classes',
-    'event_scheme'
+    'event_scheme',
+    'static_pages'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,5 @@ STATIC_ROOT = 'static'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,  'atropos'),
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
