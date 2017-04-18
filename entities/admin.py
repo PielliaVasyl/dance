@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article
+    WeekDay, Article, VisitorMessage
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm
+    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -108,3 +108,11 @@ class ArticleAdmin(admin.ModelAdmin):
     form = ArticleForm
 
 admin.site.register(Article, ArticleAdmin)
+
+
+class VisitorMessageAdmin(admin.ModelAdmin):
+    list_display = ['visitor_name', 'visitor_email', 'visitor_phone_number', 'message_subject', 'message_text',
+                    'created', 'updated']
+    form = VisitorMessageForm
+
+admin.site.register(VisitorMessage, VisitorMessageAdmin)
