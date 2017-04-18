@@ -38,7 +38,6 @@
 							<th>Даты проведения</th>
 							<th class="hidden-sm hidden-xs">Школа</th>
 							<th>Направления танцев</th>
-							<th class="hidden-sm hidden-xs">Ссылка</th>
 							<th class="hidden-sm hidden-xs">Подробнее</th>
 						</tr>
 					</thead>
@@ -47,7 +46,7 @@
 					<tbody>
 					{% for class in classes.instances %}
 						<tr class="{% if class.is_opened_lesson or class.is_first_lesson_free %}success{% endif %}"><!-- item -->
-							<td>{{ class.title }}</td>
+							<td>{{ class.title }}{% if class.links.all %} ({% for link in class.links.all %}<a href="{{ link }}">Перейти</a>{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}</td>
 							<td>{{ class.date }}
 								{% if class.schedule_week_days.all %} |
 								    {% for week_day in class.schedule_week_days.all %}
@@ -57,7 +56,6 @@
 								{% endif %}</td>
 							<td class="hidden-sm hidden-xs">{{ class.dance_studio.title }}</td>
 							<td>{{ class.get_dance_types }}</td>
-							<td class="hidden-sm hidden-xs">{% for link in class.links.all %}<a href="{{ link }}">Перейти</a> <br />{% endfor %}</td>
 							<td class="hidden-sm hidden-xs">{% if class.is_opened_lesson or class.is_first_lesson_free %}<i class="fa fa-gift" title="Бесплатное занятие"></i>{% endif %}</td>
 						</tr>
 					{% endfor %}
