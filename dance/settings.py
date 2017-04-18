@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my_apps
+    'home_page',
     'entities',
+    'articles',
+    'classes',
     'event_scheme'
 ]
 
