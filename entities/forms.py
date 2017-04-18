@@ -66,9 +66,9 @@ class WeekDayForm(forms.ModelForm):
 class DanceClassForm(forms.ModelForm):
     class Meta:
         model = DanceClass
-        fields = ["title", 'description', 'first_lesson_free', 'free_lesson_date', 'every_first_lesson_free',
-                  'start_date', 'end_date', 'schedule_week_days', 'dance_studio', 'dance_types', 'instructors',
-                  'links', "author"]
+        fields = ["title", 'description', 'is_opened_lesson', 'first_lesson_free', 'free_lesson_date',
+                  'every_first_lesson_free', 'start_date', 'end_date', 'schedule_week_days', 'dance_studio',
+                  'dance_types', 'instructors', 'links', "author"]
 
 
 class ArticleForm(forms.ModelForm):

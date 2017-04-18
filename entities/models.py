@@ -334,6 +334,8 @@ class DanceClass(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    is_opened_lesson = models.BooleanField(default=False)
+
     first_lesson_free = models.BooleanField(default=False, blank=True)
     free_lesson_date = models.DateField(default=date.today, null=True, blank=True)
     every_first_lesson_free = models.BooleanField(default=False, blank=True)

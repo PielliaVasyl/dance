@@ -94,9 +94,9 @@ admin.site.register(WeekDay, WeekDayAdmin)
 
 
 class DanceClassAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'first_lesson_free', 'free_lesson_date', 'every_first_lesson_free',
-                    'start_date', 'end_date', 'get_schedule_week_days', 'dance_studio', 'get_dance_types',
-                    'get_instructors', 'get_links', "author", 'created', 'updated']
+    list_display = ["title", 'description', 'is_opened_lesson', 'first_lesson_free', 'free_lesson_date',
+                    'every_first_lesson_free', 'start_date', 'end_date', 'get_schedule_week_days', 'dance_studio',
+                    'get_dance_types', 'get_instructors', 'get_links', "author", 'created', 'updated']
     form = DanceClassForm
 
 admin.site.register(DanceClass, DanceClassAdmin)
