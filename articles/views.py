@@ -4,10 +4,10 @@ from entities.models import Article
 
 
 def article_list_show(request):
-    title = 'Article List'
+    title = 'Статьи о танцах'
     articles = Article.objects.all()
     context = {
         'title': title,
         'articles': articles
     }
-    return render(request, 'articles.html', context)
+    return render(request, 'articles/articles.html', context)

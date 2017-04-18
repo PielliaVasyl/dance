@@ -71,118 +71,7 @@ div.mega-price-table div .pricing.popular {
         <!-- WRAPPER -->
 		<div id="wrapper">
 			<section class="container">
-                <!-- Full 1 -->
-                <!--<div class="row mega-price-table">
 
-                    <div class="col-md-4 col-sm-6 hidden-sm hidden-xs pricing-desc">
-
-                        <div class="pricing-title" style="height: 75px">
-                            <h3><small>Апрель 2017</small></h3>
-                        </div>
-
-                        <ul class="list-unstyled">
-                            {% for event in events %}
-                            <li {% if forloop.counter0|divisibleby:2 %} class="alternate" {% endif %}>{{ event.title }}</li>
-                            {% endfor %}
-                        </ul>
-
-                    </div>
-
-                    <div class="col-md-2 col-sm-6 block">
-                        <div class="pricing popular">
-
-                            <div class="pricing-head">
-                                <h3>Стили</h3>
-                                <small>танцев</small>
-                            </div>
-
-
-                            <ul class="pricing-table list-unstyled">
-                                {% for event in events %}
-                                <li {% if forloop.counter0|divisibleby:2 %} class="alternate" {% endif %}>
-                                    {% for dance_type in event.dance_types.all %}
-                                        {{ dance_type }} <br />
-                                    {% endfor %}
-                                    <span class="hidden-md hidden-lg">{{ event.title }}</span>
-                                </li>
-                                {% endfor %}
-                            </ul>
-
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-6 block">
-                        <div class="pricing">
-
-                            <div class="pricing-head">
-                                <h3>Дата</h3>
-                                <small>проведения</small>
-                            </div>
-
-
-
-                            <ul class="pricing-table list-unstyled">
-                                {% for event in events %}
-                                <li {% if forloop.counter0|divisibleby:2 %} class="alternate" {% endif %}>
-                                    {{ event.date }}
-                                    <span class="hidden-md hidden-lg">{{ event.title }}</span>
-                                </li>
-                                {% endfor %}
-                            </ul>
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-6 block">
-                        <div class="pricing">
-
-                            <div class="pricing-head">
-                                <h3>Место</h3>
-                                <small>проведения</small>
-                            </div>
-
-
-                            <ul class="pricing-table list-unstyled">
-                                {% for event in events %}
-                                <li {% if forloop.counter0|divisibleby:2 %} class="alternate" {% endif %}>
-                                    {{ event.get_locations }}
-                                    <span class="hidden-md hidden-lg">{{ event.title }}</span>
-                                </li>
-                                {% endfor %}
-                            </ul>
-
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-6 block">
-                        <div class="pricing">
-
-                            <div class="pricing-head">
-                                <h3>Ссылки</h3>
-                                <small>о мероприятии</small>
-                            </div>
-
-
-                            <ul class="pricing-table list-unstyled">
-                                {% for event in events %}
-                                <li {% if forloop.counter0|divisibleby:2 %} class="alternate" {% endif %}>
-                                    {% for link in event.links.all %}
-                                        <a href="{{ link }}" title="{{ link }}">Подробнее</a> <br />
-                                    {% endfor %}
-
-                                </li>
-                                {% endfor %}
-                            </ul>
-
-
-                        </div>
-                    </div>
-
-
-
-                </div> -->
                 {% for events in events_months %}
 
                 <div class="row mega-price-table">
@@ -312,16 +201,5 @@ div.mega-price-table div .pricing.popular {
             </section>
         </div>
         <!-- /WRAPPER -->
-{% for event in events %}
 
-
-<!--
-<p>
-    {% for event_type in event.event_types.all %}
-        {{ event_type }},
-    {% endfor %} |
-</p>
--->
-
-{% endfor%}
 {% endblock %}

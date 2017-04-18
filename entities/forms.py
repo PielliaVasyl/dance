@@ -87,7 +87,6 @@ class VisitorMessageForm(forms.ModelForm):
         self.fields['message_subject'].label = "Тема Вашего письма"
         self.fields['message_text'].label = "Текст письма"
 
-
     class Meta:
         model = VisitorMessage
         fields = ['visitor_name', 'visitor_email', 'visitor_phone_number', 'message_subject', 'message_text']

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+<style>
+	.my_article p {
+	margin-bottom: 0px
+	}
+</style>
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<div id="blog">
+
+				<!-- PAGE TITLE -->
+				<header id="page-title">
+					<div class="container">
+						<h1>Статьи о танцах</h1>
+
+						<ul class="breadcrumb">
+							<li><a href="/">Главная</a></li>
+							<li class="active">Статьи</li>
+						</ul>
+					</div>
+				</header>
+
+
+				<section class="container">
+                    <div class="label label-info breaknews-ticker" style="text-align: center !important; font-size: 1.3em">
+							<strong>Ниже Вы найдете самое полезное:</strong> мероприятия, техники, истории, мнения, взгляды - все лучшее, что касается танцев
+                    </div> <br />
+
+					{% for article in articles %}
+
+					<!-- article summary -->
+						<div class="row">
+							<div class="col-md-4 text-center">
+								<a href="{% if not article.is_linked_article %}/articles/article-{{ article.id }}{% else %}{{ article.article_link }}{% endif %}">
+									<img alt="" class="img-responsive" src="{{ article.image.url }}" />
+								</a>
+							</div>
+							<div class="col-md-8 my_article">
+								<h4><a class="styleColor" href="{% if not article.is_linked_article %}/articles/article-{{ article.id }}{% else %}{{ article.article_link }}{% endif %}"><b>{{ article.title }}</b></a></h4>
+
+									{{ article.description|linebreaks|truncatechars:400 }}
+								<p>
+									<small class="block styleSecondColor">{{ article.created }}</small>
+								</p>
+							</div>
+						</div>
+						<!-- /article summary -->
+
+
+						<hr class="half-margins" /><!-- separator -->
+
+
+					{% endfor %}
+
+				</section>
+
+			</div>
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}
