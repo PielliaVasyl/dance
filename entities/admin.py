@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article, Shop
+    WeekDay, Article, VisitorMessage
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm, ShopForm
+    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -72,8 +72,7 @@ admin.site.register(Link, LinkAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', 'get_locations', "author",
-                    'created', 'updated']
+    list_display = ["name", 'description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)
@@ -85,13 +84,6 @@ class DanceStudioAdmin(admin.ModelAdmin):
     form = DanceStudioForm
 
 admin.site.register(DanceStudio, DanceStudioAdmin)
-
-
-class ShopAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'get_links', 'get_locations', "author", 'created', 'updated']
-    form = ShopForm
-
-admin.site.register(Shop, ShopAdmin)
 
 
 class WeekDayAdmin(admin.ModelAdmin):
@@ -116,3 +108,11 @@ class ArticleAdmin(admin.ModelAdmin):
     form = ArticleForm
 
 admin.site.register(Article, ArticleAdmin)
+
+
+class VisitorMessageAdmin(admin.ModelAdmin):
+    list_display = ['visitor_name', 'visitor_email', 'visitor_phone_number', 'message_subject', 'message_text',
+                    'created', 'updated']
+    form = VisitorMessageForm
+
+admin.site.register(VisitorMessage, VisitorMessageAdmin)
