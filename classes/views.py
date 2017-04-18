@@ -10,7 +10,7 @@ from event_scheme.views import MONTH_INT_TO_STR
 def classes_show(request):
     title = 'Танцевальные группы и открытые уроки'
 
-    # Dividing events into months
+    # Dividing classes into months
     month_year_set_start_date = \
         set((event_date.month, event_date.year,) for event_date in DanceClass.objects.dates('start_date', 'month'))
     month_year_set_end_date = \
