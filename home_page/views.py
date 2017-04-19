@@ -8,4 +8,4 @@ def index(request):
     context = {
         'title': title,
     }
-    return render(request, 'atropos/base.html', context)
+    return render(request, 'index.html', context)
