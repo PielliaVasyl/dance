@@ -117,6 +117,9 @@ class Event(models.Model):
     start_date = models.DateField(default=date.today, blank=True, )
     end_date = models.DateField(default=date.today, blank=True, )
 
+    def date(self):
+        return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
+
     def get_start_date_day_of_week(self):
         return ''.join(self.start_date.strftime("%A"))
 
