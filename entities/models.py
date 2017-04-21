@@ -119,11 +119,17 @@ class Event(models.Model):
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PLANNED, blank=True)
 
-    start_date = models.DateField(default=date.today, blank=True)
-    end_date = models.DateField(default=date.today, blank=True)
+    start_date = models.DateField(default=date.today, blank=True, null=True)
+    end_date = models.DateField(default=date.today, blank=True, null=True)
 
     def date(self):
-        return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
+        if self.start_date and self.end_date:
+            return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
+        if self.start_date:
+            return 'c {0}'.format(self.start_date.strftime('%d.%m'),)
+        if self.end_date:
+            return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
+        return 'Неизвестно'
 
     def get_start_date_day_of_week(self):
         if self.start_date:
