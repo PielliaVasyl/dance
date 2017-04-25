@@ -66,6 +66,16 @@ class EventType(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
 
+    def title_show(self):
+        title_show_dict = {
+            'Fest': 'Фестивать',
+            'Competition': 'Конкурс',
+            'Master class': 'Мастер-класс',
+            'Open air': 'Open air',
+            'Party': 'Вечеринка'
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
+
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -82,6 +92,15 @@ class Location(models.Model):
     description = models.TextField(blank=True)
     address = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50, blank=True)
+
+    def title_show(self):
+        if self.address and self.city:
+            return "%s, %s" % (self.address, self.city,)
+        if self.address:
+            return "%s" % (self.address,)
+        if self.city:
+            return "%s" % (self.city,)
+        return ""
 
     dance_types = models.ManyToManyField(DanceType, blank=True)
 
@@ -110,14 +129,40 @@ class Event(models.Model):
     DENIED = 'DN'
     POSTPONED = 'PP'
     HELD = 'HL'
+    COMPLETED = 'CL'
 
     STATUS_CHOICES = (
-        (PLANNED, 'Заплонировано'),
+        (PLANNED, 'Запланировано'),
         (DENIED, 'Отменено'),
         (POSTPONED, 'Перенесено'),
-        (HELD, 'Проведено'),
+        (HELD, 'Проводится'),
+        (COMPLETED, 'Завершено')
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PLANNED, blank=True)
+
+    def status_show(self, status_choices=STATUS_CHOICES):
+        status_choices_dict = {k: v for k, v in status_choices}
+        return "%s" % status_choices_dict.get(self.status, 'Статус неизвестен')
+
+    def status_icon(self, planned=PLANNED, denied=DENIED, postponed=POSTPONED, held=HELD, completed=COMPLETED):
+        status_icon_dict = {
+            planned: 'fa-calendar-check-o',
+            denied: 'fa-times',
+            postponed: 'fa-clock-o',
+            held: 'fa-play',
+            completed: 'fa-check'
+        }
+        return "%s" % status_icon_dict.get(self.status, 'fa-dot-circle-o')
+
+    def status_label_color(self, planned=PLANNED, denied=DENIED, postponed=POSTPONED, held=HELD, completed=COMPLETED):
+        status_label_color_dict = {
+            planned: 'info',
+            denied: 'danger',
+            postponed: 'warning',
+            held: 'success',
+            completed: 'primary'
+        }
+        return "%s" % status_label_color_dict.get(self.status, 'default')
 
     start_date = models.DateField(default=date.today, blank=True, null=True)
     end_date = models.DateField(default=date.today, blank=True, null=True)
@@ -130,6 +175,11 @@ class Event(models.Model):
         if self.end_date:
             return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
         return 'Неизвестно'
+
+    def duration_show(self):
+        if self.start_date and self.end_date:
+            return '%s день (дня)' % str(int((self.end_date - self.start_date).days) + 1)
+        return 'продолжительность неизвестна'
 
     def get_start_date_day_of_week(self):
         if self.start_date:

@@ -3,7 +3,8 @@
 
 {% block wrapper %}
 <style>
-    div.mega-price-table div.alternate {
+/* table settings */
+div.mega-price-table div.alternate {
     background-color: rgba(0,0,0,0.03);
 }
 
@@ -20,7 +21,7 @@ div.mega-price-table div .pricing.popular {
     margin-top: 5px;
 }
 }
-
+/* full height row */
 /* content styles */
 
 .inside {
@@ -65,7 +66,7 @@ div.mega-price-table div .pricing.popular {
     float: none;
     height: 100%;
   }
-  }
+}
 </style>
         <!-- WRAPPER -->
 		<div id="wrapper">
@@ -189,8 +190,18 @@ div.mega-price-table div .pricing.popular {
                         <div class="col-md-4 col-sm-6 pricing-title" style="height: 75px; text-align: left">
                             <h3><small>{{ events.month }}</small></h3>
                         </div>
+
                         <div class="col-md-2 col-sm-6">
-                            <div class="pricing popular">
+                            <div class="pricing">
+                                <div class="pricing-head">
+                                    <h3>Тип</h3>
+                                    <small>мероприятия</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-6">
+                            <div class="pricing">
                                 <div class="pricing-head">
                                     <h3>Стили</h3>
                                     <small>танцев</small>
@@ -216,86 +227,81 @@ div.mega-price-table div .pricing.popular {
                             </div>
                         </div>
 
-                        <div class="col-md-2 col-sm-6">
-                            <div class="pricing">
-                                <div class="pricing-head">
-                                    <h3>Ссылки</h3>
-                                    <small>о мероприятии</small>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- option list -->
-                        {% for event in events.events %}
+                    {% for event in events.events %}
                     <div class="row" style="margin: auto 0">
                         <div class="row-height">
 
                             <div class="col-md-4 col-md-height">
-                                <div class="inside inside-full-height">
+                                <div class="inside pricing popular inside-full-height">
                                     <div class="dance-title inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; color: #7e8998;">
-                                        {{ event.title }}
+                                        <a href="/event_scheme/event-{{ event.pk }}">{{ event.title }}</a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-2 col-md-height">
-                                <!--<div class="inside inside-full-height"> -->
-                                    <div class="pricing popular inside inside-full-height">
-                                        <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
-                                            {% if not event.dance_types.all %}
-                                            <span class="hidden-md hidden-lg"><b>Стили:</b> Неизвестно</span>
-                                            <br />
-                                            {% else %}
-                                            <span class="hidden-md hidden-lg"><b>Стили: </b></span>
-                                            {% endif %}
-                                            {% for dance_type in event.dance_types.all %}
-                                            {{ dance_type }} <br />
-                                            {% endfor %}
-                                        </div>
+                                <div class="pricing inside inside-full-height">
+                                    <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
+                                        {% if not event.event_types.all %}
+                                        <span class="hidden-md hidden-lg"><b>Тип мероприятия: </b>Неизвестен</span>
+                                        <br />
+                                        {% else %}
+                                        <span class="hidden-md hidden-lg"><b>Тип мероприятия: </b></span>
+                                        {% endif %}
+                                        {% for event_type in event.event_types.all %}
+                                        {{ event_type.title }} <br />
+                                        {% endfor %}
                                     </div>
-                                <!--</div> -->
+                                </div>
                             </div>
 
                             <div class="col-md-2 col-md-height">
-                                <!--<div class="inside inside-full-height">-->
-                                    <div class="pricing inside inside-full-height">
-                                        <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
-                                            <span class="hidden-md hidden-lg"><b>Дата: </b></span>
-                                            {{ event.date }}
-                                        </div>
+                                <div class="pricing inside inside-full-height">
+                                    <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
+                                        {% if not event.dance_types.all %}
+                                        <span class="hidden-md hidden-lg"><b>Стили:</b> Неизвестно</span>
+                                        <br />
+                                        {% else %}
+                                        <span class="hidden-md hidden-lg"><b>Стили: </b></span>
+                                        {% endif %}
+                                        {% for dance_type in event.dance_types.all %}
+                                        {{ dance_type }} <br />
+                                        {% endfor %}
                                     </div>
-                                <!--</div>-->
+                                </div>
                             </div>
 
                             <div class="col-md-2 col-md-height">
-                                <!--<div class="inside inside-full-height"> -->
-                                    <div class="pricing inside inside-full-height">
-                                        <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
-                                            <span class="hidden-md hidden-lg"><b>Место: </b></span>
-                                            {{ event.get_locations }}
-                                        </div>
+                                <div class="pricing inside inside-full-height">
+                                    <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
+                                        <span class="hidden-md hidden-lg"><b>Дата: </b></span>
+                                        {{ event.date }}
                                     </div>
-                                <!--</div> -->
+                                </div>
                             </div>
 
                             <div class="col-md-2 col-md-height">
-                                <!--<div class="inside inside-full-height"> -->
-                                    <div class="pricing inside inside-full-height">
-                                        <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
-                                            <span class="hidden-md hidden-lg"><b>Ссылки: </b></span>
-                                            {% for link in event.links.all %}
-                                            <a href="{{ link }}" title="{{ link }}">Подробнее</a> <br />
-                                            {% endfor %}
-                                        </div>
+                                <div class="pricing inside inside-full-height">
+                                    <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
+                                        {% if not event.get_locations %}
+                                        <span class="hidden-md hidden-lg"><b>Место:</b> Неизвестно</span>
+                                        <br />
+                                        {% else %}
+                                        <span class="hidden-md hidden-lg"><b>Место: </b></span>
+                                        {% endif %}
+                                        {{ event.get_locations }} <br />
                                     </div>
-                                <!--</div> -->
+                                </div>
                             </div>
+
                         </div>
                     </div>
-                        {% endfor %}
+                    {% endfor %}
 
-                        <!-- /option list -->
+                    <!-- /option list -->
 
                 </div>
 
@@ -304,10 +310,8 @@ div.mega-price-table div .pricing.popular {
                 <!-- /Full 1 -->
                 <hr />
             </section>
-                  <!--     </div> -->
         </div>
-
-
+        <!-- /WRAPPER -->
 {% for event in events %}
 
 
