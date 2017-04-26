@@ -22,6 +22,7 @@ from home_page import views as home_page_views
 from event_scheme import views as event_scheme_views
 from classes import views as classes_views
 from articles import views as articles_views
+from static_pages import views as static_pages_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,6 +31,7 @@ urlpatterns = [
         url(r'^$', event_scheme_views.event_scheme_show),
         url(r'^(?:event-(?P<event_id>\d+)/)?$', event_scheme_views.event_show),
     ])),
+    url(r'^about/$', static_pages_views.about_show),
     url(r'^classes/$', classes_views.classes_show),
     url(r'^articles/$', articles_views.article_list_show)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
