@@ -376,3 +376,20 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+
+class VisitorMessage(models.Model):
+    visitor_name = models.CharField(max_length=50)
+    visitor_email = models.EmailField()
+    visitor_phone_number = models.CharField(max_length=50, blank=True)
+    message_subject = models.CharField(max_length=100)
+    message_text = models.TextField()
+
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s (%s) - %s' % (self.visitor_name, self.visitor_email, self.message_subject)
+
+    class Meta:
+        ordering = ('created',)
