@@ -32,6 +32,7 @@ urlpatterns = [
         url(r'^(?:event-(?P<event_id>\d+)/)?$', event_scheme_views.event_show),
     ])),
     url(r'^about/$', static_pages_views.about_show),
+    url(r'^contacts/$', static_pages_views.contacts_show),
     url(r'^classes/$', classes_views.classes_show),
     url(r'^articles/$', articles_views.article_list_show)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
