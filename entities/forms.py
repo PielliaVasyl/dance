@@ -24,7 +24,7 @@ class EventForm(forms.ModelForm):
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ["title", 'description', "address", "city", "dance_types", "author"]
+        fields = ["title", 'description', 'show_in_map_section', "address", "city", "dance_types", "author"]
 
 
 class EventTypeForm(forms.ModelForm):

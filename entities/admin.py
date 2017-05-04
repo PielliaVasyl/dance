@@ -44,7 +44,8 @@ admin.site.register(Event, EventAdmin)
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', "address", "city", "get_dance_types", "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'show_in_map_section', "address", "city", "get_dance_types",
+                    "author", 'created', 'updated']
     form = LocationForm
 
 admin.site.register(Location, LocationAdmin)
