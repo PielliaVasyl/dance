@@ -455,6 +455,9 @@ class DanceHall(models.Model):
 
     photos = models.ManyToManyField('DanceHallPhoto', blank=True)
 
+    def count_photos(self):
+        return self.photos.count()
+
     location = models.ForeignKey('Location', null=True, blank=True)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
