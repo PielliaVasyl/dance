@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article, VisitorMessage
+    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm
+    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -72,7 +72,8 @@ admin.site.register(Link, LinkAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', "author", 'created', 'updated']
+    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', "author", 'created',
+                    'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)
@@ -100,6 +101,20 @@ class DanceClassAdmin(admin.ModelAdmin):
     form = DanceClassForm
 
 admin.site.register(DanceClass, DanceClassAdmin)
+
+
+class DanceHallPhotoAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'photo', "author", 'created', 'updated']
+    form = DanceHallPhotoForm
+
+admin.site.register(DanceHallPhoto, DanceHallPhotoAdmin)
+
+
+class DanceHallAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'photos', 'location', "author", 'created', 'updated']
+    form = DanceHallForm
+
+admin.site.register(DanceHall, DanceHallAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):
