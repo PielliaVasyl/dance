@@ -102,6 +102,8 @@ class Location(models.Model):
     address = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50, blank=True)
 
+    show_in_map_section = models.BooleanField(default=False)
+
     @property
     def short_description(self):
         return truncatechars(self.description, 100)
