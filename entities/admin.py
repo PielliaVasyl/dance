@@ -3,9 +3,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall
+    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm
+    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, DanceShopPhotoForm, \
+    DanceShopForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -116,6 +117,20 @@ class DanceHallAdmin(admin.ModelAdmin):
     form = DanceHallForm
 
 admin.site.register(DanceHall, DanceHallAdmin)
+
+
+class DanceShopPhotoAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'photo', "author", 'created', 'updated']
+    form = DanceShopPhotoForm
+
+admin.site.register(DanceShopPhoto, DanceShopPhotoAdmin)
+
+
+class DanceShopAdmin(admin.ModelAdmin):
+    list_display = ["title", 'description', 'count_photos', 'location', "author", 'created', 'updated']
+    form = DanceShopForm
+
+admin.site.register(DanceShop, DanceShopAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):

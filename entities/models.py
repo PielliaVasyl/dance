@@ -475,6 +475,44 @@ class DanceHall(models.Model):
         ordering = ('title',)
 
 
+class DanceShopPhoto(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    photo = models.ImageField()
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        ordering = ('created',)
+
+
+class DanceShop(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    photos = models.ManyToManyField('DanceShopPhoto', blank=True)
+
+    def count_photos(self):
+        return self.photos.count()
+
+    location = models.ForeignKey('Location', null=True, blank=True)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        if self.location:
+            return '%s at %s' % (self.title, self.location.address)
+        return '%s' % (self.title,)
+
+    class Meta:
+        ordering = ('title',)
+
+
 class Article(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
