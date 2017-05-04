@@ -1,5 +1,3 @@
-import datetime
-
 from django.shortcuts import render
 
 from algoritms.entity_schedule import entity_schedule
