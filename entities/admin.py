@@ -111,7 +111,7 @@ admin.site.register(DanceHallPhoto, DanceHallPhotoAdmin)
 
 
 class DanceHallAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'photos', 'location', "author", 'created', 'updated']
+    list_display = ["title", 'description', 'count_photos', 'location', "author", 'created', 'updated']
     form = DanceHallForm
 
 admin.site.register(DanceHall, DanceHallAdmin)
