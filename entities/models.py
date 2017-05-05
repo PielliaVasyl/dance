@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -28,6 +29,94 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
+
+class AbstractSocialLink(models.Model):
+    link = models.URLField()
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.link
+
+    class Meta:
+        ordering = ('created',)
+
+
+class SocialLinkFB(AbstractSocialLink):
+    pass
+
+
+class SocialLinkVK(AbstractSocialLink):
+    pass
+
+
+class SocialLinkInstagram(AbstractSocialLink):
+    pass
+
+
+class SocialLinkTwitter(AbstractSocialLink):
+    pass
+
+
+class Socials(models.Model):
+    title = models.CharField(max_length=50)
+    fb = models.ManyToManyField(SocialLinkFB, blank=True)
+    vk = models.ManyToManyField(SocialLinkVK, blank=True)
+    instagram = models.ManyToManyField(SocialLinkInstagram, blank=True)
+    twitter = models.ManyToManyField(SocialLinkTwitter, blank=True)
+
+    def get_fbs(self):
+        if self.fb.all():
+            return "\n".join([p.link for p in self.fb.all()])
+        return ''
+
+    def get_vks(self):
+        if self.fb.all():
+            return "\n".join([p.link for p in self.vk.all()])
+        return ''
+
+    def get_instagrams(self):
+        if self.fb.all():
+            return "\n".join([p.link for p in self.instagram.all()])
+        return ''
+
+    def get_twitters(self):
+        if self.fb.all():
+            return "\n".join([p.link for p in self.twitter.all()])
+        return ''
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('title',)
+
+
+class Contacts(models.Model):
+    title = models.CharField(max_length=50)
+
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Введите номер телефона в формате: '+380XXXXXXX'. Разрешено до 15 цифр.")
+    phone_number = models.CharField(max_length=16, validators=[phone_regex], blank=True)  # validators should be a list
+
+    socials = models.ForeignKey('Socials', on_delete=models.CASCADE)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('title',)
 
 
 class Link(models.Model):
@@ -102,6 +191,11 @@ class Location(models.Model):
     address = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50, blank=True)
 
+    def get_locations_address_list(self):
+        if self.address:
+            return [self.address]
+        return []
+
     show_in_map_section = models.BooleanField(default=False)
 
     @property
@@ -123,6 +217,11 @@ class Location(models.Model):
         if self.dance_types.all():
             return "\n".join([p.title for p in self.dance_types.all()])
         return ''
+
+    def get_dance_types_list(self):
+        if self.dance_types.all():
+            return [p.title for p in self.dance_types.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -248,6 +347,10 @@ class Event(models.Model):
 
 class Instructor(models.Model):
     name = models.CharField(max_length=100)
+
+    def title(self):
+        return self.name
+
     description = models.TextField(blank=True)
 
     @property
@@ -265,6 +368,11 @@ class Instructor(models.Model):
             return "\n".join([p.title for p in self.dance_types.all()])
         return ''
 
+    def get_dance_types_list(self):
+        if self.dance_types.all():
+            return [p.title for p in self.dance_types.all()]
+        return []
+
     def get_events(self):
         if self.events.all():
             return "\n".join([p.title for p in self.events.all()])
@@ -274,6 +382,11 @@ class Instructor(models.Model):
         if self.links.all():
             return "\n".join([p.link for p in self.links.all()])
         return ''
+
+    def get_links_list(self):
+        if self.links.all():
+            return [p.link for p in self.links.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -306,6 +419,11 @@ class DanceStudio(models.Model):
             return "\n".join([p.title for p in self.dance_types.all()])
         return ''
 
+    def get_dance_types_list(self):
+        if self.dance_types.all():
+            return [p.title for p in self.dance_types.all()]
+        return []
+
     def get_instructors(self):
         if self.instructors.all():
             return "\n".join([p.title for p in self.instructors.all()])
@@ -316,10 +434,20 @@ class DanceStudio(models.Model):
             return "\n".join([p.title for p in self.locations.all()])
         return ''
 
+    def get_locations_address_list(self):
+        if self.locations.all():
+            return [p.address for p in self.locations.all()]
+        return []
+
     def get_links(self):
         if self.links.all():
             return "\n".join([p.link for p in self.links.all()])
         return ''
+
+    def get_links_list(self):
+        if self.links.all():
+            return [p.link for p in self.links.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -455,12 +583,37 @@ class DanceHall(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
     photos = models.ManyToManyField('DanceHallPhoto', blank=True)
 
     def count_photos(self):
         return self.photos.count()
 
-    location = models.ForeignKey('Location', null=True, blank=True)
+    locations = models.ManyToManyField(Location, blank=True)
+    links = models.ManyToManyField(Link, blank=True)
+
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.title for p in self.locations.all()])
+        return ''
+
+    def get_locations_address_list(self):
+        if self.locations.all():
+            return [p.address for p in self.locations.all()]
+        return []
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+    def get_links_list(self):
+        if self.links.all():
+            return [p.link for p in self.links.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -493,20 +646,43 @@ class DanceShop(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
     photos = models.ManyToManyField('DanceShopPhoto', blank=True)
 
     def count_photos(self):
         return self.photos.count()
 
-    location = models.ForeignKey('Location', null=True, blank=True)
+    locations = models.ManyToManyField(Location, blank=True)
+    links = models.ManyToManyField(Link, blank=True)
+
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.title for p in self.locations.all()])
+        return ''
+
+    def get_locations_address_list(self):
+        if self.locations.all():
+            return [p.address for p in self.locations.all()]
+        return []
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+    def get_links_list(self):
+        if self.links.all():
+            return [p.link for p in self.links.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        if self.location:
-            return '%s at %s' % (self.title, self.location.address)
         return '%s' % (self.title,)
 
     class Meta:

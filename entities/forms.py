@@ -1,7 +1,8 @@
 # coding: utf-8
 from django import forms
 from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
-    VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop
+    VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, SocialLinkVK, \
+    SocialLinkInstagram, SocialLinkTwitter
 
 
 class EventForm(forms.ModelForm):
@@ -37,6 +38,42 @@ class DanceTypeForm(forms.ModelForm):
     class Meta:
         model = DanceType
         fields = ["title", 'description', 'image', "author"]
+
+
+class SocialLinkFBForm(forms.ModelForm):
+    class Meta:
+        model = SocialLinkFB
+        fields = ['link', "author"]
+
+
+class SocialLinkVKForm(forms.ModelForm):
+    class Meta:
+        model = SocialLinkVK
+        fields = ['link', "author"]
+
+
+class SocialLinkInstagramForm(forms.ModelForm):
+    class Meta:
+        model = SocialLinkInstagram
+        fields = ['link', "author"]
+
+
+class SocialLinkTwitterForm(forms.ModelForm):
+    class Meta:
+        model = SocialLinkTwitter
+        fields = ['link', "author"]
+
+
+class SocialsForm(forms.ModelForm):
+    class Meta:
+        model = Socials
+        fields = ['title', 'fb', 'vk', 'instagram', 'twitter', "author"]
+
+
+class ContactsForm(forms.ModelForm):
+    class Meta:
+        model = Contacts
+        fields = ['title', 'phone_number', 'socials', "author"]
 
 
 class LinkForm(forms.ModelForm):
@@ -80,7 +117,7 @@ class DanceHallPhotoForm(forms.ModelForm):
 class DanceHallForm(forms.ModelForm):
     class Meta:
         model = DanceHall
-        fields = ["title", 'description', 'photos', 'location', "author"]
+        fields = ["title", 'description', 'photos', 'locations', 'links', "author"]
 
 
 class DanceShopPhotoForm(forms.ModelForm):
@@ -92,7 +129,7 @@ class DanceShopPhotoForm(forms.ModelForm):
 class DanceShopForm(forms.ModelForm):
     class Meta:
         model = DanceShop
-        fields = ["title", 'description', 'photos', 'location', "author"]
+        fields = ["title", 'description', 'photos', 'locations', 'links', "author"]
 
 
 class ArticleForm(forms.ModelForm):

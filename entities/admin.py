@@ -3,10 +3,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop
+    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
+    SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter
 from .forms import EventForm, LocationForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, DanceShopPhotoForm, \
-    DanceShopForm
+    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
+    DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
+    SocialLinkInstagramForm, SocialLinkTwitterForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -66,6 +68,48 @@ class DanceTypeAdmin(admin.ModelAdmin):
 admin.site.register(DanceType, DanceTypeAdmin)
 
 
+class SocialLinkVKAdmin(admin.ModelAdmin):
+    list_display = ['link', "author", 'created', 'updated']
+    form = SocialLinkVKForm
+
+admin.site.register(SocialLinkVK, SocialLinkVKAdmin)
+
+
+class SocialLinkFBAdmin(admin.ModelAdmin):
+    list_display = ['link', "author", 'created', 'updated']
+    form = SocialLinkFBForm
+
+admin.site.register(SocialLinkFB, SocialLinkFBAdmin)
+
+
+class SocialLinkInstagramAdmin(admin.ModelAdmin):
+    list_display = ['link', "author", 'created', 'updated']
+    form = SocialLinkInstagramForm
+
+admin.site.register(SocialLinkInstagram, SocialLinkInstagramAdmin)
+
+
+class SocialLinkTwitterAdmin(admin.ModelAdmin):
+    list_display = ['link', "author", 'created', 'updated']
+    form = SocialLinkTwitterForm
+
+admin.site.register(SocialLinkTwitter, SocialLinkTwitterAdmin)
+
+
+class SocialsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'get_fbs', 'get_vks', 'get_instagrams', 'get_twitters', "author", 'created', 'updated']
+    form = SocialsForm
+
+admin.site.register(Socials, SocialsAdmin)
+
+
+class ContactsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'phone_number', 'socials', "author", 'created', 'updated']
+    form = ContactsForm
+
+admin.site.register(Contacts, ContactsAdmin)
+
+
 class LinkAdmin(admin.ModelAdmin):
     list_display = ["link", "author", 'created', 'updated']
     form = LinkForm
@@ -113,7 +157,8 @@ admin.site.register(DanceHallPhoto, DanceHallPhotoAdmin)
 
 
 class DanceHallAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'count_photos', 'location', "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', "author", 'created',
+                    'updated']
     form = DanceHallForm
 
 admin.site.register(DanceHall, DanceHallAdmin)
@@ -127,7 +172,8 @@ admin.site.register(DanceShopPhoto, DanceShopPhotoAdmin)
 
 
 class DanceShopAdmin(admin.ModelAdmin):
-    list_display = ["title", 'description', 'count_photos', 'location', "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', "author", 'created',
+                    'updated']
     form = DanceShopForm
 
 admin.site.register(DanceShop, DanceShopAdmin)
