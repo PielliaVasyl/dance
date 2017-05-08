@@ -38,10 +38,10 @@
 
 						<!-- article summary -->
 						<div class="row">
-							<div class="col-md-4 text-center">
-								<img alt="image" class="img-responsive" src="assets/images/demo/realestate/images/thumb/1.jpg" />
+							<div class="col-md-3 text-center">
+								<img alt="{{ instance.title }}" class="img-responsive" src="{{ instance.image.url }}" />
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-9">
 								 <div class="row">
 									 <div class="col-sm-5">
 									 	<h4><a class="styleColor" href="realestate-single.html">{{ instance.title }}</a></h4>
@@ -98,26 +98,27 @@
             zoom: 13
         });
 
-        // add marker
-        var marker = new google.maps.Marker({
-            position: {lat: 50.448, lng: 30.52},
-            map: map,
-            title: 'Hello World!'
-        });
+		var infoWin = new google.maps.InfoWindow();
+		// Add some markers to the map.
+		// Note: The code uses the JavaScript Array.prototype.map() method to
+		// create an array of markers based on a given "locations" array.
+		// The map() method here has nothing to do with the Google Maps API.
+		var markers = locations.map(function(location, i) {
+			var marker = new google.maps.Marker({
+		        position: location
+		    });
+		    google.maps.event.addListener(marker, 'click', function(evt) {
+		        infoWin.setContent(location.info);
+		        infoWin.open(map, marker);
+		    })
+		    return marker;
+		});
 
-        // add info window
-        var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-            '<a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-            'https://en.wikipedia.org/w/index.php?title=Uluru</a> ';
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
-        marker.addListener('click', function() {
-            infowindow.open(map, marker);
-        });
+		// Add a marker clusterer to manage the markers.
+		var markerCluster = new MarkerClusterer(map, markers, {
+			imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+		});
+
 
         // recenter while resize window
         var currCenter = map.getCenter();
@@ -128,6 +129,32 @@
             currCenter = map.getCenter();
         });
     }
+
+    var locations = [
+	{% for instance in instances %}
+	{% for location in instance.locations.all %}
+
+	{
+	lat: {{ location.coordinates.lat }},
+	lng: {{ location.coordinates.lng }},
+	//title: '{{ instance.title }}',
+	info: '<div>'+
+			'<h3>{{ instance.title }}</h3>'+
+			'<div class="text-center">'+
+				'<img alt="{{ instance.title }}" class="img-responsive" src="{{ instance.image.url }}" style="max-width:200px"/>'+
+			'</div>'+
+			'<div class="popover-content">'+
+				'<a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+				'Перейти</a>'+
+			'</div>'+
+		   '</div>'
+	},
+
+	{% endfor %}
+	{% endfor %}
+	]
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
 
 <script async defer
