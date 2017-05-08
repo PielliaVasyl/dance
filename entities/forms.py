@@ -1,8 +1,8 @@
 # coding: utf-8
 from django import forms
-from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
+from .models import Event, AbstractLocation, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, SocialLinkVK, \
-    SocialLinkInstagram, SocialLinkTwitter, PlaceInMap
+    SocialLinkInstagram, SocialLinkTwitter
 
 
 class EventForm(forms.ModelForm):
@@ -22,16 +22,16 @@ class EventForm(forms.ModelForm):
         return cleaned_data
 
 
-class LocationForm(forms.ModelForm):
-    class Meta:
-        model = Location
-        fields = ["title", 'description', "address", "city", "author"]
-
-
-class PlaceInMapForm(forms.ModelForm):
-    class Meta:
-        model = PlaceInMap
-        fields = ["title", 'description', 'show_in_map_section', "address", "city", "dance_types", "author"]
+# class LocationForm(forms.ModelForm):
+#     class Meta:
+#         model = Location
+#         fields = ["title", 'description', "address", "city", "author"]
+#
+#
+# class PlaceInMapForm(forms.ModelForm):
+#     class Meta:
+#         model = PlaceInMap
+#         fields = ["title", 'description', 'show_in_map_section', "address", "city", "dance_types", "author"]
 
 
 class EventTypeForm(forms.ModelForm):

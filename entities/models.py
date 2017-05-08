@@ -204,10 +204,7 @@ class EventType(models.Model):
 #     pass
 
 
-
-
-
-class AbsctactLocation(models.Model):
+class AbstractLocation(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     city = models.CharField(max_length=50, blank=True)
@@ -341,7 +338,7 @@ class Event(models.Model):
 
     event_types = models.ManyToManyField(EventType, blank=True)
     dance_types = models.ManyToManyField(DanceType, blank=True)
-    locations = models.ManyToManyField(AbsctactLocation, blank=True)
+    locations = models.ManyToManyField(AbstractLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_event_types(self):
@@ -441,7 +438,7 @@ class DanceStudio(models.Model):
 
     dance_types = models.ManyToManyField(DanceType, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
-    locations = models.ManyToManyField(AbsctactLocation, blank=True)
+    locations = models.ManyToManyField(AbstractLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_dance_types(self):
@@ -622,7 +619,7 @@ class DanceHall(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(AbsctactLocation, blank=True)
+    locations = models.ManyToManyField(AbstractLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):
@@ -683,7 +680,7 @@ class DanceShop(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(AbsctactLocation, blank=True)
+    locations = models.ManyToManyField(AbstractLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):
