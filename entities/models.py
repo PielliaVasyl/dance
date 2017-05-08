@@ -396,7 +396,7 @@ class Event(models.Model):
 
     def get_locations(self):
         if self.locations.all():
-            return "\n".join([p.title for p in self.locations.all()])
+            return "\n".join([p.address for p in self.locations.all()])
         return ''
 
     def get_links(self):
@@ -501,7 +501,7 @@ class DanceStudio(models.Model):
 
     def get_locations(self):
         if self.locations.all():
-            return "\n".join([p.title for p in self.locations.all()])
+            return "\n".join([p.address for p in self.locations.all()])
         return ''
 
     def get_locations_address_list(self):
@@ -667,7 +667,7 @@ class DanceHall(models.Model):
 
     def get_locations(self):
         if self.locations.all():
-            return "\n".join([p.title for p in self.locations.all()])
+            return "\n".join([p.address for p in self.locations.all()])
         return ''
 
     def get_locations_address_list(self):
@@ -728,7 +728,7 @@ class DanceShop(models.Model):
 
     def get_locations(self):
         if self.locations.all():
-            return "\n".join([p.title for p in self.locations.all()])
+            return "\n".join([p.address for p in self.locations.all()])
         return ''
 
     def get_locations_address_list(self):

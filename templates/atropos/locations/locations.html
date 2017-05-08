@@ -39,7 +39,9 @@
 						<!-- article summary -->
 						<div class="row">
 							<div class="col-md-3 text-center">
+								{% if instance.image %}
 								<img alt="{{ instance.title }}" class="img-responsive" src="{{ instance.image.url }}" />
+								{% endif %}
 							</div>
 							<div class="col-md-9">
 								 <div class="row">
@@ -95,7 +97,7 @@
         // set map settings
         map = new google.maps.Map(document.getElementById('my_gmap'), {
             center: {lat: 50.448, lng: 30.52},
-            zoom: 13
+            zoom: 12
         });
 
 		var infoWin = new google.maps.InfoWindow();
@@ -119,7 +121,6 @@
 			imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
 		});
 
-
         // recenter while resize window
         var currCenter = map.getCenter();
         google.maps.event.addDomListener(window, 'resize', function() {
@@ -140,9 +141,11 @@
 	//title: '{{ instance.title }}',
 	info: '<div>'+
 			'<h3>{{ instance.title }}</h3>'+
+			{% if instance.image %}
 			'<div class="text-center">'+
 				'<img alt="{{ instance.title }}" class="img-responsive" src="{{ instance.image.url }}" style="max-width:200px"/>'+
 			'</div>'+
+			{% endif %}
 			'<div class="popover-content">'+
 				'<a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
 				'Перейти</a>'+
@@ -153,6 +156,7 @@
 	{% endfor %}
 	{% endfor %}
 	]
+
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
