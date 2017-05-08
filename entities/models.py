@@ -200,37 +200,19 @@ class EventType(models.Model):
 #         ordering = ('created',)
 #
 #
-# class PlaceMapCoordinates(AbstractMapCoordinates):
+# class PlaceInMapCoordinates(AbstractMapCoordinates):
 #     pass
 
 
 class AbstractLocation(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField(blank=True)
     city = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
-
-    show_in_map_section = models.BooleanField(default=False)
+    note = models.CharField(max_length=100, blank=True)
 
     def get_locations_address_list(self):
         if self.address:
             return [self.address]
         return []
-
-    @property
-    def short_description(self):
-        return truncatechars(self.description, 100)
-
-    def title_show(self):
-        if self.address and self.city:
-            return "%s, %s" % (self.address, self.city,)
-        if self.address:
-            return "%s" % (self.address,)
-        if self.city:
-            return "%s" % (self.city,)
-        return ""
-
-    dance_types = models.ManyToManyField(DanceType, blank=True)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -242,9 +224,30 @@ class AbstractLocation(models.Model):
     class Meta:
         ordering = ('created',)
 
-# class PlaceInMap(AbstractLocation):
-#
+
+class PlaceInMapLocation(AbstractLocation):
+    pass
+    # coordinates = models.ForeignKey(PlaceInMapCoordinates, on_delete=models.CASCADE, blank=True)
+
+
+# class PlaceInMap(models.Model):
+#     title = models.CharField(max_length=50)
+#     description = models.TextField(blank=True)
 #     show_in_map_section = models.BooleanField(default=False)
+#     locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
+#
+#     def title_show(self):
+#         if self.address and self.city:
+#             return "%s, %s" % (self.address, self.city,)
+#         if self.address:
+#             return "%s" % (self.address,)
+#         if self.city:
+#             return "%s" % (self.city,)
+#         return ""
+#
+#     @property
+#     def short_description(self):
+#         return truncatechars(self.description, 100)
 #
 #     dance_types = models.ManyToManyField(DanceType, blank=True)
 #
@@ -257,8 +260,16 @@ class AbstractLocation(models.Model):
 #         if self.dance_types.all():
 #             return [p.title for p in self.dance_types.all()]
 #         return []
-
-    # coordinates = models.ForeignKey(LocationMapCoordinates, on_delete=models.CASCADE, blank=True)
+#
+#     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+#     created = models.DateTimeField(auto_now=False, auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+#
+#     def __str__(self):
+#         return '%s at %s, %s' % (self.title, self.address, self.city)
+#
+#     class Meta:
+#         ordering = ('created',)
 
 
 class Event(models.Model):
