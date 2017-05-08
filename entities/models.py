@@ -185,33 +185,108 @@ class EventType(models.Model):
         ordering = ('created',)
 
 
-# class AbstractMapCoordinates(models.Model):
-#     lat = models.CharField(max_length=20)
-#     lng = models.CharField(max_length=20)
-#
-#     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now=False, auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-#
-#     def __str__(self):
-#         return 'Lat:%s, lng: %s' % (self.lat, self.lng)
-#
-#     class Meta:
-#         ordering = ('created',)
-#
-#
-# class PlaceInMapCoordinates(AbstractMapCoordinates):
-#     pass
+class AbstractMapCoordinates(models.Model):
+    lat = models.CharField(max_length=20)
+    lng = models.CharField(max_length=20)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return 'Lat:%s, lng: %s' % (self.lat, self.lng)
+
+    class Meta:
+        ordering = ('created',)
+
+
+class PlaceInMapMapCoordinates(AbstractMapCoordinates):
+    pass
+
+
+class DanceStudioMapCoordinates(AbstractMapCoordinates):
+    pass
+
+
+class DanceHallMapCoordinates(AbstractMapCoordinates):
+    pass
+
+
+class DanceShopMapCoordinates(AbstractMapCoordinates):
+    pass
 
 
 class AbstractLocation(models.Model):
-    city = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=50, blank=True)
     note = models.CharField(max_length=100, blank=True)
 
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s, %s' % (self.address, self.city)
+
+    class Meta:
+        ordering = ('created',)
+
+
+class PlaceInMapLocation(AbstractLocation):
+    coordinates = models.ForeignKey(PlaceInMapMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class EventLocation(AbstractLocation):
+    pass
+
+
+class DanceStudioLocation(AbstractLocation):
+    coordinates = models.ForeignKey(DanceStudioMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class DanceHallLocation(AbstractLocation):
+    coordinates = models.ForeignKey(DanceHallMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class DanceShopLocation(AbstractLocation):
+    coordinates = models.ForeignKey(DanceShopMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class PlaceInMap(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+    show_in_map_section = models.BooleanField(default=False)
+    locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
+
     def get_locations_address_list(self):
+        if self.locations.all():
+            return [p.address for p in self.locations.all()]
+        return []
+
+    def title_show(self):
+        if self.address and self.city:
+            return "%s, %s" % (self.address, self.city,)
         if self.address:
-            return [self.address]
+            return "%s" % (self.address,)
+        if self.city:
+            return "%s" % (self.city,)
+        return ""
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
+    dance_types = models.ManyToManyField(DanceType, blank=True)
+
+    def get_dance_types(self):
+        if self.dance_types.all():
+            return "\n".join([p.title for p in self.dance_types.all()])
+        return ''
+
+    def get_dance_types_list(self):
+        if self.dance_types.all():
+            return [p.title for p in self.dance_types.all()]
         return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
@@ -223,53 +298,6 @@ class AbstractLocation(models.Model):
 
     class Meta:
         ordering = ('created',)
-
-
-class PlaceInMapLocation(AbstractLocation):
-    pass
-    # coordinates = models.ForeignKey(PlaceInMapCoordinates, on_delete=models.CASCADE, blank=True)
-
-
-# class PlaceInMap(models.Model):
-#     title = models.CharField(max_length=50)
-#     description = models.TextField(blank=True)
-#     show_in_map_section = models.BooleanField(default=False)
-#     locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
-#
-#     def title_show(self):
-#         if self.address and self.city:
-#             return "%s, %s" % (self.address, self.city,)
-#         if self.address:
-#             return "%s" % (self.address,)
-#         if self.city:
-#             return "%s" % (self.city,)
-#         return ""
-#
-#     @property
-#     def short_description(self):
-#         return truncatechars(self.description, 100)
-#
-#     dance_types = models.ManyToManyField(DanceType, blank=True)
-#
-#     def get_dance_types(self):
-#         if self.dance_types.all():
-#             return "\n".join([p.title for p in self.dance_types.all()])
-#         return ''
-#
-#     def get_dance_types_list(self):
-#         if self.dance_types.all():
-#             return [p.title for p in self.dance_types.all()]
-#         return []
-#
-#     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now=False, auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-#
-#     def __str__(self):
-#         return '%s at %s, %s' % (self.title, self.address, self.city)
-#
-#     class Meta:
-#         ordering = ('created',)
 
 
 class Event(models.Model):
@@ -349,7 +377,7 @@ class Event(models.Model):
 
     event_types = models.ManyToManyField(EventType, blank=True)
     dance_types = models.ManyToManyField(DanceType, blank=True)
-    locations = models.ManyToManyField(AbstractLocation, blank=True)
+    locations = models.ManyToManyField(EventLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_event_types(self):
@@ -449,7 +477,7 @@ class DanceStudio(models.Model):
 
     dance_types = models.ManyToManyField(DanceType, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
-    locations = models.ManyToManyField(AbstractLocation, blank=True)
+    locations = models.ManyToManyField(DanceStudioLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_dance_types(self):
@@ -630,7 +658,7 @@ class DanceHall(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(AbstractLocation, blank=True)
+    locations = models.ManyToManyField(DanceHallLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):
@@ -691,7 +719,7 @@ class DanceShop(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(AbstractLocation, blank=True)
+    locations = models.ManyToManyField(DanceShopLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):

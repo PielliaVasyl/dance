@@ -2,13 +2,13 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import UserProfile, Event, AbstractLocation, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
+from .models import UserProfile, Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
     WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
-    SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter
+    SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation
 from .forms import EventForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
-    SocialLinkInstagramForm, SocialLinkTwitterForm
+    SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -46,19 +46,19 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 
 
-# class LocationAdmin(admin.ModelAdmin):
-#     list_display = ["title", 'short_description', "address", "city", "author", 'created', 'updated']
-#     form = LocationForm
-#
-# admin.site.register(Location, LocationAdmin)
-#
-#
-# class PlaceInMapAdmin(admin.ModelAdmin):
-#     list_display = ["title", 'short_description', 'show_in_map_section', "address", "city", "get_dance_types",
-#                     "author", 'created', 'updated']
-#     form = PlaceInMapForm
-#
-# admin.site.register(PlaceInMap, PlaceInMapAdmin)
+class PlaceInMapLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", "author", 'created', 'updated']
+    form = PlaceInMapLocationForm
+
+admin.site.register(PlaceInMapLocation, PlaceInMapLocationAdmin)
+
+
+class PlaceInMapAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', 'show_in_map_section', "get_dance_types",
+                    "author", 'created', 'updated']
+    form = PlaceInMapForm
+
+admin.site.register(PlaceInMap, PlaceInMapAdmin)
 
 
 class EventTypeAdmin(admin.ModelAdmin):
