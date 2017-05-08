@@ -27,17 +27,14 @@ def locations_show(request):
 
     if not is_wrong_location:
         entity = {
-            # 'place': PlaceInMap,
+            'place': PlaceInMap,
             'studio': DanceStudio,
             'shop': DanceShop,
             'hall_for_rent': DanceHall
         }.get(location, '')
 
         if entity:
-            if entity is PlaceInMap:
-                instances = entity.objects.filter(show_in_map_section=True)
-            else:
-                instances = entity.objects.all()
+            instances = entity.objects.all()
         else:
             is_wrong_location = True
 

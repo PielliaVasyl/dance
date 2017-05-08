@@ -258,6 +258,11 @@ class PlaceInMap(models.Model):
     image = models.ImageField(blank=True)
     locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
 
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.address for p in self.locations.all()])
+        return ''
+
     def get_locations_address_list(self):
         if self.locations.all():
             return [p.address for p in self.locations.all()]
@@ -293,7 +298,7 @@ class PlaceInMap(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s at %s, %s' % (self.title, self.address, self.city)
+        return '%s' % (self.title,)
 
     class Meta:
         ordering = ('created',)

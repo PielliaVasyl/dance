@@ -163,8 +163,8 @@ admin.site.register(DanceShopLocation, DanceShopLocationAdmin)
 
 
 class PlaceInMapAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', "get_dance_types",
-                    "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'image', 'get_locations', "get_dance_types", "author", 'created',
+                    'updated']
     form = PlaceInMapForm
 
 admin.site.register(PlaceInMap, PlaceInMapAdmin)

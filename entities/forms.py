@@ -118,7 +118,7 @@ class DanceShopLocationForm(forms.ModelForm):
 class PlaceInMapForm(forms.ModelForm):
     class Meta:
         model = PlaceInMap
-        fields = ["title", 'description', "dance_types", "author"]
+        fields = ["title", 'description', 'image', 'locations', "dance_types", "author"]
 
 
 class EventForm(forms.ModelForm):
