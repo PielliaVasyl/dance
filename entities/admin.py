@@ -4,11 +4,15 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
     WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
-    SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation
+    SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
+    PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, \
+    DanceStudioLocation, DanceHallLocation, DanceShopLocation
 from .forms import EventForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
-    SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm
+    SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, PlaceInMapMapCoordinatesForm, \
+    DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, DanceShopMapCoordinatesForm, EventLocationForm, \
+    DanceStudioLocationForm, DanceHallLocationForm, DanceShopLocationForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -30,49 +34,6 @@ class UserProfileAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserProfileAdmin)
-
-
-class EventAdmin(admin.ModelAdmin):
-    list_display = ["title", "note", "status", 'start_date', 'end_date', 'duration', "get_event_types",
-                    "get_dance_types", "get_locations", 'get_links', "author", 'created', 'updated']
-    form = EventForm
-
-    @staticmethod
-    def duration(instance):
-        if instance.start_date and instance.end_date:
-            return '%s day(s)' % str(int((instance.end_date - instance.start_date).days) + 1)
-        return '0 days'
-
-admin.site.register(Event, EventAdmin)
-
-
-class PlaceInMapLocationAdmin(admin.ModelAdmin):
-    list_display = ["address", "city", "author", 'created', 'updated']
-    form = PlaceInMapLocationForm
-
-admin.site.register(PlaceInMapLocation, PlaceInMapLocationAdmin)
-
-
-class PlaceInMapAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'show_in_map_section', "get_dance_types",
-                    "author", 'created', 'updated']
-    form = PlaceInMapForm
-
-admin.site.register(PlaceInMap, PlaceInMapAdmin)
-
-
-class EventTypeAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', "author", 'created', 'updated']
-    form = EventTypeForm
-
-admin.site.register(EventType, EventTypeAdmin)
-
-
-class DanceTypeAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'image', "author", 'created', 'updated']
-    form = DanceTypeForm
-
-admin.site.register(DanceType, DanceTypeAdmin)
 
 
 class SocialLinkVKAdmin(admin.ModelAdmin):
@@ -122,6 +83,105 @@ class LinkAdmin(admin.ModelAdmin):
     form = LinkForm
 
 admin.site.register(Link, LinkAdmin)
+
+
+class DanceTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', 'image', "author", 'created', 'updated']
+    form = DanceTypeForm
+
+admin.site.register(DanceType, DanceTypeAdmin)
+
+
+class EventTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = EventTypeForm
+
+admin.site.register(EventType, EventTypeAdmin)
+
+
+class PlaceInMapMapCoordinatesAdmin(admin.ModelAdmin):
+    list_display = ["lat", 'lng', "author", 'created', 'updated']
+    form = PlaceInMapMapCoordinatesForm
+
+admin.site.register(PlaceInMapMapCoordinates, PlaceInMapMapCoordinatesAdmin)
+
+
+class DanceStudioMapCoordinatesAdmin(admin.ModelAdmin):
+    list_display = ["lat", 'lng', "author", 'created', 'updated']
+    form = DanceStudioMapCoordinatesForm
+
+admin.site.register(DanceStudioMapCoordinates, DanceStudioMapCoordinatesAdmin)
+
+
+class DanceHallMapCoordinatesAdmin(admin.ModelAdmin):
+    list_display = ["lat", 'lng', "author", 'created', 'updated']
+    form = DanceHallMapCoordinatesForm
+
+admin.site.register(DanceHallMapCoordinates, DanceHallMapCoordinatesAdmin)
+
+
+class DanceShopMapCoordinatesAdmin(admin.ModelAdmin):
+    list_display = ["lat", 'lng', "author", 'created', 'updated']
+    form = DanceShopMapCoordinatesForm
+
+admin.site.register(DanceShopMapCoordinates, DanceShopMapCoordinatesAdmin)
+
+
+class PlaceInMapLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", 'coordinates', "author", 'created', 'updated']
+    form = PlaceInMapLocationForm
+
+admin.site.register(PlaceInMapLocation, PlaceInMapLocationAdmin)
+
+
+class EventLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", "author", 'created', 'updated']
+    form = EventLocationForm
+
+admin.site.register(EventLocation, EventLocationAdmin)
+
+
+class DanceStudioLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", 'coordinates', "author", 'created', 'updated']
+    form = DanceStudioLocationForm
+
+admin.site.register(DanceStudioLocation, DanceStudioLocationAdmin)
+
+
+class DanceHallLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", 'coordinates', "author", 'created', 'updated']
+    form = DanceHallLocationForm
+
+admin.site.register(DanceHallLocation, DanceHallLocationAdmin)
+
+
+class DanceShopLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", 'coordinates', "author", 'created', 'updated']
+    form = DanceShopLocationForm
+
+admin.site.register(DanceShopLocation, DanceShopLocationAdmin)
+
+
+class PlaceInMapAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', 'show_in_map_section', "get_dance_types",
+                    "author", 'created', 'updated']
+    form = PlaceInMapForm
+
+admin.site.register(PlaceInMap, PlaceInMapAdmin)
+
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = ["title", "note", "status", 'start_date', 'end_date', 'duration', "get_event_types",
+                    "get_dance_types", "get_locations", 'get_links', "author", 'created', 'updated']
+    form = EventForm
+
+    @staticmethod
+    def duration(instance):
+        if instance.start_date and instance.end_date:
+            return '%s day(s)' % str(int((instance.end_date - instance.start_date).days) + 1)
+        return '0 days'
+
+admin.site.register(Event, EventAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):

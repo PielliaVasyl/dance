@@ -1,60 +1,21 @@
 # coding: utf-8
 from django import forms
 from .models import Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
-    VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, SocialLinkVK, \
-    SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation
-
-
-class EventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_types",
-                  "locations", 'links', "author"]
-
-    def clean(self):
-        cleaned_data = super(EventForm, self).clean()
-        start_date = cleaned_data.get("start_date")
-        end_date = cleaned_data.get("end_date")
-
-        if start_date and end_date:
-            if end_date < start_date:
-                raise forms.ValidationError("End date cannot be earlier than start date!")
-        return cleaned_data
-
-
-class PlaceInMapLocationForm(forms.ModelForm):
-    class Meta:
-        model = PlaceInMapLocation
-        fields = ["address", "city", "note", 'coordinates', "author"]
-
-
-class PlaceInMapForm(forms.ModelForm):
-    class Meta:
-        model = PlaceInMap
-        fields = ["title", 'description', 'show_in_map_section', "dance_types", "author"]
-
-
-class EventTypeForm(forms.ModelForm):
-    class Meta:
-        model = EventType
-        fields = ["title", 'description', "author"]
-
-
-class DanceTypeForm(forms.ModelForm):
-    class Meta:
-        model = DanceType
-        fields = ["title", 'description', 'image', "author"]
-
-
-class SocialLinkFBForm(forms.ModelForm):
-    class Meta:
-        model = SocialLinkFB
-        fields = ['link', "author"]
+    VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
+    SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
+    DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
+    DanceHallLocation, DanceShopLocation
 
 
 class SocialLinkVKForm(forms.ModelForm):
     class Meta:
         model = SocialLinkVK
+        fields = ['link', "author"]
+
+
+class SocialLinkFBForm(forms.ModelForm):
+    class Meta:
+        model = SocialLinkFB
         fields = ['link', "author"]
 
 
@@ -86,6 +47,95 @@ class LinkForm(forms.ModelForm):
     class Meta:
         model = Link
         fields = ["link", "author"]
+
+
+class DanceTypeForm(forms.ModelForm):
+    class Meta:
+        model = DanceType
+        fields = ["title", 'description', 'image', "author"]
+
+
+class EventTypeForm(forms.ModelForm):
+    class Meta:
+        model = EventType
+        fields = ["title", 'description', "author"]
+
+
+class PlaceInMapMapCoordinatesForm(forms.ModelForm):
+    class Meta:
+        model = PlaceInMapMapCoordinates
+        fields = ["lat", 'lng', "author"]
+
+
+class DanceStudioMapCoordinatesForm(forms.ModelForm):
+    class Meta:
+        model = DanceStudioMapCoordinates
+        fields = ["lat", 'lng', "author"]
+
+
+class DanceHallMapCoordinatesForm(forms.ModelForm):
+    class Meta:
+        model = DanceHallMapCoordinates
+        fields = ["lat", 'lng', "author"]
+
+
+class DanceShopMapCoordinatesForm(forms.ModelForm):
+    class Meta:
+        model = DanceShopMapCoordinates
+        fields = ["lat", 'lng', "author"]
+
+
+class PlaceInMapLocationForm(forms.ModelForm):
+    class Meta:
+        model = PlaceInMapLocation
+        fields = ["address", "city", "note", 'coordinates', "author"]
+
+
+class EventLocationForm(forms.ModelForm):
+    class Meta:
+        model = EventLocation
+        fields = ["address", "city", "note", "author"]
+
+
+class DanceStudioLocationForm(forms.ModelForm):
+    class Meta:
+        model = DanceStudioLocation
+        fields = ["address", "city", "note", 'coordinates', "author"]
+
+
+class DanceHallLocationForm(forms.ModelForm):
+    class Meta:
+        model = DanceHallLocation
+        fields = ["address", "city", "note", 'coordinates', "author"]
+
+
+class DanceShopLocationForm(forms.ModelForm):
+    class Meta:
+        model = DanceShopLocation
+        fields = ["address", "city", "note", 'coordinates', "author"]
+
+
+class PlaceInMapForm(forms.ModelForm):
+    class Meta:
+        model = PlaceInMap
+        fields = ["title", 'description', 'show_in_map_section', "dance_types", "author"]
+
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_types",
+                  "locations", 'links', "author"]
+
+    def clean(self):
+        cleaned_data = super(EventForm, self).clean()
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        if start_date and end_date:
+            if end_date < start_date:
+                raise forms.ValidationError("End date cannot be earlier than start date!")
+        return cleaned_data
 
 
 class InstructorForm(forms.ModelForm):
