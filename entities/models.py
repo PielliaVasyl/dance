@@ -196,8 +196,6 @@ class Location(models.Model):
             return [self.address]
         return []
 
-    show_in_map_section = models.BooleanField(default=False)
-
     @property
     def short_description(self):
         return truncatechars(self.description, 100)
@@ -211,6 +209,20 @@ class Location(models.Model):
             return "%s" % (self.city,)
         return ""
 
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s at %s, %s' % (self.title, self.address, self.city)
+
+    class Meta:
+        ordering = ('created',)
+
+
+class PlaceInMap(Location):
+    show_in_map_section = models.BooleanField(default=False)
+
     dance_types = models.ManyToManyField(DanceType, blank=True)
 
     def get_dance_types(self):
@@ -222,16 +234,6 @@ class Location(models.Model):
         if self.dance_types.all():
             return [p.title for p in self.dance_types.all()]
         return []
-
-    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-
-    def __str__(self):
-        return '%s at %s, %s' % (self.title, self.address, self.city)
-
-    class Meta:
-        ordering = ('created',)
 
 
 class Event(models.Model):
@@ -620,8 +622,6 @@ class DanceHall(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        if self.location:
-            return '%s at %s' % (self.title, self.location.address)
         return '%s' % (self.title,)
 
     class Meta:

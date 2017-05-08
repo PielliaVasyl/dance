@@ -2,7 +2,7 @@
 from django import forms
 from .models import Event, Location, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, SocialLinkVK, \
-    SocialLinkInstagram, SocialLinkTwitter
+    SocialLinkInstagram, SocialLinkTwitter, PlaceInMap
 
 
 class EventForm(forms.ModelForm):
@@ -25,6 +25,12 @@ class EventForm(forms.ModelForm):
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
+        fields = ["title", 'description', "address", "city", "author"]
+
+
+class PlaceInMapForm(forms.ModelForm):
+    class Meta:
+        model = PlaceInMap
         fields = ["title", 'description', 'show_in_map_section', "address", "city", "dance_types", "author"]
 
 
