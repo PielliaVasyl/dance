@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from entities.models import DanceHall, DanceStudio, DanceShop, PlaceInMap
+from entities.models import DanceHall, DanceStudio, DanceShop
 
 
 def locations_show(request):

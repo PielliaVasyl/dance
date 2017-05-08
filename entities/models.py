@@ -185,11 +185,35 @@ class EventType(models.Model):
         ordering = ('created',)
 
 
-class Location(models.Model):
+# class AbstractMapCoordinates(models.Model):
+#     lat = models.CharField(max_length=20)
+#     lng = models.CharField(max_length=20)
+#
+#     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+#     created = models.DateTimeField(auto_now=False, auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+#
+#     def __str__(self):
+#         return 'Lat:%s, lng: %s' % (self.lat, self.lng)
+#
+#     class Meta:
+#         ordering = ('created',)
+#
+#
+# class PlaceMapCoordinates(AbstractMapCoordinates):
+#     pass
+
+
+
+
+
+class AbsctactLocation(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
-    address = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+
+    show_in_map_section = models.BooleanField(default=False)
 
     def get_locations_address_list(self):
         if self.address:
@@ -209,6 +233,8 @@ class Location(models.Model):
             return "%s" % (self.city,)
         return ""
 
+    dance_types = models.ManyToManyField(DanceType, blank=True)
+
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -219,21 +245,23 @@ class Location(models.Model):
     class Meta:
         ordering = ('created',)
 
+# class PlaceInMap(AbstractLocation):
+#
+#     show_in_map_section = models.BooleanField(default=False)
+#
+#     dance_types = models.ManyToManyField(DanceType, blank=True)
+#
+#     def get_dance_types(self):
+#         if self.dance_types.all():
+#             return "\n".join([p.title for p in self.dance_types.all()])
+#         return ''
+#
+#     def get_dance_types_list(self):
+#         if self.dance_types.all():
+#             return [p.title for p in self.dance_types.all()]
+#         return []
 
-class PlaceInMap(Location):
-    show_in_map_section = models.BooleanField(default=False)
-
-    dance_types = models.ManyToManyField(DanceType, blank=True)
-
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
-        return ''
-
-    def get_dance_types_list(self):
-        if self.dance_types.all():
-            return [p.title for p in self.dance_types.all()]
-        return []
+    # coordinates = models.ForeignKey(LocationMapCoordinates, on_delete=models.CASCADE, blank=True)
 
 
 class Event(models.Model):
@@ -313,7 +341,7 @@ class Event(models.Model):
 
     event_types = models.ManyToManyField(EventType, blank=True)
     dance_types = models.ManyToManyField(DanceType, blank=True)
-    locations = models.ManyToManyField(Location, blank=True)
+    locations = models.ManyToManyField(AbsctactLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_event_types(self):
@@ -413,7 +441,7 @@ class DanceStudio(models.Model):
 
     dance_types = models.ManyToManyField(DanceType, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
-    locations = models.ManyToManyField(Location, blank=True)
+    locations = models.ManyToManyField(AbsctactLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_dance_types(self):
@@ -594,7 +622,7 @@ class DanceHall(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(Location, blank=True)
+    locations = models.ManyToManyField(AbsctactLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):
@@ -655,7 +683,7 @@ class DanceShop(models.Model):
     def count_photos(self):
         return self.photos.count()
 
-    locations = models.ManyToManyField(Location, blank=True)
+    locations = models.ManyToManyField(AbsctactLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
     def get_locations(self):
