@@ -256,7 +256,6 @@ class PlaceInMap(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)
-    show_in_map_section = models.BooleanField(default=False)
     locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
 
     def get_locations_address_list(self):
