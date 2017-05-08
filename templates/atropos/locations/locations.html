@@ -48,13 +48,13 @@
 									 <div class="col-sm-5">
 									 	<h4><a class="styleColor" href="realestate-single.html">{{ instance.title }}</a></h4>
 									 </div>
-									 <div class="col-sm-5">
+									 <div class="col-sm-4">
 										 {% for address in instance.get_locations_address_list %}{{ address }} <br />{% endfor %}
 									 </div>
-									 <div class="col-sm-2">
+									 <div class="col-sm-3">
 									 	<p><small class="block styleSecondColor fsize17">
 											{% for link in instance.get_links_list %}
-												<a href="{{ link }}">Источник</a>
+												<a href="{{ link }}">Перейти на сайт</a>
 											{% endfor %}
 										</small></p>
 									 </div>
@@ -65,7 +65,30 @@
 									</div>
 									<div class="col-sm-6">
 										<p>
-											<span class="fsize12 pull-right">
+											<span class="fsize20 pull-right">
+												{% for phone_number in instance.contacts.phone_numbers.all %}
+												<i class="fa fa-phone" title="Телефон"></i> {{ phone_number.phone_number }} <br />
+												{% endfor %}
+												{% for fb in instance.contacts.socials.fb.all %}
+												<a href="{{ fb.link }}">
+													<i class="fa fa-facebook-square" title="FB" ></i>
+												</a>
+												{% endfor %}
+												{% for vk in instance.contacts.socials.vk.all %}
+												<a href="{{ vk.link }}">
+													<i class="fa fa-vk" title="VK" ></i>
+												</a>
+												{% endfor %}
+												{% for instagram in instance.contacts.socials.instagram.all %}
+												<a href="{{ instagram.link }}">
+													<i class="fa fa-instagram" title="Instagram" ></i>
+												</a>
+												{% endfor %}
+												{% for twitter in instance.contacts.socials.twitter.all %}
+												<a href="{{ twitter.link }}">
+													<i class="fa fa-twitter" title="Twitter" ></i>
+												</a>
+												{% endfor %}
 												<!--<i class="bed-ico" title="beds"></i> 3 ,
 												<i class="garage-ico" title="garage"></i> 1 ,
 												<i class="furnished-ico" title="furnished"></i>-->
@@ -147,8 +170,10 @@
 			'</div>'+
 			{% endif %}
 			'<div class="popover-content">'+
-				'<a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+			{% for link in instance.links.all %}
+				'<a href="{{ link }}" target="_blank">'+
 				'Перейти</a>'+
+			{% endfor %}
 			'</div>'+
 		   '</div>'
 	},

@@ -99,14 +99,33 @@ class Socials(models.Model):
         ordering = ('title',)
 
 
-class Contacts(models.Model):
-    title = models.CharField(max_length=50)
-
+class PhoneNumber(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Введите номер телефона в формате: '+380XXXXXXX'. Разрешено до 15 цифр.")
     phone_number = models.CharField(max_length=16, validators=[phone_regex], blank=True)  # validators should be a list
 
-    socials = models.ForeignKey('Socials', on_delete=models.CASCADE)
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.phone_number
+
+    class Meta:
+        ordering = ('created',)
+
+
+class Contacts(models.Model):
+    title = models.CharField(max_length=50)
+
+    phone_numbers = models.ManyToManyField(PhoneNumber, blank=True)
+
+    def get_phone_numbers(self):
+        if self.phone_numbers.all():
+            return "\n".join([p.phone_number for p in self.phone_numbers.all()])
+        return ''
+
+    socials = models.ForeignKey('Socials', on_delete=models.CASCADE, blank=True, null=True)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -432,6 +451,7 @@ class Instructor(models.Model):
     dance_types = models.ManyToManyField(DanceType, blank=True)
     events = models.ManyToManyField(Event, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_dance_types(self):
         if self.dance_types.all():
@@ -483,6 +503,7 @@ class DanceStudio(models.Model):
     instructors = models.ManyToManyField(Instructor, blank=True)
     locations = models.ManyToManyField(DanceStudioLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_dance_types(self):
         if self.dance_types.all():
@@ -664,6 +685,7 @@ class DanceHall(models.Model):
 
     locations = models.ManyToManyField(DanceHallLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_locations(self):
         if self.locations.all():
@@ -725,6 +747,7 @@ class DanceShop(models.Model):
 
     locations = models.ManyToManyField(DanceShopLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
+    contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_locations(self):
         if self.locations.all():

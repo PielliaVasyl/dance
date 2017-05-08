@@ -4,7 +4,7 @@ from .models import Event, EventType, DanceType, Link, Instructor, DanceStudio, 
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
     SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
-    DanceHallLocation, DanceShopLocation
+    DanceHallLocation, DanceShopLocation, PhoneNumber
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -37,10 +37,16 @@ class SocialsForm(forms.ModelForm):
         fields = ['title', 'fb', 'vk', 'instagram', 'twitter', "author"]
 
 
+class PhoneNumberForm(forms.ModelForm):
+    class Meta:
+        model = PhoneNumber
+        fields = ['phone_number', "author"]
+
+
 class ContactsForm(forms.ModelForm):
     class Meta:
         model = Contacts
-        fields = ['title', 'phone_number', 'socials', "author"]
+        fields = ['title', 'phone_numbers', 'socials', "author"]
 
 
 class LinkForm(forms.ModelForm):
@@ -141,13 +147,14 @@ class EventForm(forms.ModelForm):
 class InstructorForm(forms.ModelForm):
     class Meta:
         model = Instructor
-        fields = ["name", 'description', 'dance_types', 'links', 'events', "author"]
+        fields = ["name", 'description', 'dance_types', 'links', 'contacts', 'events', "author"]
 
 
 class DanceStudioForm(forms.ModelForm):
     class Meta:
         model = DanceStudio
-        fields = ["title", 'description', 'logo', 'locations', 'links', 'instructors', 'dance_types', "author"]
+        fields = ["title", 'description', 'logo', 'locations', 'links', 'contacts', 'instructors', 'dance_types',
+                  "author"]
 
 
 class WeekDayForm(forms.ModelForm):
@@ -173,7 +180,7 @@ class DanceHallPhotoForm(forms.ModelForm):
 class DanceHallForm(forms.ModelForm):
     class Meta:
         model = DanceHall
-        fields = ["title", 'description', 'photos', 'locations', 'links', "author"]
+        fields = ["title", 'description', 'photos', 'locations', 'links', 'contacts', "author"]
 
 
 class DanceShopPhotoForm(forms.ModelForm):
@@ -185,7 +192,7 @@ class DanceShopPhotoForm(forms.ModelForm):
 class DanceShopForm(forms.ModelForm):
     class Meta:
         model = DanceShop
-        fields = ["title", 'description', 'photos', 'locations', 'links', "author"]
+        fields = ["title", 'description', 'photos', 'locations', 'links', 'contacts', "author"]
 
 
 class ArticleForm(forms.ModelForm):

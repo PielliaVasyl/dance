@@ -5,14 +5,15 @@ from django.contrib.auth.models import User
 from .models import UserProfile, Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
     WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
-    PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, \
-    DanceStudioLocation, DanceHallLocation, DanceShopLocation
+    PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
+    EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber
 from .forms import EventForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
-    SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, PlaceInMapMapCoordinatesForm, \
-    DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, DanceShopMapCoordinatesForm, EventLocationForm, \
-    DanceStudioLocationForm, DanceHallLocationForm, DanceShopLocationForm
+    SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, \
+    PlaceInMapMapCoordinatesForm, DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, \
+    DanceShopMapCoordinatesForm, EventLocationForm, DanceStudioLocationForm, DanceHallLocationForm, \
+    DanceShopLocationForm, PhoneNumberForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -71,8 +72,15 @@ class SocialsAdmin(admin.ModelAdmin):
 admin.site.register(Socials, SocialsAdmin)
 
 
+class PhoneNumberAdmin(admin.ModelAdmin):
+    list_display = ['phone_number', "author", 'created', 'updated']
+    form = PhoneNumberForm
+
+admin.site.register(PhoneNumber, PhoneNumberAdmin)
+
+
 class ContactsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'phone_number', 'socials', "author", 'created', 'updated']
+    list_display = ['title', 'get_phone_numbers', 'socials', "author", 'created', 'updated']
     form = ContactsForm
 
 admin.site.register(Contacts, ContactsAdmin)
@@ -185,8 +193,8 @@ admin.site.register(Event, EventAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', "author", 'created',
-                    'updated']
+    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', 'contacts', "author",
+                    'created', 'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)
@@ -194,7 +202,7 @@ admin.site.register(Instructor, InstructorAdmin)
 
 class DanceStudioAdmin(admin.ModelAdmin):
     list_display = ["title", 'short_description', 'get_dance_types', 'get_links', 'get_instructors', 'get_locations',
-                    "author", 'created', 'updated']
+                    'contacts', "author", 'created', 'updated']
     form = DanceStudioForm
 
 admin.site.register(DanceStudio, DanceStudioAdmin)
@@ -224,8 +232,8 @@ admin.site.register(DanceHallPhoto, DanceHallPhotoAdmin)
 
 
 class DanceHallAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', "author", 'created',
-                    'updated']
+    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', 'contacts', "author",
+                    'created', 'updated']
     form = DanceHallForm
 
 admin.site.register(DanceHall, DanceHallAdmin)
@@ -239,8 +247,8 @@ admin.site.register(DanceShopPhoto, DanceShopPhotoAdmin)
 
 
 class DanceShopAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', "author", 'created',
-                    'updated']
+    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', 'contacts', "author",
+                    'created', 'updated']
     form = DanceShopForm
 
 admin.site.register(DanceShop, DanceShopAdmin)
