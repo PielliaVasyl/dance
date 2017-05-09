@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<!-- PAGE TITLE -->
+			<header id="page-title"> <!-- style="background-image:url('../assets/images/demo/parallax_bg.jpg')" -->
+				<!--
+					Enable only if bright background image used
+					<span class="overlay"></span>
+				-->
+
+				<div class="container">
+					<h1>Танцевальные стили</h1>
+
+					<ul class="breadcrumb">
+						<li><a href="/">Главная</a></li>
+						<li class="active">Стили танцев</li>
+					</ul>
+				</div>
+			</header>
+
+
+			<section class="container">
+
+				<div class="row">
+
+					<div class="col-md-12">
+
+						<h2><strong>Найдите самый подходящий </strong> <small class="font300">танцевальный стиль для себя</small></h2>
+
+
+                        <div class="toogle">
+
+                            {% for dance in styles_directions %}
+
+                            <div class="toggle active">
+                                <label>{{ dance.dance_direction }}</label>
+                                <div class="toggle-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Название стиля</th>
+                                                    <th>Одиночный/парный/групповой</th>
+                                                    <th>Дистанция между партнерами</th>
+                                                    <th>Средняя цена</th>
+                                                    <th>Есть курсы для детей</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Value 1</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Value 1</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Value 1</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                    <td>Value 2</td>
+                                                    <td>Value 3</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+					</div>
+
+				</div>
+
+			</section>
+
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}
