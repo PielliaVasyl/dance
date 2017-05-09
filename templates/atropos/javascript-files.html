@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 
 		<script>
+			// All external links are opening in a new window
 			$.expr[':'].external = function(obj){
 				return !obj.href.match(/^mailto\:/)
 					   && (obj.hostname != location.hostname)
@@ -16,4 +17,13 @@
 					   && !obj.href.match(/^$/)
 			};
 			$('a:external').attr('target', '_blank');
+		</script>
+
+		<script>
+			// Do not scroll page when on tab change
+			var donotScroll = function(element) {
+			  var x = window.scrollX, y = window.scrollY;
+			  element.focus();
+			  window.scrollTo(x, y);
+			}
 		</script>

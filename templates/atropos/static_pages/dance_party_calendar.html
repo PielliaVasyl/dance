@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+		<!-- WRAPPER -->
+		<div id="wrapper">
+
+			<!-- PAGE TITLE -->
+			<header id="page-title">
+				<div class="container">
+					<h1>Календарь <strong>танцевальных вечеринок</strong></h1>
+
+					<ul class="breadcrumb">
+						<li><a href="/">Главная</a></li>
+						<li class="active">Календарь вечеринок</li>
+					</ul>
+				</div>
+			</header>
+
+			<section class="container">
+
+				<!-- WELCOME -->
+				<article class="row">
+					<div class="col-md-10 col-md-offset-1" style="text-align:center">
+						<h2>Google Календарь Вечеринок в Киеве 2017</h2>
+						<p class="lead">Теперь анонсы доступны в формате Google календаря!</p>
+					</div>
+				</article>
+				<!-- WELCOME -->
+
+				<div class="divider"><!-- divider -->
+					<i class="fa fa-star"></i>
+				</div>
+
+				<div class="tabs nomargin-top">
+
+					<!-- tabs -->
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#tab1" data-toggle="tab">
+								<i class="fa fa-calendar"></i> О Календаре
+							</a>
+						</li>
+						<li>
+							<a href="#tab2" data-toggle="tab">
+								<i class="fa fa-question-circle"></i> Как это работает
+							</a>
+						</li>
+						<li>
+							<a href="#tab3" data-toggle="tab">
+								<i class="fa fa-clock-o"></i> Актуализация
+							</a>
+						</li>
+						<li>
+							<a href="#tab4" data-toggle="tab">
+								<i class="fa fa-comment-o"></i>  Обратная связь
+							</a>
+						</li>
+                        <li>
+							<a href="#tab5" data-toggle="tab">
+								<i class="fa fa-check"></i> Получения доступа
+							</a>
+						</li>
+					</ul>
+
+					<!-- tabs content -->
+					<div class="tab-content">
+						<div id="tab1" class="tab-pane active">
+
+                            <div class="alert alert-success">
+                                <i class="fa fa-check-circle"></i>
+                                <strong>Обратите внимание!</strong> Пока календарь находится в открытом доступе для всех желающих!
+                            </div>
+                            <div class="alert alert-warning">
+                                <i class="fa fa-warning"></i>
+                                <strong>Для просмотра календаря на данной странице</strong> необходимо авторизоваться в своем акаунте Google, после чего вместо слова в календаре “занято” – будут отображаться названия мероприятий.
+                            </div>
+                            <article class="row">
+                                <div class="col-md-6">
+
+
+								</div>
+								<div class="col-md-6">
+									<p>Мобильная версия инфоресурса реализована через официальное приложение от Google.</p>
+                                    <p>Удобный доступ с ноутбука, планшета или телефона.</p>
+
+                                    <p><i>До встречи на вечеринках!</i></p>
+								</div>
+							</article>
+						</div>
+
+						<div id="tab2" class="tab-pane">
+                            <p>Вы можете выбрать любой удобный для Вас способ отображения информации.</p>
+                            <p>Для меня наиболее практичными являются форматы:</p>
+							<article class="row">
+								<div class="col-md-5">
+									<h3>Расписание</h3>
+                                    <img class="img-responsive" alt='Schedule image' src="{% static 'images/schedule-1.jpg' %}">
+                                    <br />
+                                    <img class="img-responsive" alt='Schedule image' src="{% static 'images/schedule-2.png' %}">
+								</div>
+								<div class="col-md-5 col-md-offset-2">
+                                    <h3>Месяц</h3>
+                                    <img class="img-responsive" alt='Month image' src="{% static 'images/month-1.jpg' %}">
+                                    <br />
+                                    <img class="img-responsive" alt='Month image' src="{% static 'images/month-2.png' %}">
+								</div>
+							</article>
+						</div>
+
+						<div id="tab3" class="tab-pane">
+							<article class="row">
+								<div class="col-md-4">
+                                    <img class="img-responsive" alt='Update image' src="{% static 'images/update.jpg' %}">
+								</div>
+								<div class="col-md-8">
+									<h4>Ежедневно пополняем календарь детальной информацией о каждой вечеринке:</h4>
+                                    <ul>
+                                        <li>Точный адрес (+ метка на карте)</li>
+                                        <li>Стоимость входа</li>
+                                        <li>Ссылка на источник информации</li>
+                                        <li>Детальное описание от организатора (о танцевальных направлениях, формате мероприятия, наличии дресс-кода и пр.)</li>
+                                    </ul>
+								</div>
+							</article>
+
+						</div>
+
+						<div id="tab4" class="tab-pane">
+							<article class="row">
+								<div class="col-md-4">
+                                    <img class="img-responsive" alt='Feedback image' src="{% static 'images/feedback-1.png' %}">
+                                    <br />
+                                    <img class="img-responsive" alt='Feedback image' src="{% static 'images/feedback-2.png' %}">
+								</div>
+								<div class="col-md-8">
+                                    <h4>Форма обратной связи для пользователей, где каждый может оставить свой отзыв или сообщить о необходимости редактирования информации календаря:</h4>
+                                    <ul>
+                                        <li>Отмена мероприятия?</li>
+                                        <li>События, о котором Вы знаете, нет в списке?</li>
+                                        <li>По всем вопросам.</li>
+                                    </ul>
+								</div>
+							</article>
+
+						</div>
+
+                        <div id="tab5" class="tab-pane">
+                            <h4>Для получения доступа к календарю:</h4>
+                            <p>Напишите адрес Вашей Gmail почты (ВКонтакте, Facebook)</p>
+                            <p>До встречи на вечеринках!</p>
+						</div>
+					</div>
+				</div>
+				<hr />
+			</section>
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

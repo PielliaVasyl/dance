@@ -28,3 +28,12 @@ def contacts_show(request):
         context['msg_sent'] = True
 
     return render(request, 'static_pages/contacts.html', context)
+
+
+def dance_party_calendar_show(request):
+    title = 'Календарь танцевальных вечеринок'
+
+    context = {
+        'title': title
+    }
+    return render(request, 'static_pages/dance_party_calendar.html', context)

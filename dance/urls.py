@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^$', home_page_views.index),
     url(r'^about/$', static_pages_views.about_show),
     url(r'^contacts/$', static_pages_views.contacts_show),
+    url(r'^dance_party_calendar/$', static_pages_views.dance_party_calendar_show),
     url(r'^locations/', include([
         url(r'^$', locations_views.locations_show),
     ])),
