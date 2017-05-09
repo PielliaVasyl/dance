@@ -347,8 +347,8 @@ class Event(models.Model):
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PLANNED, blank=True)
 
-    def status_show(self, status_choices=STATUS_CHOICES):
-        status_choices_dict = {k: v for k, v in status_choices}
+    def status_show(self):
+        status_choices_dict = {k: v for k, v in self.STATUS_CHOICES}
         return "%s" % status_choices_dict.get(self.status, 'Статус неизвестен')
 
     def status_icon(self, planned=PLANNED, denied=DENIED, postponed=POSTPONED, held=HELD, completed=COMPLETED):
@@ -603,6 +603,27 @@ class DanceClass(models.Model):
     first_lesson_free = models.BooleanField(default=False, blank=True)
     free_lesson_date = models.DateField(default=date.today, null=True, blank=True)
     every_first_lesson_free = models.BooleanField(default=False, blank=True)
+
+    NEW = 'NEW'
+    INTERMEDIATE = 'INM'
+    ADVANCED = 'ADV'
+    SHOW = 'SHW'
+    PRACTICE = 'PRC'
+    OTHER = 'OTH'
+
+    EXPERIENCE_LEVEL_CHOICES = (
+        (NEW, 'Начинающий'),
+        (INTERMEDIATE, 'Средний'),
+        (ADVANCED, 'Опытный'),
+        (SHOW, 'Шоу'),
+        (PRACTICE, 'Практика'),
+        (OTHER, 'Другое')
+    )
+    experience_level = models.CharField(max_length=3, choices=EXPERIENCE_LEVEL_CHOICES, blank=True)
+
+    def experience_level_show(self):
+        experience_level_choices_dict = {k: v for k, v in self.EXPERIENCE_LEVEL_CHOICES}
+        return "%s" % experience_level_choices_dict.get(self.experience_level, self.experience_level)
 
     start_date = models.DateField(default=date.today, null=True, blank=True)
     end_date = models.DateField(default=date.today, null=True, blank=True)
