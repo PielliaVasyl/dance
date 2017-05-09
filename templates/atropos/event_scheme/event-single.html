@@ -64,13 +64,13 @@
 										</div>
 									</div>
 									{% endif %}
-									{% if event.dance_types.all %}
+									{% if event.dance_styles.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-reorder" title="Стиль танца"></i>
-												{% for dance_type in event.dance_types.all %}
-												<span class="label label-success" title="Стиль танца">{{ dance_type.title }}</span>
+												{% for dance_style in event.dance_styles.all %}
+												<span class="label label-success" title="Стиль танца">{{ dance_style.title }}</span>
 												{% endfor %}
 											</small>
 										</div>

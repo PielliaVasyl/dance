@@ -152,7 +152,7 @@ class Link(models.Model):
         ordering = ('link',)
 
 
-class DanceType(models.Model):
+class DanceStyle(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)
@@ -161,8 +161,8 @@ class DanceType(models.Model):
     def short_description(self):
         return truncatechars(self.description, 100)
 
-    # parent_dance_type =
-    # child_dance_type =
+    # parent_dance_style =
+    # child_dance_style =
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -300,16 +300,16 @@ class PlaceInMap(models.Model):
     def short_description(self):
         return truncatechars(self.description, 100)
 
-    dance_types = models.ManyToManyField(DanceType, blank=True)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
 
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
         return ''
 
-    def get_dance_types_list(self):
-        if self.dance_types.all():
-            return [p.title for p in self.dance_types.all()]
+    def get_dance_styles_list(self):
+        if self.dance_styles.all():
+            return [p.title for p in self.dance_styles.all()]
         return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
@@ -399,7 +399,7 @@ class Event(models.Model):
         return ''
 
     event_types = models.ManyToManyField(EventType, blank=True)
-    dance_types = models.ManyToManyField(DanceType, blank=True)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     locations = models.ManyToManyField(EventLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
@@ -408,9 +408,9 @@ class Event(models.Model):
             return "\n".join([p.title for p in self.event_types.all()])
         return ''
 
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
         return ''
 
     def get_locations(self):
@@ -448,19 +448,19 @@ class Instructor(models.Model):
 
     image = models.ImageField(blank=True)
 
-    dance_types = models.ManyToManyField(DanceType, blank=True)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     events = models.ManyToManyField(Event, blank=True)
     links = models.ManyToManyField(Link, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
         return ''
 
-    def get_dance_types_list(self):
-        if self.dance_types.all():
-            return [p.title for p in self.dance_types.all()]
+    def get_dance_styles_list(self):
+        if self.dance_styles.all():
+            return [p.title for p in self.dance_styles.all()]
         return []
 
     def get_events(self):
@@ -499,20 +499,20 @@ class DanceStudio(models.Model):
 
     logo = models.ImageField(blank=True)
 
-    dance_types = models.ManyToManyField(DanceType, blank=True)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
     locations = models.ManyToManyField(DanceStudioLocation, blank=True)
     links = models.ManyToManyField(Link, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
         return ''
 
-    def get_dance_types_list(self):
-        if self.dance_types.all():
-            return [p.title for p in self.dance_types.all()]
+    def get_dance_styles_list(self):
+        if self.dance_styles.all():
+            return [p.title for p in self.dance_styles.all()]
         return []
 
     def get_instructors(self):
@@ -645,13 +645,13 @@ class DanceClass(models.Model):
         return ''
 
     dance_studio = models.ForeignKey(DanceStudio, on_delete=models.CASCADE, null=True, blank=True)
-    dance_types = models.ManyToManyField(DanceType, blank=True)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
     links = models.ManyToManyField(Link, blank=True)
 
-    def get_dance_types(self):
-        if self.dance_types.all():
-            return "\n".join([p.title for p in self.dance_types.all()])
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
         return ""
 
     def get_instructors(self):

@@ -1,6 +1,6 @@
 # coding: utf-8
 from django import forms
-from .models import Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
+from .models import Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
     SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
@@ -55,9 +55,9 @@ class LinkForm(forms.ModelForm):
         fields = ["link", "author"]
 
 
-class DanceTypeForm(forms.ModelForm):
+class DanceStyleForm(forms.ModelForm):
     class Meta:
-        model = DanceType
+        model = DanceStyle
         fields = ["title", 'description', 'image', "author"]
 
 
@@ -124,13 +124,13 @@ class DanceShopLocationForm(forms.ModelForm):
 class PlaceInMapForm(forms.ModelForm):
     class Meta:
         model = PlaceInMap
-        fields = ["title", 'description', 'image', 'locations', "dance_types", "author"]
+        fields = ["title", 'description', 'image', 'locations', "dance_styles", "author"]
 
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_types",
+        fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_styles",
                   "locations", 'links', "author"]
 
     def clean(self):
@@ -147,13 +147,13 @@ class EventForm(forms.ModelForm):
 class InstructorForm(forms.ModelForm):
     class Meta:
         model = Instructor
-        fields = ["name", 'description', 'dance_types', 'links', 'contacts', 'events', "author"]
+        fields = ["name", 'description', 'dance_styles', 'links', 'contacts', 'events', "author"]
 
 
 class DanceStudioForm(forms.ModelForm):
     class Meta:
         model = DanceStudio
-        fields = ["title", 'description', 'logo', 'locations', 'links', 'contacts', 'instructors', 'dance_types',
+        fields = ["title", 'description', 'logo', 'locations', 'links', 'contacts', 'instructors', 'dance_styles',
                   "author"]
 
 
@@ -168,7 +168,7 @@ class DanceClassForm(forms.ModelForm):
         model = DanceClass
         fields = ["title", 'description', 'is_opened_lesson', 'is_probably_free', 'first_lesson_free',
                   'free_lesson_date', 'every_first_lesson_free', 'experience_level', 'start_date', 'end_date',
-                  'schedule_week_days', 'dance_studio', 'dance_types', 'instructors', 'links', "author"]
+                  'schedule_week_days', 'dance_studio', 'dance_styles', 'instructors', 'links', "author"]
 
 
 class DanceHallPhotoForm(forms.ModelForm):

@@ -2,12 +2,12 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import UserProfile, Event, EventType, DanceType, Link, Instructor, DanceStudio, DanceClass, \
+from .models import UserProfile, Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, \
     WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber
-from .forms import EventForm, EventTypeForm, DanceTypeForm, LinkForm, InstructorForm, DanceStudioForm, \
+from .forms import EventForm, EventTypeForm, DanceStyleForm, LinkForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
     SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, \
@@ -93,11 +93,11 @@ class LinkAdmin(admin.ModelAdmin):
 admin.site.register(Link, LinkAdmin)
 
 
-class DanceTypeAdmin(admin.ModelAdmin):
+class DanceStyleAdmin(admin.ModelAdmin):
     list_display = ["title", 'short_description', 'image', "author", 'created', 'updated']
-    form = DanceTypeForm
+    form = DanceStyleForm
 
-admin.site.register(DanceType, DanceTypeAdmin)
+admin.site.register(DanceStyle, DanceStyleAdmin)
 
 
 class EventTypeAdmin(admin.ModelAdmin):
@@ -171,7 +171,7 @@ admin.site.register(DanceShopLocation, DanceShopLocationAdmin)
 
 
 class PlaceInMapAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'image', 'get_locations', "get_dance_types", "author", 'created',
+    list_display = ["title", 'short_description', 'image', 'get_locations', "get_dance_styles", "author", 'created',
                     'updated']
     form = PlaceInMapForm
 
@@ -180,7 +180,7 @@ admin.site.register(PlaceInMap, PlaceInMapAdmin)
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ["title", "note", "status", 'start_date', 'end_date', 'duration', "get_event_types",
-                    "get_dance_types", "get_locations", 'get_links', "author", 'created', 'updated']
+                    "get_dance_styles", "get_locations", 'get_links', "author", 'created', 'updated']
     form = EventForm
 
     @staticmethod
@@ -193,7 +193,7 @@ admin.site.register(Event, EventAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'short_description', 'get_dance_types', 'get_events', 'get_links', 'contacts', "author",
+    list_display = ["name", 'short_description', 'get_dance_styles', 'get_events', 'get_links', 'contacts', "author",
                     'created', 'updated']
     form = InstructorForm
 
@@ -201,7 +201,7 @@ admin.site.register(Instructor, InstructorAdmin)
 
 
 class DanceStudioAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'get_dance_types', 'get_links', 'get_instructors', 'get_locations',
+    list_display = ["title", 'short_description', 'get_dance_styles', 'get_links', 'get_instructors', 'get_locations',
                     'contacts', "author", 'created', 'updated']
     form = DanceStudioForm
 
@@ -218,7 +218,7 @@ admin.site.register(WeekDay, WeekDayAdmin)
 class DanceClassAdmin(admin.ModelAdmin):
     list_display = ["title", 'short_description', 'is_opened_lesson', 'is_probably_free', 'first_lesson_free',
                     'free_lesson_date', 'every_first_lesson_free', 'experience_level', 'start_date', 'end_date',
-                    'get_schedule_week_days', 'dance_studio', 'get_dance_types', 'get_instructors', 'get_links',
+                    'get_schedule_week_days', 'dance_studio', 'get_dance_styles', 'get_instructors', 'get_links',
                     "author", 'created', 'updated']
     form = DanceClassForm
 

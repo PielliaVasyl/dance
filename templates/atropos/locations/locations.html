@@ -61,7 +61,7 @@
 								 </div>
 								<div class="row">
 									<div class="col-sm-6">
-										{% for dance_type in instance.get_dance_types_list %}{{ dance_type }}{% if not forloop.last %}, {% endif %}{% endfor %}
+										{% for dance_style in instance.get_dance_styles_list %}{{ dance_style }}{% if not forloop.last %}, {% endif %}{% endfor %}
 									</div>
 									<div class="col-sm-6">
 										<p>
