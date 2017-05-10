@@ -34,10 +34,10 @@
 
                         <div class="toogle">
 
-                            {% for dance in styles_directions %}
+                            {% for styles_direction in styles_directions %}
 
                             <div class="toggle active">
-                                <label>{{ dance.dance_direction }}</label>
+                                <label>{{ styles_direction.dance_direction }}</label>
                                 <div class="toggle-content">
                                     <div class="table-responsive">
                                         <table class="table table-hover">
@@ -51,27 +51,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            {% for dance_style in styles_direction.dance_styles %}
                                                 <tr>
-                                                    <td>Value 1</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
+                                                    <td>{{ dance_style.title }}</td>
+                                                    <td>{% for count_type in dance_style.get_count_types_list %}{{ count_type }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                                    <td>{% for distance in dance_style.get_between_partners_distances_list %}{{ distance }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                                    <td>{% for price in dance_style.get_average_prices_list %}{{ price }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                                    <td>{% if dance_style.for_children %}<i class="fa fa-check" title="Есть группы для детей"></i>{% endif %}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Value 1</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Value 1</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
-                                                    <td>Value 2</td>
-                                                    <td>Value 3</td>
-                                                </tr>
+                                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -88,7 +76,6 @@
 				</div>
 
 			</section>
-
 
 		</div>
 		<!-- /WRAPPER -->

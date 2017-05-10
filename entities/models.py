@@ -173,6 +173,10 @@ class DanceStyle(models.Model):
     )
     dance_direction = models.CharField(max_length=3, choices=DANCE_DIRECTION_CHOICES, default=LATINA)
 
+    def dance_direction_show(self):
+        dance_direction_choices_dict = {k: v for k, v in self.DANCE_DIRECTION_CHOICES}
+        return "%s" % dance_direction_choices_dict.get(self.dance_direction, self.dance_direction)
+
     count_types = models.ManyToManyField(CountType, blank=True)
     between_partners_distances = models.ManyToManyField(BetweenPartnersDistance, blank=True)
     average_prices = models.ManyToManyField(AveragePrice, blank=True)
@@ -182,9 +186,11 @@ class DanceStyle(models.Model):
             return "\n".join([p.count_type for p in self.count_types.all()])
         return ''
 
+    COUNT_TYPE_CHOICES = CountType.COUNT_TYPE_CHOICES
+
     def get_count_types_list(self):
         if self.count_types.all():
-            return [p.count_type for p in self.count_types.all()]
+            return [{k: v for k, v in self.COUNT_TYPE_CHOICES}.get(p.count_type, p.count_type) for p in self.count_types.all()]
         return []
 
     def get_between_partners_distances(self):
@@ -192,9 +198,12 @@ class DanceStyle(models.Model):
             return "\n".join([p.distance for p in self.between_partners_distances.all()])
         return ''
 
+    DISTANCE_CHOICES = BetweenPartnersDistance.DISTANCE_CHOICES
+
     def get_between_partners_distances_list(self):
         if self.between_partners_distances.all():
-            return [p.distance for p in self.between_partners_distances.all()]
+            return [{k: v for k, v in self.DISTANCE_CHOICES}.get(p.distance, p.distance) for p in
+                    self.between_partners_distances.all()]
         return []
 
     def get_average_prices(self):
@@ -202,9 +211,11 @@ class DanceStyle(models.Model):
             return "\n".join([p.price for p in self.average_prices.all()])
         return ''
 
+    PRICE_CHOICES = AveragePrice.PRICE_CHOICES
+
     def get_average_prices_list(self):
         if self.average_prices.all():
-            return [p.price for p in self.average_prices.all()]
+            return [{k: v for k, v in self.PRICE_CHOICES}.get(p.price, p.price) for p in self.average_prices.all()]
         return []
 
     for_children = models.BooleanField(blank=True, default=False)
