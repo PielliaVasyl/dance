@@ -3,12 +3,12 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import UserProfile, Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, \
-    WeekDay, Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
+    Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber
 from .forms import EventForm, EventTypeForm, DanceStyleForm, LinkForm, InstructorForm, DanceStudioForm, \
-    DanceClassForm, WeekDayForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
+    DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
     SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, \
     PlaceInMapMapCoordinatesForm, DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, \
@@ -206,13 +206,6 @@ class DanceStudioAdmin(admin.ModelAdmin):
     form = DanceStudioForm
 
 admin.site.register(DanceStudio, DanceStudioAdmin)
-
-
-class WeekDayAdmin(admin.ModelAdmin):
-    list_display = ["day"]
-    form = WeekDayForm
-
-admin.site.register(WeekDay, WeekDayAdmin)
 
 
 class DanceClassAdmin(admin.ModelAdmin):

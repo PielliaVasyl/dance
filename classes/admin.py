@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from classes.models import WeekDay
+from classes.forms import WeekDayForm
+
+
+class WeekDayAdmin(admin.ModelAdmin):
+    list_display = ["day"]
+    form = WeekDayForm
+
+admin.site.register(WeekDay, WeekDayAdmin)

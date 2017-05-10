@@ -7,6 +7,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import truncatechars
 
+from classes.models import WeekDay
+from dance_styles.models import CountType, BetweenPartnersDistance, AveragePrice
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -161,15 +164,27 @@ class DanceStyle(models.Model):
     def short_description(self):
         return truncatechars(self.description, 100)
 
-    # parent_dance_style =
-    # child_dance_style =
+    BALLET = 'BAL'
+    LATINA = 'LAT'
+
+    DANCE_DIRECTION_CHOICES = (
+        (BALLET, 'Балет'),
+        (LATINA, 'Латина'),
+    )
+    dance_direction = models.CharField(max_length=3, choices=DANCE_DIRECTION_CHOICES, default=LATINA)
+
+    count_types = models.ManyToManyField(CountType, blank=True)
+    between_partners_distances = models.ManyToManyField(BetweenPartnersDistance, blank=True)
+    average_prices = models.ManyToManyField(AveragePrice, blank=True)
+
+    for_children = models.BooleanField(blank=True, default=False)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s' % self.title
+        return '%s - %s' % (self. dance_direction, self.title)
 
     class Meta:
         ordering = ('title',)
@@ -549,43 +564,6 @@ class DanceStudio(models.Model):
 
     class Meta:
         ordering = ('title',)
-
-
-class WeekDay(models.Model):
-    MONDAY = 'MON'
-    TUESDAY = 'TUE'
-    WEDNESDAY = 'WED'
-    THURSDAY = 'THU'
-    FRIDAY = 'FRI'
-    SATURDAY = 'SAT'
-    SUNDAY = 'SUN'
-
-    DAY_CHOICES = (
-        (MONDAY, 'Понедельник'),
-        (TUESDAY, 'Вторник'),
-        (WEDNESDAY, 'Среда'),
-        (THURSDAY, 'Четверг'),
-        (FRIDAY, 'Пятница'),
-        (SATURDAY, 'Суббота'),
-        (SUNDAY, 'Воскресенье'),
-    )
-
-    day = models.CharField(max_length=3, choices=DAY_CHOICES, blank=True)
-
-    def week_day_show(self):
-        week_day_show_dict = {
-            'MON': 'Пн',
-            'TUE': 'Вт',
-            'WED': 'Ср',
-            'THU': 'Чт',
-            'FRI': 'Пт',
-            'SAT': 'Сб',
-            'SUN': 'Вс'
-        }
-        return "%s" % week_day_show_dict.get(self.day, self.day)
-
-    def __str__(self):
-        return '%s' % self.day
 
 
 class DanceClass(models.Model):

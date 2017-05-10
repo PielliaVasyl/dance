@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'entities',
     'articles',
     'classes',
+    'dance_styles',
     'event_scheme',
-    'static_pages'
+    'static_pages',
+    'locations'
 ]
 
 MIDDLEWARE = [

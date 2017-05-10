@@ -1,6 +1,6 @@
 # coding: utf-8
 from django import forms
-from .models import Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, WeekDay, Article, \
+from .models import Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
     SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
@@ -155,12 +155,6 @@ class DanceStudioForm(forms.ModelForm):
         model = DanceStudio
         fields = ["title", 'description', 'logo', 'locations', 'links', 'contacts', 'instructors', 'dance_styles',
                   "author"]
-
-
-class WeekDayForm(forms.ModelForm):
-    class Meta:
-        model = WeekDay
-        fields = ["day"]
 
 
 class DanceClassForm(forms.ModelForm):
