@@ -177,6 +177,36 @@ class DanceStyle(models.Model):
     between_partners_distances = models.ManyToManyField(BetweenPartnersDistance, blank=True)
     average_prices = models.ManyToManyField(AveragePrice, blank=True)
 
+    def get_count_types(self):
+        if self.count_types.all():
+            return "\n".join([p.count_type for p in self.count_types.all()])
+        return ''
+
+    def get_count_types_list(self):
+        if self.count_types.all():
+            return [p.count_type for p in self.count_types.all()]
+        return []
+
+    def get_between_partners_distances(self):
+        if self.between_partners_distances.all():
+            return "\n".join([p.distance for p in self.between_partners_distances.all()])
+        return ''
+
+    def get_between_partners_distances_list(self):
+        if self.between_partners_distances.all():
+            return [p.distance for p in self.between_partners_distances.all()]
+        return []
+
+    def get_average_prices(self):
+        if self.average_prices.all():
+            return "\n".join([p.price for p in self.average_prices.all()])
+        return ''
+
+    def get_average_prices_list(self):
+        if self.average_prices.all():
+            return [p.price for p in self.average_prices.all()]
+        return []
+
     for_children = models.BooleanField(blank=True, default=False)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)

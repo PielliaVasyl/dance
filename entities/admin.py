@@ -94,7 +94,9 @@ admin.site.register(Link, LinkAdmin)
 
 
 class DanceStyleAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'image', "author", 'created', 'updated']
+    list_display = ["title", 'short_description', 'image', 'dance_direction', 'get_count_types',
+                    'get_between_partners_distances', 'get_average_prices', 'for_children', "author", 'created',
+                    'updated']
     form = DanceStyleForm
 
 admin.site.register(DanceStyle, DanceStyleAdmin)

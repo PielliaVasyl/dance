@@ -58,7 +58,8 @@ class LinkForm(forms.ModelForm):
 class DanceStyleForm(forms.ModelForm):
     class Meta:
         model = DanceStyle
-        fields = ["title", 'description', 'image', "author"]
+        fields = ["title", 'description', 'image', 'dance_direction', 'count_types', 'between_partners_distances',
+                  'average_prices', 'for_children', "author"]
 
 
 class EventTypeForm(forms.ModelForm):
