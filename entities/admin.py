@@ -88,11 +88,11 @@ class ContactsAdmin(admin.ModelAdmin):
 admin.site.register(Contacts, ContactsAdmin)
 
 
-class AbsctactLinkAdmin(admin.ModelAdmin):
+class AbstractLinkAdmin(admin.ModelAdmin):
     list_display = ["link", "author", 'created', 'updated']
 
 
-admin.site.register(AbstractLink, AbsctactLinkAdmin)
+admin.site.register(AbstractLink, AbstractLinkAdmin)
 
 
 class EventLinkAdmin(admin.ModelAdmin):
