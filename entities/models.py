@@ -212,6 +212,17 @@ class AbstractShouldKnow(models.Model):
 
 
 class LinkShouldKnow(AbstractShouldKnow):
+    OTHER = 'OTH'
+
+    DIRECTIONS = {OTHER}
+    DIRECTION_SHOW = {
+        OTHER: 'Другое'
+    }
+    DIRECTION_CHOICES = (
+        (OTHER, 'Другое'),
+    )
+    direction = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=OTHER)
+
     links = models.ManyToManyField(LinkShouldKnowLink, blank=True)
 
     def get_links(self):
@@ -221,6 +232,17 @@ class LinkShouldKnow(AbstractShouldKnow):
 
 
 class PersonShouldKnow(AbstractShouldKnow):
+    OTHER = 'OTH'
+
+    DIRECTIONS = {OTHER}
+    DIRECTION_SHOW = {
+        OTHER: 'Другое'
+    }
+    DIRECTION_CHOICES = (
+        (OTHER, 'Другое'),
+    )
+    direction = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=OTHER)
+
     links = models.ManyToManyField(PersonShouldKnowLink, blank=True)
 
     def get_links(self):
@@ -230,6 +252,17 @@ class PersonShouldKnow(AbstractShouldKnow):
 
 
 class OrganizationShouldKnow(AbstractShouldKnow):
+    OTHER = 'OTH'
+
+    DIRECTIONS = {OTHER}
+    DIRECTION_SHOW = {
+        OTHER: 'Другое'
+    }
+    DIRECTION_CHOICES = (
+        (OTHER, 'Другое'),
+    )
+    direction = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=OTHER)
+
     links = models.ManyToManyField(OrganizationShouldKnowLink, blank=True)
 
     def get_links(self):
@@ -250,15 +283,20 @@ class DanceStyle(models.Model):
     BALLET = 'BAL'
     LATINA = 'LAT'
 
-    DANCE_DIRECTION_CHOICES = (
+    DIRECTIONS = {BALLET, LATINA}
+    DIRECTION_SHOW = {
+        BALLET: 'Балет',
+        LATINA: 'Латина'
+    }
+    DIRECTION_CHOICES = (
         (BALLET, 'Балет'),
         (LATINA, 'Латина'),
     )
-    dance_direction = models.CharField(max_length=3, choices=DANCE_DIRECTION_CHOICES, default=LATINA)
+    direction = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=LATINA)
 
-    def dance_direction_show(self):
-        dance_direction_choices_dict = {k: v for k, v in self.DANCE_DIRECTION_CHOICES}
-        return "%s" % dance_direction_choices_dict.get(self.dance_direction, self.dance_direction)
+    def direction_show(self):
+        direction_choices_dict = {k: v for k, v in self.DIRECTION_CHOICES}
+        return "%s" % direction_choices_dict.get(self.direction, self.direction)
 
     count_types = models.ManyToManyField(CountType, blank=True)
     between_partners_distances = models.ManyToManyField(BetweenPartnersDistance, blank=True)
@@ -308,7 +346,7 @@ class DanceStyle(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s - %s' % (self. dance_direction, self.title)
+        return '%s - %s' % (self. direction, self.title)
 
     class Meta:
         ordering = ('title',)

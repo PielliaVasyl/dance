@@ -37,7 +37,7 @@
                             {% for styles_direction in styles_directions %}
 
                             <div class="toggle active">
-                                <label>{{ styles_direction.dance_direction }}</label>
+                                <label>{{ styles_direction.direction }}</label>
                                 <div class="toggle-content">
                                     <div class="table-responsive">
                                         <table class="table table-hover">
@@ -51,7 +51,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            {% for dance_style in styles_direction.dance_styles %}
+                                            {% for dance_style in styles_direction.instances %}
                                                 <tr>
                                                     <td>{{ dance_style.title }}</td>
                                                     <td>{% for count_type in dance_style.get_count_types_list %}{{ count_type }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
