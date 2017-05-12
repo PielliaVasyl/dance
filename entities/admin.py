@@ -7,7 +7,7 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, \
-    DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, AbstractLink
+    DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -87,12 +87,12 @@ class ContactsAdmin(admin.ModelAdmin):
 
 admin.site.register(Contacts, ContactsAdmin)
 
-
-class AbstractLinkAdmin(admin.ModelAdmin):
-    list_display = ["link", "author", 'created', 'updated']
-
-
-admin.site.register(AbstractLink, AbstractLinkAdmin)
+#
+# class AbstractLinkAdmin(admin.ModelAdmin):
+#     list_display = ["link", "author", 'created', 'updated']
+#
+#
+# admin.site.register(AbstractLink, AbstractLinkAdmin)
 
 
 class EventLinkAdmin(admin.ModelAdmin):
