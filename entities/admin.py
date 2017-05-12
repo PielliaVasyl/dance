@@ -2,18 +2,20 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import UserProfile, Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, \
+from .models import UserProfile, Event, EventType, DanceStyle, Instructor, DanceStudio, DanceClass, \
     Article, VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, \
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
-    EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber
-from .forms import EventForm, EventTypeForm, DanceStyleForm, LinkForm, InstructorForm, DanceStudioForm, \
+    EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, \
+    DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, AbstractLink
+from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
     SocialLinkInstagramForm, SocialLinkTwitterForm, PlaceInMapForm, PlaceInMapLocationForm, \
     PlaceInMapMapCoordinatesForm, DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, \
     DanceShopMapCoordinatesForm, EventLocationForm, DanceStudioLocationForm, DanceHallLocationForm, \
-    DanceShopLocationForm, PhoneNumberForm
+    DanceShopLocationForm, PhoneNumberForm, EventLinkForm, InstructorLinkForm, DanceStudioLinkForm, \
+    DanceClassLinkForm, DanceHallLinkForm, DanceShopLinkForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -86,11 +88,53 @@ class ContactsAdmin(admin.ModelAdmin):
 admin.site.register(Contacts, ContactsAdmin)
 
 
-class LinkAdmin(admin.ModelAdmin):
+class AbsctactLinkAdmin(admin.ModelAdmin):
     list_display = ["link", "author", 'created', 'updated']
-    form = LinkForm
 
-admin.site.register(Link, LinkAdmin)
+
+admin.site.register(AbstractLink, AbsctactLinkAdmin)
+
+
+class EventLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = EventLinkForm
+
+admin.site.register(EventLink, EventLinkAdmin)
+
+
+class InstructorLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = InstructorLinkForm
+
+admin.site.register(InstructorLink, InstructorLinkAdmin)
+
+
+class DanceStudioLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = DanceStudioLinkForm
+
+admin.site.register(DanceStudioLink, DanceStudioLinkAdmin)
+
+
+class DanceClassLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = DanceClassLinkForm
+
+admin.site.register(DanceClassLink, DanceClassLinkAdmin)
+
+
+class DanceHallLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = DanceHallLinkForm
+
+admin.site.register(DanceHallLink, DanceHallLinkAdmin)
+
+
+class DanceShopLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = DanceShopLinkForm
+
+admin.site.register(DanceShopLink, DanceShopLinkAdmin)
 
 
 class DanceStyleAdmin(admin.ModelAdmin):

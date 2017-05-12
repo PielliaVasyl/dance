@@ -1,10 +1,11 @@
 # coding: utf-8
 from django import forms
-from .models import Event, EventType, DanceStyle, Link, Instructor, DanceStudio, DanceClass, Article, \
+from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, DanceClass, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
     SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
-    DanceHallLocation, DanceShopLocation, PhoneNumber
+    DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, DanceStudioLink, DanceClassLink, \
+    DanceHallLink, DanceShopLink
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -49,9 +50,39 @@ class ContactsForm(forms.ModelForm):
         fields = ['title', 'phone_numbers', 'socials', "author"]
 
 
-class LinkForm(forms.ModelForm):
+class EventLinkForm(forms.ModelForm):
     class Meta:
-        model = Link
+        model = EventLink
+        fields = ["link", "author"]
+
+
+class InstructorLinkForm(forms.ModelForm):
+    class Meta:
+        model = InstructorLink
+        fields = ["link", "author"]
+
+
+class DanceStudioLinkForm(forms.ModelForm):
+    class Meta:
+        model = DanceStudioLink
+        fields = ["link", "author"]
+
+
+class DanceClassLinkForm(forms.ModelForm):
+    class Meta:
+        model = DanceClassLink
+        fields = ["link", "author"]
+
+
+class DanceHallLinkForm(forms.ModelForm):
+    class Meta:
+        model = DanceHallLink
+        fields = ["link", "author"]
+
+
+class DanceShopLinkForm(forms.ModelForm):
+    class Meta:
+        model = DanceShopLink
         fields = ["link", "author"]
 
 

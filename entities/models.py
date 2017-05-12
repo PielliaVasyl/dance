@@ -141,7 +141,7 @@ class Contacts(models.Model):
         ordering = ('title',)
 
 
-class Link(models.Model):
+class AbstractLink(models.Model):
     link = models.URLField()
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, )
@@ -153,6 +153,30 @@ class Link(models.Model):
 
     class Meta:
         ordering = ('link',)
+
+
+class EventLink(AbstractLink):
+    pass
+
+
+class InstructorLink(AbstractLink):
+    pass
+
+
+class DanceStudioLink(AbstractLink):
+    pass
+
+
+class DanceClassLink(AbstractLink):
+    pass
+
+
+class DanceHallLink(AbstractLink):
+    pass
+
+
+class DanceShopLink(AbstractLink):
+    pass
 
 
 class DanceStyle(models.Model):
@@ -457,7 +481,7 @@ class Event(models.Model):
     event_types = models.ManyToManyField(EventType, blank=True)
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     locations = models.ManyToManyField(EventLocation, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(EventLink, blank=True)
 
     def get_event_types(self):
         if self.event_types.all():
@@ -506,7 +530,7 @@ class Instructor(models.Model):
 
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     events = models.ManyToManyField(Event, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(InstructorLink, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_dance_styles(self):
@@ -558,7 +582,7 @@ class DanceStudio(models.Model):
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
     locations = models.ManyToManyField(DanceStudioLocation, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(DanceStudioLink, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_dance_styles(self):
@@ -666,7 +690,7 @@ class DanceClass(models.Model):
     dance_studio = models.ForeignKey(DanceStudio, on_delete=models.CASCADE, null=True, blank=True)
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     instructors = models.ManyToManyField(Instructor, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(DanceClassLink, blank=True)
 
     def get_dance_styles(self):
         if self.dance_styles.all():
@@ -724,7 +748,7 @@ class DanceHall(models.Model):
         return self.photos.count()
 
     locations = models.ManyToManyField(DanceHallLocation, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(DanceHallLink, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_locations(self):
@@ -786,7 +810,7 @@ class DanceShop(models.Model):
         return self.photos.count()
 
     locations = models.ManyToManyField(DanceShopLocation, blank=True)
-    links = models.ManyToManyField(Link, blank=True)
+    links = models.ManyToManyField(DanceShopLink, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_locations(self):
