@@ -108,25 +108,25 @@ class DanceShopLinkForm(forms.ModelForm):
 class LinkShouldKnowForm(forms.ModelForm):
     class Meta:
         model = LinkShouldKnow
-        fields = ['title', 'description', 'image', 'links', 'author']
+        fields = ['title', 'description', 'image', 'direction', 'links', 'author']
 
 
 class PersonShouldKnowForm(forms.ModelForm):
     class Meta:
         model = PersonShouldKnow
-        fields = ['title', 'description', 'image', 'links', 'author']
+        fields = ['title', 'description', 'image', 'direction', 'links', 'author']
 
 
 class OrganizationShouldKnowForm(forms.ModelForm):
     class Meta:
         model = OrganizationShouldKnow
-        fields = ['title', 'description', 'image', 'links', 'author']
+        fields = ['title', 'description', 'image', 'direction', 'links', 'author']
 
 
 class DanceStyleForm(forms.ModelForm):
     class Meta:
         model = DanceStyle
-        fields = ["title", 'description', 'image', 'dance_direction', 'count_types', 'between_partners_distances',
+        fields = ["title", 'description', 'image', 'direction', 'count_types', 'between_partners_distances',
                   'average_prices', 'for_children', "author"]
 
 

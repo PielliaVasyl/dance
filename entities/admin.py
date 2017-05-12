@@ -161,28 +161,28 @@ admin.site.register(DanceShopLink, DanceShopLinkAdmin)
 
 
 class LinkShouldKnowAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    list_display = ['title', 'description', 'image', 'direction', 'get_links', "author", 'created', 'updated']
     form = LinkShouldKnowForm
 
 admin.site.register(LinkShouldKnow, LinkShouldKnowAdmin)
 
 
 class PersonShouldKnowAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    list_display = ['title', 'description', 'image', 'direction', 'get_links', "author", 'created', 'updated']
     form = PersonShouldKnowForm
 
 admin.site.register(PersonShouldKnow, PersonShouldKnowAdmin)
 
 
 class OrganizationShouldKnowAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    list_display = ['title', 'description', 'image', 'direction', 'get_links', "author", 'created', 'updated']
     form = OrganizationShouldKnowForm
 
 admin.site.register(OrganizationShouldKnow, OrganizationShouldKnowAdmin)
 
 
 class DanceStyleAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'image', 'dance_direction', 'get_count_types',
+    list_display = ["title", 'short_description', 'image', 'direction', 'get_count_types',
                     'get_between_partners_distances', 'get_average_prices', 'for_children', "author", 'created',
                     'updated']
     form = DanceStyleForm
