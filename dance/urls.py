@@ -25,6 +25,7 @@ from event_scheme import views as event_scheme_views
 from classes import views as classes_views
 from articles import views as articles_views
 from dance_styles import views as dance_styles_views
+from should_know import views as should_know_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,6 +46,7 @@ urlpatterns = [
         url(r'^$', articles_views.article_list_show),
         url(r'^(?:article-(?P<article_id>\d+)/)?$', articles_views.article_show),
     ])),
+    url(r'^should_know/$', should_know_views.should_know_show),
     url(r'^dance_styles/', include([
         url(r'^$', dance_styles_views.dance_styles_show),
     ]))

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<!-- PAGE TITLE -->
+			<header id="page-title"> <!-- style="background-image:url('../assets/images/demo/parallax_bg.jpg')" -->
+				<!--
+					Enable only if bright background image used
+					<span class="overlay"></span>
+				-->
+
+				<div class="container">
+					<h1>Полезные ресурсы</h1>
+
+					<ul class="breadcrumb">
+						<li><a href="index.html">Главная</a></li>
+						<li class="active">Стоит знать</li>
+					</ul>
+				</div>
+			</header>
+
+
+			<section class="container">
+
+				<div class="tabs nomargin-top">
+
+					<!-- tabs -->
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#tab1" data-toggle="tab">
+								<i class="fa fa-link"></i> Ресурсы
+							</a>
+						</li>
+						<li>
+							<a href="#tab2" data-toggle="tab">
+								<i class="fa fa-users"></i> Люди
+							</a>
+						</li>
+						<li>
+							<a href="#tab3" data-toggle="tab">
+								<i class="fa fa-building"></i> Организации
+							</a>
+						</li>
+					</ul>
+
+					<!-- tabs content -->
+					<div class="tab-content">
+						<div id="tab1" class="tab-pane active">
+							<article class="row">
+								<div class="col-md-12">
+
+									<h2><strong>Полезные ресурсы,</strong> которые Вам могут понадобиться в любой момент</h2>
+									<!-- Alert -->
+									<div class="alert alert-minimal alert-default nomargin">
+										<button class="close" data-dismiss="alert">&times;</button>
+										<p><i class="fa fa-info"></i> Ниже собрана информация, которая по нашему мнению может Вам оказаться полезной в той или иной ситуации.</p>
+									</div><!-- /Alert -->
+
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											{% for instances_direction in instances_directions_link %}
+											<thead>
+												<tr>
+													<th colspan="3">instances_direction.direction</th>
+												</tr>
+												<tr>
+													<th>Название ресурса</th>
+													<th>Описание ресурса</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Value 1</td>
+
+													<td><span class="label label-success">Approved </span></td>
+												</tr>
+												<tr>
+													<td>Value 1</td>
+
+													<td>
+														<a href="#" class="btn default btn-xs bg-gray white"><i class="fa fa-edit white"></i> Edit </a>
+														<a href="#" class="btn default btn-xs bg-red white"><i class="fa fa-times white"></i> Delete </a>
+													</td>
+												</tr>
+											</tbody>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</article>
+						</div>
+
+						<div id="tab2" class="tab-pane">
+							<article class="row">
+								<div class="col-md-12">
+
+									<h2><strong>Интересные люди,</strong> занятные личности</h2>
+									<!-- Alert -->
+									<div class="alert alert-minimal alert-default nomargin">
+										<button class="close" data-dismiss="alert">&times;</button>
+										<p><i class="fa fa-info"></i> Ниже собрана информация, которая по нашему мнению может Вам оказаться полезной в той или иной ситуации.</p>
+									</div><!-- /Alert -->
+
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											{% for instances_direction in instances_directions_person %}
+											<thead>
+												<tr>
+													<th colspan="3">instances_direction.direction</th>
+												</tr>
+												<tr>
+													<th>Имя</th>
+													<th>Немного о человеке</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Value 1</td>
+
+													<td><span class="label label-success">Approved </span></td>
+												</tr>
+												<tr>
+													<td>Value 1</td>
+
+													<td>
+														<a href="#" class="btn default btn-xs bg-gray white"><i class="fa fa-edit white"></i> Edit </a>
+														<a href="#" class="btn default btn-xs bg-red white"><i class="fa fa-times white"></i> Delete </a>
+													</td>
+												</tr>
+											</tbody>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</article>
+						</div>
+
+						<div id="tab3" class="tab-pane">
+							<article class="row">
+								<div class="col-md-12">
+
+									<h2><strong>Организации,</strong> которые полезно знать</h2>
+									<!-- Alert -->
+									<div class="alert alert-minimal alert-default nomargin">
+										<button class="close" data-dismiss="alert">&times;</button>
+										<p><i class="fa fa-info"></i> Ниже собрана информация, которая по нашему мнению может Вам оказаться полезной в той или иной ситуации.</p>
+									</div><!-- /Alert -->
+
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											{% for instances_direction in instances_directions_organization %}
+											<thead>
+												<tr>
+													<th colspan="3">instances_direction.direction</th>
+												</tr>
+												<tr>
+													<th>Название организации</th>
+													<th>Короткая информация про организацию, вид деятельности</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Value 1</td>
+
+													<td><span class="label label-success">Approved </span></td>
+												</tr>
+												<tr>
+													<td>Value 1</td>
+
+													<td>
+														<a href="#" class="btn default btn-xs bg-gray white"><i class="fa fa-edit white"></i> Edit </a>
+														<a href="#" class="btn default btn-xs bg-red white"><i class="fa fa-times white"></i> Delete </a>
+													</td>
+												</tr>
+											</tbody>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</article>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+
+
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}
