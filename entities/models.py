@@ -155,6 +155,18 @@ class AbstractLink(models.Model):
         ordering = ('link',)
 
 
+class LinkShouldKnowLink(AbstractLink):
+    pass
+
+
+class PersonShouldKnowLink(AbstractLink):
+    pass
+
+
+class OrganizationShouldKnowLink(AbstractLink):
+    pass
+
+
 class EventLink(AbstractLink):
     pass
 
@@ -177,6 +189,53 @@ class DanceHallLink(AbstractLink):
 
 class DanceShopLink(AbstractLink):
     pass
+
+
+class AbstractShouldKnow(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('updated',)
+
+
+class LinkShouldKnow(AbstractShouldKnow):
+    links = models.ManyToManyField(LinkShouldKnowLink, blank=True)
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+
+class PersonShouldKnow(AbstractShouldKnow):
+    links = models.ManyToManyField(PersonShouldKnowLink, blank=True)
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
+
+
+class OrganizationShouldKnow(AbstractShouldKnow):
+    links = models.ManyToManyField(OrganizationShouldKnowLink, blank=True)
+
+    def get_links(self):
+        if self.links.all():
+            return "\n".join([p.link for p in self.links.all()])
+        return ''
 
 
 class DanceStyle(models.Model):

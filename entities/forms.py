@@ -5,7 +5,8 @@ from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, Dance
     SocialLinkVK, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, PlaceInMapMapCoordinates, \
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
     DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, DanceStudioLink, DanceClassLink, \
-    DanceHallLink, DanceShopLink
+    DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, OrganizationShouldKnowLink, LinkShouldKnow, \
+    PersonShouldKnow, OrganizationShouldKnow
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -50,6 +51,24 @@ class ContactsForm(forms.ModelForm):
         fields = ['title', 'phone_numbers', 'socials', "author"]
 
 
+class LinkShouldKnowLinkForm(forms.ModelForm):
+    class Meta:
+        model = LinkShouldKnowLink
+        fields = ["link", "author"]
+
+
+class PersonShouldKnowLinkForm(forms.ModelForm):
+    class Meta:
+        model = PersonShouldKnowLink
+        fields = ["link", "author"]
+
+
+class OrganizationShouldKnowLinkForm(forms.ModelForm):
+    class Meta:
+        model = OrganizationShouldKnowLink
+        fields = ["link", "author"]
+
+
 class EventLinkForm(forms.ModelForm):
     class Meta:
         model = EventLink
@@ -84,6 +103,24 @@ class DanceShopLinkForm(forms.ModelForm):
     class Meta:
         model = DanceShopLink
         fields = ["link", "author"]
+
+
+class LinkShouldKnowForm(forms.ModelForm):
+    class Meta:
+        model = LinkShouldKnow
+        fields = ['title', 'description', 'image', 'links', 'author']
+
+
+class PersonShouldKnowForm(forms.ModelForm):
+    class Meta:
+        model = PersonShouldKnow
+        fields = ['title', 'description', 'image', 'links', 'author']
+
+
+class OrganizationShouldKnowForm(forms.ModelForm):
+    class Meta:
+        model = OrganizationShouldKnow
+        fields = ['title', 'description', 'image', 'links', 'author']
 
 
 class DanceStyleForm(forms.ModelForm):

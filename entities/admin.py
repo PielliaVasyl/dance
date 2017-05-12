@@ -7,7 +7,8 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     SocialLinkVK, SocialLinkFB, SocialLinkInstagram, SocialLinkTwitter, PlaceInMap, PlaceInMapLocation, \
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, \
-    DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink
+    DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, \
+    OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -15,7 +16,8 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     PlaceInMapMapCoordinatesForm, DanceStudioMapCoordinatesForm, DanceHallMapCoordinatesForm, \
     DanceShopMapCoordinatesForm, EventLocationForm, DanceStudioLocationForm, DanceHallLocationForm, \
     DanceShopLocationForm, PhoneNumberForm, EventLinkForm, InstructorLinkForm, DanceStudioLinkForm, \
-    DanceClassLinkForm, DanceHallLinkForm, DanceShopLinkForm
+    DanceClassLinkForm, DanceHallLinkForm, DanceShopLinkForm, LinkShouldKnowLinkForm, PersonShouldKnowLinkForm, \
+    OrganizationShouldKnowLinkForm, LinkShouldKnowForm, PersonShouldKnowForm, OrganizationShouldKnowForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -95,6 +97,27 @@ admin.site.register(Contacts, ContactsAdmin)
 # admin.site.register(AbstractLink, AbstractLinkAdmin)
 
 
+class LinkShouldKnowLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = LinkShouldKnowLinkForm
+
+admin.site.register(LinkShouldKnowLink, LinkShouldKnowLinkAdmin)
+
+
+class PersonShouldKnowLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = PersonShouldKnowLinkForm
+
+admin.site.register(PersonShouldKnowLink, PersonShouldKnowLinkAdmin)
+
+
+class OrganizationShouldKnowLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = OrganizationShouldKnowLinkForm
+
+admin.site.register(OrganizationShouldKnowLink, OrganizationShouldKnowLinkAdmin)
+
+
 class EventLinkAdmin(admin.ModelAdmin):
     list_display = ["link", "author", 'created', 'updated']
     form = EventLinkForm
@@ -135,6 +158,27 @@ class DanceShopLinkAdmin(admin.ModelAdmin):
     form = DanceShopLinkForm
 
 admin.site.register(DanceShopLink, DanceShopLinkAdmin)
+
+
+class LinkShouldKnowAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    form = LinkShouldKnowForm
+
+admin.site.register(LinkShouldKnow, LinkShouldKnowAdmin)
+
+
+class PersonShouldKnowAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    form = PersonShouldKnowForm
+
+admin.site.register(PersonShouldKnow, PersonShouldKnowAdmin)
+
+
+class OrganizationShouldKnowAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'image', 'get_links', "author", 'created', 'updated']
+    form = OrganizationShouldKnowForm
+
+admin.site.register(OrganizationShouldKnow, OrganizationShouldKnowAdmin)
 
 
 class DanceStyleAdmin(admin.ModelAdmin):
