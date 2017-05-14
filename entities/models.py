@@ -191,6 +191,14 @@ class DanceShopLink(AbstractLink):
     pass
 
 
+class VideoWikiLink(AbstractLink):
+    pass
+
+
+class AudioWikiLink(AbstractLink):
+    pass
+
+
 class AbstractShouldKnow(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -311,7 +319,8 @@ class DanceStyle(models.Model):
 
     def get_count_types_list(self):
         if self.count_types.all():
-            return [{k: v for k, v in self.COUNT_TYPE_CHOICES}.get(p.count_type, p.count_type) for p in self.count_types.all()]
+            return [{k: v for k, v in self.COUNT_TYPE_CHOICES}.get(p.count_type, p.count_type)
+                    for p in self.count_types.all()]
         return []
 
     def get_between_partners_distances(self):
@@ -965,6 +974,75 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+
+class AbstractTag(models.Model):
+    title = models.CharField(max_length=50)
+
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % (self.title,)
+
+    class Meta:
+        ordering = ('title',)
+
+
+class VideoWikiTag(AbstractTag):
+    start_time = models.TimeField(blank=True)
+    end_time = models.TimeField(blank=True)
+
+
+class AudioWikiTag(AbstractTag):
+    pass
+
+
+class AbstractWiki(models.Model):
+    title = models.CharField(max_length=200)
+    dance_styles = models.ManyToManyField(DanceStyle, blank=True)
+
+    def get_dance_styles(self):
+        if self.dance_styles.all():
+            return "\n".join([p.title for p in self.dance_styles.all()])
+        return ''
+
+    def get_dance_styles_list(self):
+        if self.dance_styles.all():
+            return [p.title for p in self.dance_styles.all()]
+        return []
+
+    def get_tags(self):
+        if self.tags.all():
+            return "\n".join([p.title for p in self.tags.all()])
+        return ''
+
+    def get_tags_list(self):
+        if self.tags.all():
+            return [p.title for p in self.tags.all()]
+        return []
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        if self.dance_style:
+            return '%s - %s' % (self.dance_style.title, self.title,)
+        return '%s' % (self.title,)
+
+    class Meta:
+        ordering = ('title',)
+
+
+class VideoWiki(AbstractWiki):
+    link = models.ForeignKey('VideoWikiLink', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(VideoWikiTag, blank=True)
+
+
+class AudioWiki(AbstractWiki):
+    link = models.ForeignKey('AudioWikiLink', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(AudioWikiTag, blank=True)
 
 
 class VisitorMessage(models.Model):

@@ -8,7 +8,8 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     PlaceInMapMapCoordinates, DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, \
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, \
     DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, \
-    OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow
+    OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
+    VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -17,7 +18,8 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     DanceShopMapCoordinatesForm, EventLocationForm, DanceStudioLocationForm, DanceHallLocationForm, \
     DanceShopLocationForm, PhoneNumberForm, EventLinkForm, InstructorLinkForm, DanceStudioLinkForm, \
     DanceClassLinkForm, DanceHallLinkForm, DanceShopLinkForm, LinkShouldKnowLinkForm, PersonShouldKnowLinkForm, \
-    OrganizationShouldKnowLinkForm, LinkShouldKnowForm, PersonShouldKnowForm, OrganizationShouldKnowForm
+    OrganizationShouldKnowLinkForm, LinkShouldKnowForm, PersonShouldKnowForm, OrganizationShouldKnowForm, \
+    VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -158,6 +160,20 @@ class DanceShopLinkAdmin(admin.ModelAdmin):
     form = DanceShopLinkForm
 
 admin.site.register(DanceShopLink, DanceShopLinkAdmin)
+
+
+class VideoWikiLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = VideoWikiLinkForm
+
+admin.site.register(VideoWikiLink, VideoWikiLinkAdmin)
+
+
+class AudioWikiLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = AudioWikiLinkForm
+
+admin.site.register(AudioWikiLink, AudioWikiLinkAdmin)
 
 
 class LinkShouldKnowAdmin(admin.ModelAdmin):
@@ -344,6 +360,34 @@ class ArticleAdmin(admin.ModelAdmin):
     form = ArticleForm
 
 admin.site.register(Article, ArticleAdmin)
+
+
+class VideoWikiTagAdmin(admin.ModelAdmin):
+    list_display = ['title', 'start_time', 'end_time', 'created', 'updated']
+    form = VideoWikiTagForm
+
+admin.site.register(VideoWikiTag, VideoWikiTagAdmin)
+
+
+class AudioWikiTagAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created', 'updated']
+    form = AudioWikiTagForm
+
+admin.site.register(AudioWikiTag, AudioWikiTagAdmin)
+
+
+class VideoWikiAdmin(admin.ModelAdmin):
+    list_display = ['title', 'get_dance_styles', 'link', 'get_tags', "author", 'created', 'updated']
+    form = VideoWikiForm
+
+admin.site.register(VideoWiki, VideoWikiAdmin)
+
+
+class AudioWikiAdmin(admin.ModelAdmin):
+    list_display = ['title', 'get_dance_styles', 'link', 'get_tags', "author", 'created', 'updated']
+    form = AudioWikiForm
+
+admin.site.register(AudioWiki, AudioWikiAdmin)
 
 
 class VisitorMessageAdmin(admin.ModelAdmin):

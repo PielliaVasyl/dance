@@ -6,7 +6,8 @@ from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, Dance
     DanceStudioMapCoordinates, DanceHallMapCoordinates, DanceShopMapCoordinates, EventLocation, DanceStudioLocation, \
     DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, DanceStudioLink, DanceClassLink, \
     DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, OrganizationShouldKnowLink, LinkShouldKnow, \
-    PersonShouldKnow, OrganizationShouldKnow
+    PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, VideoWikiTag, AudioWikiTag, VideoWiki, \
+    AudioWiki
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -102,6 +103,18 @@ class DanceHallLinkForm(forms.ModelForm):
 class DanceShopLinkForm(forms.ModelForm):
     class Meta:
         model = DanceShopLink
+        fields = ["link", "author"]
+
+
+class VideoWikiLinkForm(forms.ModelForm):
+    class Meta:
+        model = VideoWikiLink
+        fields = ["link", "author"]
+
+
+class AudioWikiLinkForm(forms.ModelForm):
+    class Meta:
+        model = AudioWikiLink
         fields = ["link", "author"]
 
 
@@ -262,6 +275,30 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ['title', 'description', 'image', 'is_linked_article', 'article_link', "author"]
+
+
+class VideoWikiTagForm(forms.ModelForm):
+    class Meta:
+        model = VideoWikiTag
+        fields = ['title', 'start_time', 'end_time']
+
+
+class AudioWikiTagForm(forms.ModelForm):
+    class Meta:
+        model = AudioWikiTag
+        fields = ['title']
+
+
+class VideoWikiForm(forms.ModelForm):
+    class Meta:
+        model = VideoWiki
+        fields = ['title', 'dance_styles', 'link', 'tags', 'author']
+
+
+class AudioWikiForm(forms.ModelForm):
+    class Meta:
+        model = AudioWiki
+        fields = ['title', 'dance_styles', 'link', 'tags', 'author']
 
 
 class VisitorMessageForm(forms.ModelForm):
