@@ -26,10 +26,13 @@ from classes import views as classes_views
 from articles import views as articles_views
 from dance_styles import views as dance_styles_views
 from should_know import views as should_know_views
+from videos import views as videos_views
+from audios import views as audios_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page_views.index),
+    url(r'^should_know/$', should_know_views.should_know_show),
     url(r'^about/$', static_pages_views.about_show),
     url(r'^contacts/$', static_pages_views.contacts_show),
     url(r'^dance_party_calendar/$', static_pages_views.dance_party_calendar_show),
@@ -46,7 +49,8 @@ urlpatterns = [
         url(r'^$', articles_views.article_list_show),
         url(r'^(?:article-(?P<article_id>\d+)/)?$', articles_views.article_show),
     ])),
-    url(r'^should_know/$', should_know_views.should_know_show),
+    url(r'^videos/$', videos_views.videos_show),
+    url(r'^audios/$', audios_views.audios_show),
     url(r'^dance_styles/', include([
         url(r'^$', dance_styles_views.dance_styles_show),
     ]))
