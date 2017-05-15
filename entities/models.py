@@ -1085,17 +1085,6 @@ class VideoWikiPlaylist(AbstractWikiGroup):
         if videos:
             return '\n'.join([p.title for p in videos])
         return []
-    # videos = models.ManyToManyField(VideoWiki, blank=True)
-    #
-    # def get_videos(self):
-    #     if self.videos.all():
-    #         return "\n".join([p.title for p in self.videos.all()])
-    #     return ''
-    #
-    # def get_videos_list(self):
-    #     if self.videos.all():
-    #         return [p.title for p in self.videos.all()]
-    #     return []
 
 
 class AudioWikiPlaylist(AbstractWikiGroup):
@@ -1113,18 +1102,6 @@ class AudioWikiPlaylist(AbstractWikiGroup):
             if audios:
                 return [p.title for p in audios]
             return []
-
-    # audios = models.ManyToManyField(AudioWiki, blank=True)
-    #
-    # def get_audios(self):
-    #     if self.audios.all():
-    #         return "\n".join([p.title for p in self.audios.all()])
-    #     return ''
-    #
-    # def get_audios_list(self):
-    #     if self.audios.all():
-    #         return [p.title for p in self.audios.all()]
-    #     return []
 
 
 class PhotoWikiAlbum(AbstractWikiGroup):
