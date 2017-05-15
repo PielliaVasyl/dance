@@ -15,3 +15,16 @@ def instances_directions(entity, directions=None, direction_show=None):
                 my_instances_directions.append(instances_direction)
         return my_instances_directions
     return []
+
+
+def instances_groups(entity):
+    groups = entity.objects.all()
+    my_instances_groups = []
+    for group in groups:
+        instances_for_particular_group = group.get_instances_list()
+        if instances_for_particular_group:
+            instances_group = {'direction': {'title': group.title, 'link': group.link},
+                               'instances': instances_for_particular_group}
+            my_instances_groups.append(instances_group)
+        return my_instances_groups
+    return []

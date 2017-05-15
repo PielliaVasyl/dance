@@ -1039,8 +1039,6 @@ class AbstractWiki(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        if self.dance_style:
-            return '%s - %s' % (self.dance_style.title, self.title,)
         return '%s' % (self.title,)
 
     class Meta:
@@ -1048,13 +1046,13 @@ class AbstractWiki(models.Model):
 
 
 class VideoWiki(AbstractWiki):
-    link = models.ForeignKey('VideoWikiLink', on_delete=models.CASCADE)
+    link = models.ForeignKey('VideoWikiLink', on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField(VideoWikiTag, blank=True)
 
 
 class AudioWiki(AbstractWiki):
     singer = models.CharField(max_length=100, blank=True)
-    link = models.ForeignKey('AudioWikiLink', on_delete=models.CASCADE)
+    link = models.ForeignKey('AudioWikiLink', on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField(AudioWikiTag, blank=True)
 
 
@@ -1079,35 +1077,54 @@ class AbstractWikiGroup(models.Model):
 
 
 class VideoWikiPlaylist(AbstractWikiGroup):
-    link = models.ForeignKey('VideoWikiPlaylistLink', on_delete=models.CASCADE)
+    link = models.ForeignKey('VideoWikiPlaylistLink', on_delete=models.CASCADE, blank=True, null=True)
     dance_style = models.ForeignKey('DanceStyle', on_delete=models.CASCADE)
-    videos = models.ManyToManyField(VideoWiki, blank=True)
 
     def get_videos(self):
-        if self.videos.all():
-            return "\n".join([p.title for p in self.videos.all()])
-        return ''
-
-    def get_videos_list(self):
-        if self.videos.all():
-            return [p.title for p in self.videos.all()]
+        videos = VideoWiki.objects.filter(dance_styles__in=[self.dance_style])
+        if videos:
+            return '\n'.join([p.title for p in videos])
         return []
+    # videos = models.ManyToManyField(VideoWiki, blank=True)
+    #
+    # def get_videos(self):
+    #     if self.videos.all():
+    #         return "\n".join([p.title for p in self.videos.all()])
+    #     return ''
+    #
+    # def get_videos_list(self):
+    #     if self.videos.all():
+    #         return [p.title for p in self.videos.all()]
+    #     return []
 
 
 class AudioWikiPlaylist(AbstractWikiGroup):
-    link = models.ForeignKey('AudioWikiPlaylistLink', on_delete=models.CASCADE)
+    link = models.ForeignKey('AudioWikiPlaylistLink', on_delete=models.CASCADE, blank=True, null=True)
     dance_style = models.ForeignKey('DanceStyle', on_delete=models.CASCADE)
-    audios = models.ManyToManyField(AudioWiki, blank=True)
 
     def get_audios(self):
-        if self.audios.all():
-            return "\n".join([p.title for p in self.audios.all()])
+        audios = AudioWiki.objects.filter(dance_styles__in=[self.dance_style])
+        if audios:
+            return '\n'.join([p.title for p in audios])
         return ''
 
-    def get_audios_list(self):
-        if self.audios.all():
-            return [p.title for p in self.audios.all()]
-        return []
+    def get_instances_list(self):
+            audios = AudioWiki.objects.filter(dance_styles__in=[self.dance_style])
+            if audios:
+                return [p.title for p in audios]
+            return []
+
+    # audios = models.ManyToManyField(AudioWiki, blank=True)
+    #
+    # def get_audios(self):
+    #     if self.audios.all():
+    #         return "\n".join([p.title for p in self.audios.all()])
+    #     return ''
+    #
+    # def get_audios_list(self):
+    #     if self.audios.all():
+    #         return [p.title for p in self.audios.all()]
+    #     return []
 
 
 class PhotoWikiAlbum(AbstractWikiGroup):

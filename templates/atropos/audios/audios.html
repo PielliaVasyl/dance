@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+<!-- WRAPPER -->
+		<div id="wrapper">
+
+			<!-- PAGE TITLE -->
+			<header id="page-title"> <!-- style="background-image:url('../assets/images/demo/parallax_bg.jpg')" -->
+				<!--
+					Enable only if bright background image used
+					<span class="overlay"></span>
+				-->
+
+				<div class="container">
+					<h1>Танцевальные треки</h1>
+
+					<ul class="breadcrumb">
+						<li><a href="/">Главная</a></li>
+						<li class="active">Танцевальные треки</li>
+					</ul>
+				</div>
+			</header>
+
+
+			<section class="container">
+
+				<div class="row">
+
+					<div class="col-md-12">
+
+						<h2><strong>Найдите плейлист </strong> <small class="font300">для своего стиля танца</small></h2>
+
+                        <div class="toogle">
+
+                            {% for audios_direction in audios_directions %}
+
+                            <div class="toggle active">
+                                <label>{{ audios_direction.direction.title }}
+                                    {% if audios_direction.direction.link %}
+                                    | <a style='color: white' href="{{ audios_direction.direction.link }}">Перейти</a>
+                                    {% endif %}
+                                </label>
+                                <div class="toggle-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Название трека</th>
+                                                    <th>Исполнитель</th>
+                                                    <th>Теги</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for audio in audios_direction.instances %}
+                                                <tr>
+                                                    <td>{{ audio.title }}</td>
+                                                    <td>{{ audio.song_author }}</td>
+                                                    <td>{% for tag in audio.tags.all %}{{ tag.title }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+					</div>
+
+				</div>
+
+			</section>
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

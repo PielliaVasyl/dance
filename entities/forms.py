@@ -329,13 +329,13 @@ class PhotoWikiForm(forms.ModelForm):
 class VideoWikiPlaylistForm(forms.ModelForm):
     class Meta:
         model = VideoWikiPlaylist
-        fields = ['title', 'link', 'dance_style', 'videos', 'author']
+        fields = ['title', 'link', 'dance_style', 'author']
 
 
 class AudioWikiPlaylistForm(forms.ModelForm):
     class Meta:
         model = AudioWikiPlaylist
-        fields = ['title', 'link', 'dance_style', 'audios', 'author']
+        fields = ['title', 'link', 'dance_style', 'author']
 
 
 class PhotoWikiAlbumForm(forms.ModelForm):
