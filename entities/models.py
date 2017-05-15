@@ -591,9 +591,30 @@ class Event(models.Model):
                                        date_filter(self.end_date, 'F').lower()[:3])
         return 'Неизвестно'
 
+    @staticmethod
+    def day_show(number_days):
+        return {
+            '1': 'день',
+            '2': 'дня',
+            '3': 'дня',
+            '4': 'дня',
+            '5': 'дней',
+            '6': 'дней',
+            '7': 'дней',
+            '8': 'дней',
+            '9': 'дней',
+            '10': 'дней',
+            '11': 'дней',
+            '12': 'дней',
+            '13': 'дней',
+            '14': 'дней',
+        }.get(str(number_days), 'день')
+
     def duration_show(self):
         if self.start_date and self.end_date:
-            return '%s день (дня)' % str(int((self.end_date - self.start_date).days) + 1)
+            number_days = int((self.end_date - self.start_date).days) + 1
+            return '%s %s' % (str(number_days),
+                              self.day_show(number_days),)
         return 'продолжительность неизвестна'
 
     def get_start_date_day_of_week(self):

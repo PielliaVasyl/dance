@@ -17,7 +17,7 @@
 							<h1 style="text-align: center">{{ event.title }}</h1>
 							<div class="pull-right">
 								<small class="block styleCoor fsize20">
-									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ event.date }} | {{ event.duration_show }}</span>
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ event.date_show }} | {{ event.duration_show }}</span>
 								</small>
 							</div>
 							<small class="block styleCoor fsize20">
@@ -39,10 +39,6 @@
 					<!-- center column -->
 					<div class="col-md-12">
 						<div class="white-row">
-
-
-							<!-- PROPERTY ID -->
-							<!--<h5 class="font400 styleColor">Property ID : RH1001</h5>-->
 
 							<!-- PROPERTY FEATURES -->
 							<h3 class="page-header margin-bottom40" style="text-align:center">
@@ -119,38 +115,6 @@
 
 
 						</div><!-- /.white-row -->
-
-						<!--<div class="white-row">
-
-							<!-- PROPERTY MAP -->
-							<!--<h3 class="page-header margin-bottom40">
-								RH1001 <strong class="styleColor">Google Map</strong>
-							</h3>
-
-							<div id="gmap_default"><!-- google map --><!--</div>
-
-							<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=true&amp;#038;ver=3.8.1"></script>
-							<script type="text/javascript">
-								function initialize_property_map(){
-									var propertyLocation = new google.maps.LatLng(34.019372, -118.45169299999998);
-									var propertyMapOptions = {
-										center: propertyLocation,
-										zoom: 15,
-										mapTypeId: google.maps.MapTypeId.ROADMAP,
-										scrollwheel: false
-									};
-									var propertyMap = new google.maps.Map(document.getElementById("gmap_default"), propertyMapOptions);
-									var propertyMarker = new google.maps.Marker({
-										position: propertyLocation,
-										map: propertyMap
-										//, icon: "assets/images/icons/realestate/map.png"
-									});
-								}
-
-								window.onload = initialize_property_map();
-							</script>
-
-						</div>--><!-- /.white-row -->
 
 					</div>
 
