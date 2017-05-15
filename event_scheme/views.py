@@ -4,7 +4,7 @@ from algoritms.entity_schedule import entity_schedule
 from entities.models import Event
 
 
-def event_scheme_show(request):
+def events_show(request):
     title = 'Расписание мероприятий'
 
     events_months = entity_schedule(Event)
@@ -13,7 +13,7 @@ def event_scheme_show(request):
         'title': title,
         'events_months': events_months
     }
-    return render(request, 'event_scheme/event-scheme.html', context)
+    return render(request, 'events/events.html', context)
 
 
 def event_show(request, event_id):
@@ -24,4 +24,4 @@ def event_show(request, event_id):
         'event': event
 
     }
-    return render(request, 'event_scheme/event-single.html', context)
+    return render(request, 'events/event-single.html', context)
