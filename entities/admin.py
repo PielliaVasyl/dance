@@ -9,7 +9,8 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     EventLocation, DanceStudioLocation, DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, \
     DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, \
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
-    VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki
+    VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
+    PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -19,7 +20,9 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     DanceShopLocationForm, PhoneNumberForm, EventLinkForm, InstructorLinkForm, DanceStudioLinkForm, \
     DanceClassLinkForm, DanceHallLinkForm, DanceShopLinkForm, LinkShouldKnowLinkForm, PersonShouldKnowLinkForm, \
     OrganizationShouldKnowLinkForm, LinkShouldKnowForm, PersonShouldKnowForm, OrganizationShouldKnowForm, \
-    VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm
+    VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
+    AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
+    VideoWikiPlaylistForm, AudioWikiPlaylistForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -173,7 +176,22 @@ class AudioWikiLinkAdmin(admin.ModelAdmin):
     list_display = ["link", "author", 'created', 'updated']
     form = AudioWikiLinkForm
 
+
 admin.site.register(AudioWikiLink, AudioWikiLinkAdmin)
+
+
+class AudioWikiPlaylistLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = AudioWikiPlaylistLinkForm
+
+admin.site.register(AudioWikiPlaylistLink, AudioWikiPlaylistLinkAdmin)
+
+
+class VideoWikiPlaylistLinkAdmin(admin.ModelAdmin):
+    list_display = ["link", "author", 'created', 'updated']
+    form = VideoWikiPlaylistLinkForm
+
+admin.site.register(VideoWikiPlaylistLink, VideoWikiPlaylistLinkAdmin)
 
 
 class LinkShouldKnowAdmin(admin.ModelAdmin):
@@ -376,6 +394,13 @@ class AudioWikiTagAdmin(admin.ModelAdmin):
 admin.site.register(AudioWikiTag, AudioWikiTagAdmin)
 
 
+class PhotoWikiTagAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created', 'updated']
+    form = PhotoWikiTagForm
+
+admin.site.register(PhotoWikiTag, PhotoWikiTagAdmin)
+
+
 class VideoWikiAdmin(admin.ModelAdmin):
     list_display = ['title', 'get_dance_styles', 'link', 'get_tags', "author", 'created', 'updated']
     form = VideoWikiForm
@@ -384,10 +409,38 @@ admin.site.register(VideoWiki, VideoWikiAdmin)
 
 
 class AudioWikiAdmin(admin.ModelAdmin):
-    list_display = ['title', 'get_dance_styles', 'link', 'get_tags', "author", 'created', 'updated']
+    list_display = ['title', 'singer', 'get_dance_styles', 'link', 'get_tags', "author", 'created', 'updated']
     form = AudioWikiForm
 
 admin.site.register(AudioWiki, AudioWikiAdmin)
+
+
+class PhotoWikiAdmin(admin.ModelAdmin):
+    list_display = ['title', 'photographer', 'get_dance_styles', 'image', 'get_tags', "author", 'created', 'updated']
+    form = PhotoWikiForm
+
+admin.site.register(PhotoWiki, PhotoWikiAdmin)
+
+
+class VideoWikiPlaylistAdmin(admin.ModelAdmin):
+    list_display = ['title', 'link', 'dance_style', 'get_videos', "author", 'created', 'updated']
+    form = VideoWikiPlaylistForm
+
+admin.site.register(VideoWikiPlaylist, VideoWikiPlaylistAdmin)
+
+
+class AudioWikiPlaylistAdmin(admin.ModelAdmin):
+    list_display = ['title', 'link', 'dance_style', 'get_audios', "author", 'created', 'updated']
+    form = AudioWikiPlaylistForm
+
+admin.site.register(AudioWikiPlaylist, AudioWikiPlaylistAdmin)
+
+
+class PhotoWikiAlbumAdmin(admin.ModelAdmin):
+    list_display = ['title', 'get_photos', "author", 'created', 'updated']
+    form = PhotoWikiAlbumForm
+
+admin.site.register(PhotoWikiAlbum, PhotoWikiAlbumAdmin)
 
 
 class VisitorMessageAdmin(admin.ModelAdmin):

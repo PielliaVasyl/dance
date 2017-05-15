@@ -199,6 +199,14 @@ class AudioWikiLink(AbstractLink):
     pass
 
 
+class AudioWikiPlaylistLink(AbstractLink):
+    pass
+
+
+class VideoWikiPlaylistLink(AbstractLink):
+    pass
+
+
 class AbstractShouldKnow(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -998,6 +1006,10 @@ class AudioWikiTag(AbstractTag):
     pass
 
 
+class PhotoWikiTag(AbstractTag):
+    pass
+
+
 class AbstractWiki(models.Model):
     title = models.CharField(max_length=200)
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
@@ -1041,8 +1053,75 @@ class VideoWiki(AbstractWiki):
 
 
 class AudioWiki(AbstractWiki):
+    singer = models.CharField(max_length=100, blank=True)
     link = models.ForeignKey('AudioWikiLink', on_delete=models.CASCADE)
     tags = models.ManyToManyField(AudioWikiTag, blank=True)
+
+
+class PhotoWiki(AbstractWiki):
+    photographer = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(blank=True)
+    tags = models.ManyToManyField(PhotoWikiTag, blank=True)
+
+
+class AbstractWikiGroup(models.Model):
+    title = models.CharField(max_length=100)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % (self.title,)
+
+    class Meta:
+        ordering = ('created',)
+
+
+class VideoWikiPlaylist(AbstractWikiGroup):
+    link = models.ForeignKey('VideoWikiPlaylistLink', on_delete=models.CASCADE)
+    dance_style = models.ForeignKey('DanceStyle', on_delete=models.CASCADE)
+    videos = models.ManyToManyField(VideoWiki, blank=True)
+
+    def get_videos(self):
+        if self.videos.all():
+            return "\n".join([p.title for p in self.videos.all()])
+        return ''
+
+    def get_videos_list(self):
+        if self.videos.all():
+            return [p.title for p in self.videos.all()]
+        return []
+
+
+class AudioWikiPlaylist(AbstractWikiGroup):
+    link = models.ForeignKey('AudioWikiPlaylistLink', on_delete=models.CASCADE)
+    dance_style = models.ForeignKey('DanceStyle', on_delete=models.CASCADE)
+    audios = models.ManyToManyField(AudioWiki, blank=True)
+
+    def get_audios(self):
+        if self.audios.all():
+            return "\n".join([p.title for p in self.audios.all()])
+        return ''
+
+    def get_audios_list(self):
+        if self.audios.all():
+            return [p.title for p in self.audios.all()]
+        return []
+
+
+class PhotoWikiAlbum(AbstractWikiGroup):
+    photos = models.ManyToManyField(PhotoWiki, blank=True)
+
+    def get_photos(self):
+        if self.photos.all():
+            return "\n".join([p.title for p in self.photos.all()])
+        return ''
+
+    def get_photos_list(self):
+        if self.photos.all():
+            return [p.title for p in self.photos.all()]
+        return []
 
 
 class VisitorMessage(models.Model):

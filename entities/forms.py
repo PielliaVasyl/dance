@@ -7,7 +7,8 @@ from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, Dance
     DanceHallLocation, DanceShopLocation, PhoneNumber, EventLink, InstructorLink, DanceStudioLink, DanceClassLink, \
     DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, OrganizationShouldKnowLink, LinkShouldKnow, \
     PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, VideoWikiTag, AudioWikiTag, VideoWiki, \
-    AudioWiki
+    AudioWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, PhotoWiki, VideoWikiPlaylist, \
+    AudioWikiPlaylist, PhotoWikiAlbum
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -115,6 +116,18 @@ class VideoWikiLinkForm(forms.ModelForm):
 class AudioWikiLinkForm(forms.ModelForm):
     class Meta:
         model = AudioWikiLink
+        fields = ["link", "author"]
+
+
+class AudioWikiPlaylistLinkForm(forms.ModelForm):
+    class Meta:
+        model = AudioWikiPlaylistLink
+        fields = ["link", "author"]
+
+
+class VideoWikiPlaylistLinkForm(forms.ModelForm):
+    class Meta:
+        model = VideoWikiPlaylistLink
         fields = ["link", "author"]
 
 
@@ -289,6 +302,12 @@ class AudioWikiTagForm(forms.ModelForm):
         fields = ['title']
 
 
+class PhotoWikiTagForm(forms.ModelForm):
+    class Meta:
+        model = PhotoWikiTag
+        fields = ['title']
+
+
 class VideoWikiForm(forms.ModelForm):
     class Meta:
         model = VideoWiki
@@ -298,7 +317,31 @@ class VideoWikiForm(forms.ModelForm):
 class AudioWikiForm(forms.ModelForm):
     class Meta:
         model = AudioWiki
-        fields = ['title', 'dance_styles', 'link', 'tags', 'author']
+        fields = ['title', 'singer', 'dance_styles', 'link', 'tags', 'author']
+
+
+class PhotoWikiForm(forms.ModelForm):
+    class Meta:
+        model = PhotoWiki
+        fields = ['title', 'photographer', 'dance_styles', 'image', 'tags', 'author']
+
+
+class VideoWikiPlaylistForm(forms.ModelForm):
+    class Meta:
+        model = VideoWikiPlaylist
+        fields = ['title', 'link', 'dance_style', 'videos', 'author']
+
+
+class AudioWikiPlaylistForm(forms.ModelForm):
+    class Meta:
+        model = AudioWikiPlaylist
+        fields = ['title', 'link', 'dance_style', 'audios', 'author']
+
+
+class PhotoWikiAlbumForm(forms.ModelForm):
+    class Meta:
+        model = PhotoWikiAlbum
+        fields = ['title', 'photos', 'author']
 
 
 class VisitorMessageForm(forms.ModelForm):
