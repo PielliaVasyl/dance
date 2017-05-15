@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<section class="container">
+				<div class="row">
+					<div class="col-md-12">
+                        <hr />
+						<h2>
+							<strong>ОЙ</strong>, эта страница не найдена!
+							<span class="subtitle">We're sorry, but the page you were looking for doesn't exist.</span>
+						</h2>
+
+						<!--<div class="e404">404</div>-->
+                        <img src="{% static 'images/404.jpg' %}" />
+					</div>
+                    
+				</div>
+
+			</section>
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

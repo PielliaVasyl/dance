@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from entities.forms import VisitorMessageForm
 
@@ -37,3 +37,12 @@ def dance_party_calendar_show(request):
         'title': title
     }
     return render(request, 'static_pages/dance_party_calendar.html', context)
+
+
+def page_not_found(request):
+    title = 'Календарь танцевальных вечеринок'
+
+    context = {
+        'title': title
+    }
+    return render(request, 'static_pages/404.html', context)
