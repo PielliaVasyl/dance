@@ -1,5 +1,8 @@
 from datetime import date
 
+from django.utils.translation import get_language, activate
+activate('ru')
+from django.template.defaultfilters import date as date_filter
 from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
@@ -568,13 +571,24 @@ class Event(models.Model):
     start_date = models.DateField(default=date.today, blank=True, null=True)
     end_date = models.DateField(default=date.today, blank=True, null=True)
 
-    def date(self):
+    def date_show(self):
+        activate('ru')
         if self.start_date and self.end_date:
-            return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
+            if self.start_date == self.end_date:
+                return '{0} {1}'.format(self.start_date.strftime('%d'), date_filter(self.start_date, 'F').lower()[:3])
+            elif self.start_date.month == self.end_date.month:
+                return '{0} - {1} {2}'.format(self.start_date.strftime('%d'), self.end_date.strftime('%d'),
+                                              date_filter(self.start_date, 'F').lower()[:3])
+            return '{0} {1} - {2} {3}'.format(self.start_date.strftime('%d'),
+                                              date_filter(self.start_date, 'F').lower()[:3],
+                                              self.end_date.strftime('%d'),
+                                              date_filter(self.end_date, 'F').lower()[:3])
         if self.start_date:
-            return 'c {0}'.format(self.start_date.strftime('%d.%m'), )
+            return 'c {0} {1}'.format(self.start_date.strftime('%d'),
+                                      date_filter(self.start_date, 'F').lower()[:3])
         if self.end_date:
-            return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
+            return 'по {0} {1}'.format(self.end_date.strftime('%d.%m'),
+                                       date_filter(self.end_date, 'F').lower()[:3])
         return 'Неизвестно'
 
     def duration_show(self):

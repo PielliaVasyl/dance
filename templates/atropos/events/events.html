@@ -157,7 +157,7 @@ div.mega-price-table div .pricing.popular {
                                         <span class="hidden-md hidden-lg"><b>Стили: </b></span>
                                         {% endif %}
                                         {% for dance_style in event.dance_styles.all %}
-                                        {{ dance_style }} <br />
+                                        {{ dance_style.title }} <br />
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -166,8 +166,13 @@ div.mega-price-table div .pricing.popular {
                             <div class="col-md-2 col-md-height">
                                 <div class="pricing inside inside-full-height">
                                     <div class="inside inside-full-height{% if forloop.counter0|divisibleby:2 %} alternate{% endif %}" style="padding: 10px; text-align: center; color: #7e8998;">
+                                        {% if not event.date_show %}
+                                        <span class="hidden-md hidden-lg"><b>Дата: </b> Неизвестна</span>
+                                        <br />
+                                        {% else %}
                                         <span class="hidden-md hidden-lg"><b>Дата: </b></span>
-                                        {{ event.date }}
+                                        {{ event.date_show }}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
