@@ -71,6 +71,18 @@ div.mega-price-table div .pricing.popular {
         <!-- WRAPPER -->
 		<div id="wrapper">
 			<section class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                        {% if not archive %}
+                        <a href="/events/" class="btn btn-primary">События</a>
+                        <a href="/events/archive/" class="btn btn-default">Архив</a>
+                        {% else %}
+                        <a href="/events/" class="btn btn-default">События</a>
+                        <a href="/events/archive/" class="btn btn-primary">Архив</a>
+                        {% endif %}
+                    </div>
+                </div>
 
                 {% for events in events_months %}
 

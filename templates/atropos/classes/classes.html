@@ -4,7 +4,6 @@
 {% block wrapper %}
         <!-- WRAPPER -->
 		<div id="wrapper">
-
 			<!-- PAGE TITLE -->
 			<header id="page-title">
 
@@ -19,6 +18,17 @@
 			</header>
 
 			<section class="container">
+				<div class="row">
+                    <div class="col-md-12">
+                        {% if not archive %}
+                        <a href="/classes/" class="btn btn-primary">Занятия</a>
+                        <a href="/classes/archive/" class="btn btn-default">Архив</a>
+                        {% else %}
+                        <a href="/classes/" class="btn btn-default">Занятия</a>
+                        <a href="/classes/archive/" class="btn btn-primary">Архив</a>
+                        {% endif %}
+                    </div>
+                </div>
 
 				<h2>Список активных или запланированных групп и открытых уроков</h2>
 				<p class="lead">Собраны наборы танцевальных групп и открытые уроки, которые могут стать для Вас первой ступенькой на пути познания себя в танце или же очередным этапом в развитии.</p>

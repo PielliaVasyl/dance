@@ -17,7 +17,7 @@ MONTH_INT_TO_STR = {
 }
 
 
-def entity_schedule(entity):
+def entity_schedule(entity, archive=False):
     # Dividing instances into months
     month_year_set_start_date = \
         set((instance_date.month, instance_date.year,) for instance_date in entity.objects.dates('start_date', 'month'))
@@ -29,6 +29,21 @@ def entity_schedule(entity):
     if month_year_list_start_end_date:
         first_date = datetime.date(month_year_list_start_end_date[0][1], month_year_list_start_end_date[0][0], 1)
         last_date = datetime.date(month_year_list_start_end_date[-1][1], month_year_list_start_end_date[-1][0], 1)
+
+        today = datetime.date.today()
+        begin_of_current_month = today.replace(day=1)
+        if archive is True:
+            if first_date > begin_of_current_month:
+                return instances_months
+            if last_date >= begin_of_current_month:
+                last_month = begin_of_current_month - datetime.timedelta(days=1)
+                last_date = last_month.replace(day=1)
+        else:
+            if last_date < begin_of_current_month:
+                return instances_months
+            if first_date < begin_of_current_month:
+                first_date = today.replace(day=1)
+
         dates = [(dt.month, dt.year) for dt in rrule(MONTHLY, dtstart=first_date, until=last_date)]
 
         for month, year in dates:
@@ -49,6 +64,6 @@ def entity_schedule(entity):
 
             if instances:
                 instances_months.append({'month': '%s %s' % (MONTH_INT_TO_STR[str(month)], year),
-                                        'instances': instances
+                                        'instances': instances,
                                         })
     return instances_months

@@ -42,10 +42,14 @@ urlpatterns = [
     ])),
     url(r'^events/', include([
         url(r'^$', events_views.events_show),
+        url(r'^archive/$', events_views.events_show, {'archive': True}),
         url(r'^(?:event-(?P<event_id>\d+)/)?$', events_views.event_show),
     ])),
 
-    url(r'^classes/$', classes_views.classes_show),
+    url(r'^classes/', include([
+        url(r'^$', classes_views.classes_show),
+        url(r'^archive/$', classes_views.classes_show, {'archive': True}),
+    ])),
     url(r'^articles/', include([
         url(r'^$', articles_views.article_list_show),
         url(r'^(?:article-(?P<article_id>\d+)/)?$', articles_views.article_show),

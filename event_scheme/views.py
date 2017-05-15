@@ -4,14 +4,15 @@ from algoritms.entity_schedule import entity_schedule
 from entities.models import Event
 
 
-def events_show(request):
+def events_show(request, archive=False):
     title = 'Расписание мероприятий'
 
-    events_months = entity_schedule(Event)
+    events_months = entity_schedule(Event, archive=archive)
 
     context = {
         'title': title,
-        'events_months': events_months
+        'events_months': events_months,
+        'archive': archive
     }
     return render(request, 'events/events.html', context)
 
