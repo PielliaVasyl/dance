@@ -64,6 +64,6 @@ urlpatterns = [
               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = static_pages_views.page_not_found
-# handler500 = 'mysite.views.my_custom_error_view'
-# handler403 = 'mysite.views.my_custom_permission_denied_view'
-# handler400 = 'mysite.views.my_custom_bad_request_view'
+handler500 = static_pages_views.page_500
+handler403 = static_pages_views.page_permission_denied
+handler400 = static_pages_views.page_bad_request_view

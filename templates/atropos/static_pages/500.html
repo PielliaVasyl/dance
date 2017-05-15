@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+        <!-- WRAPPER -->
+		<div id="wrapper">
+
+			<section class="container">
+				<div class="row">
+					<div class="col-md-12">
+                        <hr />
+						<h2>
+							<strong>ОЙ</strong>, произошла ошибка сервера!
+							<span class="subtitle">Попробуйте сделать другой запрос, мы уже занимаемся ремонтом.</span>
+						</h2>
+
+						<div class="e404">500</div>
+					</div>
+
+				</div>
+
+			</section>
+
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}
