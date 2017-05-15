@@ -28,6 +28,7 @@ from dance_styles import views as dance_styles_views
 from should_know import views as should_know_views
 from videos import views as videos_views
 from audios import views as audios_views
+from photos import views as photos_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -51,6 +52,7 @@ urlpatterns = [
     ])),
     url(r'^videos/$', videos_views.videos_show),
     url(r'^audios/$', audios_views.audios_show),
+    url(r'^photos/$', photos_views.photos_show),
     url(r'^dance_styles/', include([
         url(r'^$', dance_styles_views.dance_styles_show),
     ]))
