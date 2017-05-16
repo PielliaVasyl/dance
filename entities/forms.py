@@ -228,6 +228,9 @@ class EventForm(forms.ModelForm):
         fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_styles",
                   "locations", 'links', "author"]
 
+    class Media:
+        js = ('//code.jquery.com/jquery-1.11.0.min.js', 'js/end_date_onchange.js')
+
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
         start_date = cleaned_data.get("start_date")
@@ -258,6 +261,9 @@ class DanceClassForm(forms.ModelForm):
         fields = ["title", 'description', 'is_opened_lesson', 'is_probably_free', 'first_lesson_free',
                   'free_lesson_date', 'every_first_lesson_free', 'experience_level', 'start_date', 'end_date',
                   'schedule_week_days', 'dance_studio', 'dance_styles', 'instructors', 'links', "author"]
+
+    class Media:
+        js = ('//code.jquery.com/jquery-1.11.0.min.js', 'js/end_date_onchange.js')
 
 
 class DanceHallPhotoForm(forms.ModelForm):
