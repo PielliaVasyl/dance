@@ -1,6 +1,9 @@
 from datetime import date
 
 from django.utils.translation import get_language, activate
+
+from algoritms.change_status_value import change_status_value_in_values, get_current_status
+
 activate('ru')
 from django.template.defaultfilters import date as date_filter
 from django.core.validators import RegexValidator
@@ -521,6 +524,27 @@ class PlaceInMap(models.Model):
 
 
 class Event(models.Model):
+    # bad solution - check how status are signed
+    @classmethod
+    def from_db(cls, db, field_names, values):
+        if len(values) != len(cls._meta.concrete_fields):
+            values = list(values)
+            values.reverse()
+            from django.db.models.base import DEFERRED
+            values = [values.pop() if f.attname in field_names else DEFERRED for f in cls._meta.concrete_fields]
+        try:
+            values = change_status_value_in_values(values, field_names)
+        except:
+            pass
+        new = cls(*values)
+        new._state.adding = False
+        new._state.db = db
+        return new
+
+    def save(self, *args, **kwargs):
+        self.status = get_current_status(self.status, self.start_date, self.end_date)
+        super().save()
+
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     note = models.TextField(blank=True)

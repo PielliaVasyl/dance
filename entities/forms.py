@@ -1,4 +1,5 @@
 # coding: utf-8
+import datetime
 from django import forms
 from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, DanceClass, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
@@ -233,12 +234,27 @@ class EventForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
+        status = cleaned_data.get("status")
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
 
         if start_date and end_date:
             if end_date < start_date:
                 raise forms.ValidationError("End date cannot be earlier than start date!")
+
+        if status == 'PL' and end_date and end_date <= datetime.date.today():
+            raise forms.ValidationError("Status cannot be Planned!")
+        if status == 'PL' and start_date and end_date and start_date <= datetime.date.today() <= end_date:
+            raise forms.ValidationError("Status cannot be Planned!")
+        if status == 'HD' and end_date and end_date < datetime.date.today():
+            raise forms.ValidationError("Status cannot be Holding!")
+        if status == 'HD' and start_date and start_date > datetime.date.today():
+            raise forms.ValidationError("Status cannot be Holding!")
+        if status == 'CL' and start_date and start_date > datetime.date.today():
+            raise forms.ValidationError("Status cannot be Completed!")
+        if status == 'CL' and start_date and end_date and start_date <= datetime.date.today() <= end_date:
+            raise forms.ValidationError("Status cannot be Completed!")
+
         return cleaned_data
 
 
