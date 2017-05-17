@@ -523,6 +523,26 @@ class PlaceInMap(models.Model):
         ordering = ('created',)
 
 
+def _get_date_show(self):
+    activate('ru')
+    if self.start_date and self.end_date:
+        if self.start_date == self.end_date:
+            return '{0} {1}'.format(self.start_date.strftime('%d'), date_filter(self.start_date, 'F').lower()[:3])
+        elif self.start_date.month == self.end_date.month:
+            return '{0} - {1} {2}'.format(self.start_date.strftime('%d'), self.end_date.strftime('%d'),
+                                          date_filter(self.start_date, 'F').lower()[:3])
+        return '{0} {1} - {2} {3}'.format(self.start_date.strftime('%d'),
+                                          date_filter(self.start_date, 'F').lower()[:3],
+                                          self.end_date.strftime('%d'),
+                                          date_filter(self.end_date, 'F').lower()[:3])
+    if self.start_date:
+        return 'c {0} {1}'.format(self.start_date.strftime('%d'),
+                                  date_filter(self.start_date, 'F').lower()[:3])
+    if self.end_date:
+        return 'по {0} {1}'.format(self.end_date.strftime('%d'),
+                                   date_filter(self.end_date, 'F').lower()[:3])
+
+
 class Event(models.Model):
     # bad solution - check how status are signed
     @classmethod
@@ -596,24 +616,7 @@ class Event(models.Model):
     end_date = models.DateField(default=date.today, blank=True, null=True)
 
     def date_show(self):
-        activate('ru')
-        if self.start_date and self.end_date:
-            if self.start_date == self.end_date:
-                return '{0} {1}'.format(self.start_date.strftime('%d'), date_filter(self.start_date, 'F').lower()[:3])
-            elif self.start_date.month == self.end_date.month:
-                return '{0} - {1} {2}'.format(self.start_date.strftime('%d'), self.end_date.strftime('%d'),
-                                              date_filter(self.start_date, 'F').lower()[:3])
-            return '{0} {1} - {2} {3}'.format(self.start_date.strftime('%d'),
-                                              date_filter(self.start_date, 'F').lower()[:3],
-                                              self.end_date.strftime('%d'),
-                                              date_filter(self.end_date, 'F').lower()[:3])
-        if self.start_date:
-            return 'c {0} {1}'.format(self.start_date.strftime('%d'),
-                                      date_filter(self.start_date, 'F').lower()[:3])
-        if self.end_date:
-            return 'по {0} {1}'.format(self.end_date.strftime('%d.%m'),
-                                       date_filter(self.end_date, 'F').lower()[:3])
-        return 'Неизвестно'
+        return _get_date_show(self) or 'Неизвестно'
 
     @staticmethod
     def day_show(number_days):
@@ -684,7 +687,7 @@ class Event(models.Model):
         return '%s' % self.title
 
     class Meta:
-        ordering = ('updated',)
+        ordering = ('start_date',)
 
 
 class Instructor(models.Model):
@@ -844,14 +847,8 @@ class DanceClass(models.Model):
     start_date = models.DateField(default=date.today, null=True, blank=True)
     end_date = models.DateField(default=date.today, null=True, blank=True)
 
-    def date(self):
-        if self.start_date and self.end_date:
-            return '{0} - {1}'.format(self.start_date.strftime('%d.%m'), self.end_date.strftime('%d.%m'))
-        if self.start_date:
-            return 'c {0}'.format(self.start_date.strftime('%d.%m'), )
-        if self.end_date:
-            return 'по {0}'.format(self.end_date.strftime('%d.%m'), )
-        return 'Неизвестно'
+    def date_show(self):
+        return _get_date_show(self) or 'Неизвестно'
 
     schedule_week_days = models.ManyToManyField(WeekDay, blank=True)
 

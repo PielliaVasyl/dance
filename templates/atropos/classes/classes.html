@@ -59,7 +59,7 @@
 							<td>{{ class.title }}
 								{% if class.experience_level %} | <span title="Уровень сложности">{{ class.experience_level_show }}</span>{% endif %}
 								{% if class.links.all %} ({% for link in class.links.all %}<a href="{{ link }}">Перейти</a>{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}</td>
-							<td>{{ class.date }}
+							<td>{{ class.date_show }}
 								{% if class.schedule_week_days.all %} |
 								    {% for week_day in class.schedule_week_days.all %}
 								        {{ week_day.week_day_show }}
