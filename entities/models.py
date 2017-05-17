@@ -448,9 +448,22 @@ class DanceShopMapCoordinates(AbstractMapCoordinates):
     pass
 
 
+class City(models.Model):
+    city = models.CharField(max_length=50, blank=True)
+
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.city
+
+    class Meta:
+        ordering = ('city',)
+
+
 class AbstractLocation(models.Model):
     address = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=50, blank=True)
+    city = models.ForeignKey('City', on_delete=models.CASCADE, blank=True, null=True)
     note = models.CharField(max_length=100, blank=True)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
@@ -458,7 +471,9 @@ class AbstractLocation(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s, %s' % (self.address, self.city)
+        if self.city:
+            return '%s, %s' % (self.address, self.city.city)
+        return '%s' % (self.address,)
 
     class Meta:
         ordering = ('created',)
@@ -499,15 +514,6 @@ class PlaceInMap(models.Model):
         if self.locations.all():
             return [p.address for p in self.locations.all()]
         return []
-
-    def title_show(self):
-        if self.address and self.city:
-            return "%s, %s" % (self.address, self.city,)
-        if self.address:
-            return "%s" % (self.address,)
-        if self.city:
-            return "%s" % (self.city,)
-        return ""
 
     @property
     def short_description(self):
