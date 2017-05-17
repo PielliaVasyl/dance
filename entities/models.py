@@ -1,10 +1,9 @@
 from datetime import date
 
-from django.utils.translation import get_language, activate
+from django.utils.translation import activate
 
 from algoritms.change_status_value import change_status_value_in_values, get_current_status
 
-activate('ru')
 from django.template.defaultfilters import date as date_filter
 from django.core.validators import RegexValidator
 from django.db import models
@@ -376,20 +375,34 @@ class DanceStyle(models.Model):
 
 
 class EventType(models.Model):
-    title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
 
     @property
     def short_description(self):
         return truncatechars(self.description, 100)
 
+    FEST = 'FEST'
+    COMPETITION = 'COMP'
+    MASTERCLASS = 'MCLS'
+    OPENAIR = 'OAIR'
+    PARTY = 'PART'
+
+    EVENT_TYPE_CHOICES = (
+        (FEST, 'Фестивать'),
+        (COMPETITION, 'Конкурс'),
+        (MASTERCLASS, 'Мастер-класс'),
+        (OPENAIR, 'Open air'),
+        (PARTY, 'Вечеринка')
+    )
+    title = models.CharField(max_length=4, choices=EVENT_TYPE_CHOICES, default=MASTERCLASS)
+
     def title_show(self):
         title_show_dict = {
-            'Fest': 'Фестивать',
-            'Competition': 'Конкурс',
-            'Master class': 'Мастер-класс',
-            'Open air': 'Open air',
-            'Party': 'Вечеринка'
+            self.FEST: 'Фестивать',
+            self.COMPETITION: 'Конкурс',
+            self.MASTERCLASS: 'Мастер-класс',
+            self.OPENAIR: 'Open air',
+            self.PARTY: 'Вечеринка'
         }
         return "%s" % title_show_dict.get(self.title, self.title)
 
