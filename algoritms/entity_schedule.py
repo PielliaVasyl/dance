@@ -1,5 +1,6 @@
 import datetime
 from dateutil.rrule import rrule, MONTHLY
+from django.db.models.query_utils import Q
 
 MONTH_INT_TO_STR = {
     '1': 'Январь',
@@ -17,7 +18,24 @@ MONTH_INT_TO_STR = {
 }
 
 
-def entity_schedule(entity, archive=False):
+def get_filtered_instances(instances, filters=None):
+    if filters is not None:
+        for key, value in filters.items():
+            print(key, ',', value)
+            if key == 'dance_styles':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.dance_styles.all()]).isdisjoint(value)]
+            if key == 'event_types':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.event_types.all()]).isdisjoint(value)]
+
+            if key == 'cities':
+                instances = [i for i in instances
+                             if not set([str(j.city.pk) for j in i.locations.all() if j.city]).isdisjoint(value)]
+    return instances
+
+
+def entity_schedule(entity, archive=False, filters=None):
     # Dividing instances into months
     month_year_set_start_date = \
         set((instance_date.month, instance_date.year,) for instance_date in entity.objects.dates('start_date', 'month'))
@@ -47,23 +65,21 @@ def entity_schedule(entity, archive=False):
         dates = [(dt.month, dt.year) for dt in rrule(MONTHLY, dtstart=first_date, until=last_date)]
 
         for month, year in dates:
-            instances = [instance for instance in entity.objects.filter(
-                start_date__gte=datetime.datetime(year, month, 1), end_date__lt=datetime.datetime(year, month + 1, 1)
-            ) | entity.objects.filter(
-                start_date__lt=datetime.datetime(year, month + 1, 1), end_date__gte=datetime.datetime(year, month, 1)
-            ) | entity.objects.filter(
-                start_date__isnull=True,
-                end_date__gte=datetime.datetime(year, month, 1),
-                end_date__lt=datetime.datetime(year, month + 1, 1)
-            ) | entity.objects.filter(
-                end_date__isnull=True,
-                start_date__gte=datetime.datetime(year, month, 1),
-                start_date__lt=datetime.datetime(year, month + 1, 1)
-            )
-                      ]
+            instances = [instance for instance in entity.objects
+            .filter(Q(start_date__gte=datetime.datetime(year, month, 1),
+                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                    Q(start_date__lt=datetime.datetime(year, month + 1, 1),
+                      end_date__gte=datetime.datetime(year, month, 1)) |
+                    Q(start_date__isnull=True, end_date__gte=datetime.datetime(year, month, 1),
+                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                    Q(end_date__isnull=True, start_date__gte=datetime.datetime(year, month, 1),
+                      start_date__lt=datetime.datetime(year, month + 1, 1)))
+            ]
+
+            instances = get_filtered_instances(instances, filters)
 
             if instances:
                 instances_months.append({'month': '%s %s' % (MONTH_INT_TO_STR[str(month)], year),
-                                        'instances': instances,
-                                        })
+                                         'instances': instances,
+                                         })
     return instances_months

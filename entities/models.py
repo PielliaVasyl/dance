@@ -394,6 +394,13 @@ class EventType(models.Model):
         (OPENAIR, 'Open air'),
         (PARTY, 'Вечеринка')
     )
+    EVENT_TYPE_DICT = {
+        FEST: 'Фестивать',
+        COMPETITION: 'Конкурс',
+        MASTERCLASS: 'Мастер-класс',
+        OPENAIR: 'Open air',
+        PARTY: 'Вечеринка'
+    }
     title = models.CharField(max_length=4, choices=EVENT_TYPE_CHOICES, default=MASTERCLASS)
 
     def title_show(self):
@@ -690,7 +697,11 @@ class Event(models.Model):
 
     def get_locations(self):
         if self.locations.all():
-            return "\n".join([p.address for p in self.locations.all()])
+            res = []
+            res.extend(['%s, %s' % (p.address, p.city) for p in self.locations.all() if p.address and p.city] or [])
+            res.extend(['%s' % (p.address,) for p in self.locations.all() if p.address and not p.city] or [])
+            res.extend(['%s' % (p.city,) for p in self.locations.all() if not p.address and p.city] or [])
+            return "\n".join(res)
         return ''
 
     def get_links(self):

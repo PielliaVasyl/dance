@@ -71,9 +71,9 @@ div.mega-price-table div .pricing.popular {
         <!-- WRAPPER -->
 		<div id="wrapper">
 			<section class="container">
+                <hr />
                 <div class="row">
                     <div class="col-md-12">
-                        <hr />
                         {% if not archive %}
                         <a href="/events/" class="btn btn-primary">События</a>
                         <a href="/events/archive/" class="btn btn-default">Архив</a>
@@ -83,6 +83,50 @@ div.mega-price-table div .pricing.popular {
                         {% endif %}
                     </div>
                 </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row" style="margin-top:10px; text-align:center">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <em>Типы мероприятий</em>
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.event_types }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <em>Стили танцев</em>
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.dance_styles }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <em>Города</em>
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.cities }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">Найти</button>
+                        </div>
+                    </div>
+                </form>
+
+
 
                 {% for events in events_months %}
 
@@ -153,7 +197,7 @@ div.mega-price-table div .pricing.popular {
                                         <span class="hidden-md hidden-lg"><b>Тип мероприятия: </b></span>
                                         {% endif %}
                                         {% for event_type in event.event_types.all %}
-                                        {{ event_type.title }} <br />
+                                        {{ event_type.title_show }} <br />
                                         {% endfor %}
                                     </div>
                                 </div>
