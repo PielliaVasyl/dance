@@ -374,13 +374,25 @@ class DanceStyle(models.Model):
         ordering = ('title',)
 
 
-class EventType(models.Model):
+class AbstractType(models.Model):
     description = models.TextField(blank=True)
 
     @property
     def short_description(self):
         return truncatechars(self.description, 100)
 
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('created',)
+
+
+class EventType(AbstractType):
     FEST = 'FEST'
     COMPETITION = 'COMP'
     MASTERCLASS = 'MCLS'
@@ -413,15 +425,32 @@ class EventType(models.Model):
         }
         return "%s" % title_show_dict.get(self.title, self.title)
 
-    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
-    def __str__(self):
-        return '%s' % self.title
+# PAID = 'PAID'
+# FREE = 'FREE'
+# SHAREWARE = 'SHWR'
+# FIRST_LESSON_FREE = 'FLRF'
 
-    class Meta:
-        ordering = ('created',)
+class DanceClassType(AbstractType):
+    GROUP_CLASSES = 'GRUP'
+    OPEN_LESSON = 'OPLS'
+
+    DANCE_CLASS_TYPE_CHOICES = (
+        (GROUP_CLASSES, 'Групповые занятия'),
+        (OPEN_LESSON, 'Открытый урок')
+    )
+    DANCE_CLASS_TYPE_DICT = {
+        GROUP_CLASSES: 'Групповые занятия',
+        OPEN_LESSON: 'Открытый урок'
+    }
+    title = models.CharField(max_length=4, choices=DANCE_CLASS_TYPE_CHOICES, default=GROUP_CLASSES)
+
+    def title_show(self):
+        title_show_dict = {
+            self.GROUP_CLASSES: 'Групповые занятия',
+            self.OPEN_LESSON: 'Открытый урок'
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
 
 
 class AbstractMapCoordinates(models.Model):
@@ -837,6 +866,102 @@ class DanceStudio(models.Model):
         ordering = ('title',)
 
 
+class DanceClassPriceType(models.Model):
+    PAID = 'PAID'
+    FREE = 'FREE'
+    SHAREWARE = 'SHWR'               # условно-бесплатное - получение билетов при репосте и выигрыше в лотерее
+    FIRST_LESSON_FREE = 'FLRF'
+
+    DANCE_CLASS_TYPE_CHOICES = (
+        (PAID, 'Платно'),
+        (FREE, 'Бесплатно'),
+        (SHAREWARE, 'Условно-бесплатно'),
+        (FIRST_LESSON_FREE, 'Первое занятие бесплатно')
+    )
+    DANCE_CLASS_TYPE_DICT = {
+        PAID: 'Платно',
+        FREE: 'Бесплатно',
+        SHAREWARE: 'Условно-бесплатно',
+        FIRST_LESSON_FREE: 'Первое занятие бесплатно'
+    }
+    title = models.CharField(max_length=4, choices=DANCE_CLASS_TYPE_CHOICES, default=PAID)
+
+    def title_show(self):
+        title_show_dict = {
+            self.PAID: 'Платно',
+            self.FREE: 'Бесплатно',
+            self.SHAREWARE: 'Условно-бесплатно',
+            self.FIRST_LESSON_FREE: 'Первое занятие бесплатно'
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
+
+    description = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('created',)
+
+
+class DanceClassExperienceLevel(models.Model):
+    NEW = 'NEW'
+    INTERMEDIATE = 'INM'
+    ADVANCED = 'ADV'
+    SHOW = 'SHW'
+    PRACTICE = 'PRC'
+
+    EXPERIENCE_LEVEL_CHOICES = (
+        (NEW, 'Начинающий'),
+        (INTERMEDIATE, 'Средний'),
+        (ADVANCED, 'Опытный'),
+        (SHOW, 'Шоу'),
+        (PRACTICE, 'Практика'),
+    )
+    EXPERIENCE_LEVEL_DICT = {
+        NEW: 'Начинающий',
+        INTERMEDIATE: 'Средний',
+        ADVANCED: 'Опытный',
+        SHOW: 'Шоу',
+        PRACTICE: 'Практика',
+    }
+    title = models.CharField(max_length=3, choices=EXPERIENCE_LEVEL_CHOICES, default=NEW)
+
+    def title_show(self):
+        title_show_dict = {
+            self.NEW: 'Начинающий',
+            self.INTERMEDIATE: 'Средний',
+            self.ADVANCED: 'Опытный',
+            self.SHOW: 'Шоу',
+            self.PRACTICE: 'Практика'
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
+
+    description = models.TextField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s' % self.title
+
+    class Meta:
+        ordering = ('created',)
+
+
 class DanceClass(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -845,34 +970,34 @@ class DanceClass(models.Model):
     def short_description(self):
         return truncatechars(self.description, 100)
 
-    is_opened_lesson = models.BooleanField(default=False)
-    # условно-бесплатное - получение билетов при репосте и выигрыше в лоттерее
-    is_probably_free = models.BooleanField(default=False)
+    dance_class_types = models.ManyToManyField(DanceClassType, blank=True)
 
-    first_lesson_free = models.BooleanField(default=False, blank=True)
-    free_lesson_date = models.DateField(default=date.today, null=True, blank=True)
-    every_first_lesson_free = models.BooleanField(default=False, blank=True)
+    def get_dance_class_types(self):
+        if self.dance_class_types.all():
+            return "\n".join([p.title for p in self.dance_class_types.all()])
+        return ''
 
-    NEW = 'NEW'
-    INTERMEDIATE = 'INM'
-    ADVANCED = 'ADV'
-    SHOW = 'SHW'
-    PRACTICE = 'PRC'
-    OTHER = 'OTH'
+    price_types = models.ManyToManyField(DanceClassPriceType, blank=True)
 
-    EXPERIENCE_LEVEL_CHOICES = (
-        (NEW, 'Начинающий'),
-        (INTERMEDIATE, 'Средний'),
-        (ADVANCED, 'Опытный'),
-        (SHOW, 'Шоу'),
-        (PRACTICE, 'Практика'),
-        (OTHER, 'Другое')
-    )
-    experience_level = models.CharField(max_length=3, choices=EXPERIENCE_LEVEL_CHOICES, blank=True)
+    def get_price_types(self):
+        if self.dance_class_types.all():
+            return "\n".join([p.title for p in self.dance_class_types.all()])
+        return ''
+
+    # free_lesson_date = models.DateField(default=date.today, null=True, blank=True)
+    # every_first_lesson_free = models.BooleanField(default=False, blank=True)
+
+    experience_levels = models.ManyToManyField(DanceClassExperienceLevel, blank=True)
+
+    def get_experience_levels(self):
+        if self.experience_levels.all():
+            return "\n".join([p.title for p in self.experience_levels.all()])
+        return ''
 
     def experience_level_show(self):
-        experience_level_choices_dict = {k: v for k, v in self.EXPERIENCE_LEVEL_CHOICES}
-        return "%s" % experience_level_choices_dict.get(self.experience_level, self.experience_level)
+        if self.experience_levels.all():
+            return "\n".join([p.title_show() for p in self.experience_levels.all()])
+        return ''
 
     start_date = models.DateField(default=date.today, null=True, blank=True)
     end_date = models.DateField(default=date.today, null=True, blank=True)

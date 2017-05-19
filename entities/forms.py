@@ -9,7 +9,7 @@ from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, Dance
     DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, OrganizationShouldKnowLink, LinkShouldKnow, \
     PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, VideoWikiTag, AudioWikiTag, VideoWiki, \
     AudioWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, PhotoWiki, VideoWikiPlaylist, \
-    AudioWikiPlaylist, PhotoWikiAlbum
+    AudioWikiPlaylist, PhotoWikiAlbum, DanceClassType, DanceClassPriceType, DanceClassExperienceLevel
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -163,6 +163,12 @@ class EventTypeForm(forms.ModelForm):
         fields = ["title", 'description', "author"]
 
 
+class DanceClassTypeForm(forms.ModelForm):
+    class Meta:
+        model = DanceClassType
+        fields = ["title", 'description', "author"]
+
+
 class PlaceInMapMapCoordinatesForm(forms.ModelForm):
     class Meta:
         model = PlaceInMapMapCoordinates
@@ -271,11 +277,23 @@ class DanceStudioForm(forms.ModelForm):
                   "author"]
 
 
+class DanceClassPriceTypeForm(forms.ModelForm):
+    class Meta:
+        model = DanceClassPriceType
+        fields = ["title", 'description', "author"]
+
+
+class DanceClassExperienceLevelForm(forms.ModelForm):
+    class Meta:
+        model = DanceClassExperienceLevel
+        fields = ["title", 'description', "author"]
+
+
 class DanceClassForm(forms.ModelForm):
     class Meta:
         model = DanceClass
-        fields = ["title", 'description', 'is_opened_lesson', 'is_probably_free', 'first_lesson_free',
-                  'free_lesson_date', 'every_first_lesson_free', 'experience_level', 'start_date', 'end_date',
+        fields = ["title", 'description', 'dance_class_types', 'price_types',
+                  'experience_levels', 'start_date', 'end_date',
                   'schedule_week_days', 'dance_studio', 'dance_styles', 'instructors', 'links', "author"]
 
     class Media:

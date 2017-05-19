@@ -10,7 +10,8 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     DanceStudioLink, DanceClassLink, DanceHallLink, DanceShopLink, LinkShouldKnowLink, PersonShouldKnowLink, \
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
     VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
-    PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist
+    PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist, DanceClassType, DanceClassPriceType, \
+    DanceClassExperienceLevel
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -22,7 +23,8 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     OrganizationShouldKnowLinkForm, LinkShouldKnowForm, PersonShouldKnowForm, OrganizationShouldKnowForm, \
     VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
     AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
-    VideoWikiPlaylistForm, AudioWikiPlaylistForm
+    VideoWikiPlaylistForm, AudioWikiPlaylistForm, DanceClassTypeForm, DanceClassPriceTypeForm, \
+    DanceClassExperienceLevelForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -231,6 +233,13 @@ class EventTypeAdmin(admin.ModelAdmin):
 admin.site.register(EventType, EventTypeAdmin)
 
 
+class DanceClassTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = DanceClassTypeForm
+
+admin.site.register(DanceClassType, DanceClassTypeAdmin)
+
+
 class PlaceInMapMapCoordinatesAdmin(admin.ModelAdmin):
     list_display = ["lat", 'lng', "author", 'created', 'updated']
     form = PlaceInMapMapCoordinatesForm
@@ -332,9 +341,23 @@ class DanceStudioAdmin(admin.ModelAdmin):
 admin.site.register(DanceStudio, DanceStudioAdmin)
 
 
+class DanceClassPriceTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = DanceClassPriceTypeForm
+
+admin.site.register(DanceClassPriceType, DanceClassPriceTypeAdmin)
+
+
+class DanceClassExperienceLevelAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = DanceClassExperienceLevelForm
+
+admin.site.register(DanceClassExperienceLevel, DanceClassExperienceLevelAdmin)
+
+
 class DanceClassAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'is_opened_lesson', 'is_probably_free', 'first_lesson_free',
-                    'free_lesson_date', 'every_first_lesson_free', 'experience_level', 'start_date', 'end_date',
+    list_display = ["title", 'short_description', 'get_dance_class_types', 'get_price_types',
+                    'get_experience_levels', 'start_date', 'end_date',
                     'get_schedule_week_days', 'dance_studio', 'get_dance_styles', 'get_instructors', 'get_links',
                     "author", 'created', 'updated']
     form = DanceClassForm
