@@ -11,7 +11,7 @@ class EventsFilterForm(forms.Form):
     events = Event.objects.all()
     EVENT_TYPES_CHOICES = [(i.pk, EventType.EVENT_TYPE_DICT.get(i.title, i.title)) for i in EventType.objects.all()]
     event_types = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 265px',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите типы..."}),
         choices=EVENT_TYPES_CHOICES
@@ -24,7 +24,7 @@ class EventsFilterForm(forms.Form):
     DANCE_STYLES_CHOICES = get_dance_styles_choices(all_dance_styles, all_directions)
 
     dance_styles = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 265px',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите танцевальные стили..."}),
         choices=DANCE_STYLES_CHOICES
@@ -36,7 +36,7 @@ class EventsFilterForm(forms.Form):
     ))
 
     cities = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 265px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите города..."}),
         choices=CITIES_CHOICES

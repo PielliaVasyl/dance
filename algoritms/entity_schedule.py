@@ -18,7 +18,7 @@ MONTH_INT_TO_STR = {
 }
 
 
-def get_filtered_instances(instances, filters=None):
+def _get_filtered_instances(instances, filters=None):
     if filters is not None:
         for key, value in filters.items():
             print(key, ',', value)
@@ -66,17 +66,17 @@ def entity_schedule(entity, archive=False, filters=None):
 
         for month, year in dates:
             instances = [instance for instance in entity.objects
-            .filter(Q(start_date__gte=datetime.datetime(year, month, 1),
-                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
-                    Q(start_date__lt=datetime.datetime(year, month + 1, 1),
-                      end_date__gte=datetime.datetime(year, month, 1)) |
-                    Q(start_date__isnull=True, end_date__gte=datetime.datetime(year, month, 1),
-                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
-                    Q(end_date__isnull=True, start_date__gte=datetime.datetime(year, month, 1),
-                      start_date__lt=datetime.datetime(year, month + 1, 1)))
-            ]
+                .filter(Q(start_date__gte=datetime.datetime(year, month, 1),
+                          end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                        Q(start_date__lt=datetime.datetime(year, month + 1, 1),
+                          end_date__gte=datetime.datetime(year, month, 1)) |
+                        Q(start_date__isnull=True, end_date__gte=datetime.datetime(year, month, 1),
+                          end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                        Q(end_date__isnull=True, start_date__gte=datetime.datetime(year, month, 1),
+                          start_date__lt=datetime.datetime(year, month + 1, 1)))
+                ]
 
-            instances = get_filtered_instances(instances, filters)
+            instances = _get_filtered_instances(instances, filters)
 
             if instances:
                 instances_months.append({'month': '%s %s' % (MONTH_INT_TO_STR[str(month)], year),
