@@ -109,10 +109,10 @@
 					<!-- table head -->
 					<thead>
 						<tr>
-							<th>Название</th>
-							<th>Даты проведения</th>
+							<th>Название | Тип занятия | Уровень опыта</th>
+							<th>Стили танцев</th>
 							<th class="hidden-sm hidden-xs">Школа</th>
-							<th>Направления танцев</th>
+							<th>Даты</th>
 							<th class="hidden-sm hidden-xs">Подробнее</th>
 						</tr>
 					</thead>
@@ -122,8 +122,11 @@
 					{% for class in classes.instances %}
 						<tr class="{% if class.is_opened_lesson or class.is_first_lesson_free or class.is_probably_free %}success{% endif %}"><!-- item -->
 							<td>{{ class.title }}
+								{% if class.dance_class_types.all %} | <span title="Уровень сложности">{{ class.dance_class_types_show }}</span>{% endif %}
 								{% if class.experience_levels.all %} | <span title="Уровень сложности">{{ class.experience_level_show }}</span>{% endif %}
 								{% if class.links.all %} ({% for link in class.links.all %}<a href="{{ link }}">Перейти</a>{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}</td>
+							<td>{{ class.get_dance_styles }}</td>
+							<td class="hidden-sm hidden-xs">{{ class.dance_studio.title }}</td>
 							<td>{{ class.date_show }}
 								{% if class.schedule_week_days.all %} |
 								    {% for week_day in class.schedule_week_days.all %}
@@ -131,11 +134,13 @@
 								        {% if not forloop.last %}, {% endif %}
 								    {% endfor %}
 								{% endif %}</td>
-							<td class="hidden-sm hidden-xs">{{ class.dance_studio.title }}</td>
-							<td>{{ class.get_dance_styles }}</td>
 							<td class="hidden-sm hidden-xs">
-								{% if class.is_opened_lesson or class.is_first_lesson_free %}<i class="fa fa-gift" title="Бесплатное занятие"></i> {% endif %}
-								{% if class.is_probably_free %}<i class="fa fa-question-circle-o" title="Условно-бесплатное участие, например при условии репоста и выигрыша путем жребия"></i> {% endif %}
+								{% for price_type in class.price_types.all %}
+									{% if price_type.title == 'PAID' %}<i class="fa fa-money" title="Платно"></i>{% endif %}
+									{% if price_type.title == 'FREE' %}<i class="fa fa-gift" title="Бесплатно"></i>{% endif %}
+									{% if price_type.title == 'SHWR' %}<i class="fa fa-question-circle-o" title="Условно-бесплатное участие, например при условии репоста и выигрыша путем жребия"></i>{% endif %}
+									{% if price_type.title == 'FLRF' %}<i class="fa fa-exclamation-circle" title="Первое занятие бесплатно"></i>{% endif %}
+								{% endfor %}
 							</td>
 						</tr>
 					{% endfor %}

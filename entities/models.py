@@ -977,6 +977,11 @@ class DanceClass(models.Model):
             return "\n".join([p.title for p in self.dance_class_types.all()])
         return ''
 
+    def dance_class_types_show(self):
+        if self.dance_class_types.all():
+            return "\n".join([p.title_show() for p in self.dance_class_types.all()])
+        return ''
+
     price_types = models.ManyToManyField(DanceClassPriceType, blank=True)
 
     def get_price_types(self):
