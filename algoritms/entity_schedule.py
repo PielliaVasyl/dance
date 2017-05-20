@@ -2,6 +2,7 @@ import datetime
 from dateutil.rrule import rrule, MONTHLY
 from django.db.models.query_utils import Q
 
+
 MONTH_INT_TO_STR = {
     '1': 'Январь',
     '2': 'Февраль',
@@ -21,17 +22,27 @@ MONTH_INT_TO_STR = {
 def _get_filtered_instances(instances, filters=None):
     if filters is not None:
         for key, value in filters.items():
-            print(key, ',', value)
             if key == 'dance_styles':
                 instances = [i for i in instances
                              if not set([str(j.pk) for j in i.dance_styles.all()]).isdisjoint(value)]
             if key == 'event_types':
                 instances = [i for i in instances
                              if not set([str(j.pk) for j in i.event_types.all()]).isdisjoint(value)]
-
+            if key == 'dance_class_types':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.dance_class_types.all()]).isdisjoint(value)]
             if key == 'cities':
                 instances = [i for i in instances
                              if not set([str(j.city.pk) for j in i.locations.all() if j.city]).isdisjoint(value)]
+
+            if key == 'price_types':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.price_types.all()]).isdisjoint(value)]
+            if key == 'dance_studios':
+                instances = [i for i in instances if i.dance_studio and str(i.dance_studio.pk) in value]
+            if key == 'experience_levels':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.experience_levels.all()]).isdisjoint(value)]
     return instances
 
 
@@ -66,15 +77,15 @@ def entity_schedule(entity, archive=False, filters=None):
 
         for month, year in dates:
             instances = [instance for instance in entity.objects
-                .filter(Q(start_date__gte=datetime.datetime(year, month, 1),
-                          end_date__lt=datetime.datetime(year, month + 1, 1)) |
-                        Q(start_date__lt=datetime.datetime(year, month + 1, 1),
-                          end_date__gte=datetime.datetime(year, month, 1)) |
-                        Q(start_date__isnull=True, end_date__gte=datetime.datetime(year, month, 1),
-                          end_date__lt=datetime.datetime(year, month + 1, 1)) |
-                        Q(end_date__isnull=True, start_date__gte=datetime.datetime(year, month, 1),
-                          start_date__lt=datetime.datetime(year, month + 1, 1)))
-                ]
+            .filter(Q(start_date__gte=datetime.datetime(year, month, 1),
+                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                    Q(start_date__lt=datetime.datetime(year, month + 1, 1),
+                      end_date__gte=datetime.datetime(year, month, 1)) |
+                    Q(start_date__isnull=True, end_date__gte=datetime.datetime(year, month, 1),
+                      end_date__lt=datetime.datetime(year, month + 1, 1)) |
+                    Q(end_date__isnull=True, start_date__gte=datetime.datetime(year, month, 1),
+                      start_date__lt=datetime.datetime(year, month + 1, 1)))
+            ]
 
             instances = _get_filtered_instances(instances, filters)
 

@@ -872,19 +872,19 @@ class DanceClassPriceType(models.Model):
     SHAREWARE = 'SHWR'               # условно-бесплатное - получение билетов при репосте и выигрыше в лотерее
     FIRST_LESSON_FREE = 'FLRF'
 
-    DANCE_CLASS_TYPE_CHOICES = (
+    DANCE_CLASS_PRICE_TYPE_CHOICES = (
         (PAID, 'Платно'),
         (FREE, 'Бесплатно'),
         (SHAREWARE, 'Условно-бесплатно'),
         (FIRST_LESSON_FREE, 'Первое занятие бесплатно')
     )
-    DANCE_CLASS_TYPE_DICT = {
+    DANCE_CLASS_PRICE_TYPE_DICT = {
         PAID: 'Платно',
         FREE: 'Бесплатно',
         SHAREWARE: 'Условно-бесплатно',
         FIRST_LESSON_FREE: 'Первое занятие бесплатно'
     }
-    title = models.CharField(max_length=4, choices=DANCE_CLASS_TYPE_CHOICES, default=PAID)
+    title = models.CharField(max_length=4, choices=DANCE_CLASS_PRICE_TYPE_CHOICES, default=PAID)
 
     def title_show(self):
         title_show_dict = {
