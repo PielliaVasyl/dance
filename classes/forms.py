@@ -126,11 +126,19 @@ class DanceClassFilterForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        dance_classes = DanceClass.objects.all()
+        dance_styles = DanceStyle.objects.all()
+
         # first call parent's constructor
         super(DanceClassFilterForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
         self.fields['dance_class_types'].required = False
+        self.fields['dance_class_types'].choices = _get_dance_class_types_choices(dance_classes)
         self.fields['dance_styles'].required = False
+        self.fields['dance_styles'].choices = _get_dance_styles_choices(dance_styles, dance_classes)
         self.fields['price_types'].required = False
+        self.fields['price_types'].choices = _get_price_types_choices(dance_classes)
         self.fields['dance_studios'].required = False
+        self.fields['dance_studios'].choices = _get_dance_studios_choices(dance_classes)
         self.fields['experience_levels'].required = False
+        self.fields['experience_levels'].choices = _get_experience_levels_choices(dance_classes)
