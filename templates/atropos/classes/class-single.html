@@ -11,14 +11,14 @@
 					<div class="col-md-12">
 
 						<header class="page-title">
-							<h1 style="text-align: center">{{ event.title }}</h1>
+							<h1 style="text-align: center">{{ class.title }}</h1>
 							<div class="pull-right">
 								<small class="block styleCoor fsize20">
-									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ event.date_show }} | {{ event.duration_show }}</span>
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ class.date_show }} | {{ class.duration_show }}</span>
 								</small>
 							</div>
 							<small class="block styleCoor fsize20">
-								<span class="label label-{{ event.status_label_color }}" title="Статус мероприятия"><i class="fa {{ event.status_icon }}"></i> {{ event.status_show }}</span>
+								<span class="label label-{{ class.status_label_color }}" title="Статус мероприятия"><i class="fa {{ class.status_icon }}"></i> {{ class.status_show }}</span>
 							</small>
 						</header>
 
@@ -42,24 +42,24 @@
 							<div class="row">
 								<!-- col 1 -->
 								<div class="col-md-5 col-sm-6 col-md-offset-1">
-									{% if event.event_types.all %}
+									{% if class.dance_class_types.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
-												<i class="fa fa-list-alt" title="Типы мероприятий"></i>
-												{% for event_type in event.event_types.all %}
-												<span class="label label-primary" title="Тип мероприятия">{{ event_type.title_show }}</span>
+												<i class="fa fa-list-alt" title="Типы занятий"></i>
+												{% for dance_class_type in class.dance_class_types.all %}
+												<span class="label label-primary" title="Тип занятия">{{ dance_class_type.title_show }}</span>
 												{% endfor %}
 											</small>
 										</div>
 									</div>
 									{% endif %}
-									{% if event.dance_styles.all %}
+									{% if class.dance_styles.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-reorder" title="Стиль танца"></i>
-												{% for dance_style in event.dance_styles.all %}
+												{% for dance_style in class.dance_styles.all %}
 												<span class="label label-success" title="Стиль танца">{{ dance_style.title }}</span>
 												{% endfor %}
 											</small>
@@ -69,24 +69,24 @@
 								</div>
 								<!-- col 2 -->
 								<div class="col-md-5 col-sm-6 col-md-offset-1">
-									{% if event.locations.all %}
+									{% if class.locations.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-globe" title="Места проведения"></i>
-												{% for location in event.locations.all %}
+												{% for location in class.locations.all %}
 												<span class="label label-info" title="Место проведения">{{ location.title_show }}</span>
 												{% endfor %}
 											</small>
 										</div>
 									</div>
 									{% endif %}
-									{% if event.note %}
+									{% if class.note %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-exclamation-circle" title="Обратите внимание"></i>
-												<span class="label label-default" title="Обратите внимание">{{ event.note }}</span>
+												<span class="label label-default" title="Обратите внимание">{{ class.note }}</span>
 											</small>
 										</div>
 									</div>
@@ -96,33 +96,33 @@
 
 							<hr style="margin: 20px 0"/><!-- divider -->
 
-							{% if event.image %}
+							{% if class.image %}
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1" style="margin-bottom: 10px; text-align: left;">
-									<img src="{{ event.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+									<img src="{{ class.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
 								</div>
 							</div>
 							<hr style="margin: 20px 0"/><!-- divider -->
 							{% endif %}
 
-							{% if event.description %}
+							{% if class.description %}
 							<p class="lead text-center">Описание мероприятия</p>
-							{{ event.description|linebreaks }}
+							{{ class.description|linebreaks }}
 							{% endif %}
 
-							{% if event.links.all %}
+							{% if class.links.all %}
 							<p>Источник:
-								{% for link in event.links.all %}
+								{% for link in class.links.all %}
 								<a href="{{ link.link }}">Перейти</a>
 								{% endfor %}
 							</p>
 							{% endif %}
 
-							{% if event.video %}
+							{% if class.video %}
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1">
 									<div style="width: 100%; position: relative; padding: 0;">
-										<iframe src="{{ event.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
+										<iframe src="{{ class.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
 									</div>
 								</div>
 							</div>
@@ -132,27 +132,38 @@
 
 					<!-- side column -->
 					<div class="col-md-3">
-						<form method="post" class="white-row" action="/events/">
+						<form method="post" class="white-row" action="/classes/">
 							{% csrf_token %}
 							<!-- FILTER / SEARCH -->
 							<h3 class="page-header nomargin-top margin-bottom40">
-								Найти <strong class="styleColor">мероприятия</strong>
+								Найти <strong class="styleColor">занятия</strong>
 							</h3>
 
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-12 col-sm-6">
-										<label>Типы мероприятий</label>
-										{{ form.event_types }}
+										<label>Типы занятий</label>
+										{{ form.dance_class_types }}
 									</div>
 
 									<div class="col-md-12 col-sm-6">
 										<label>Стили танцев</label>
 										{{ form.dance_styles }}
 									</div>
+
 									<div class="col-md-12 col-sm-6">
-										<label>Города</label>
-										{{ form.cities }}
+										<label>Виды стоимости</label>
+										{{ form.price_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>Школы</label>
+										{{ form.dance_studios }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>Уровни опыта</label>
+										{{ form.experience_levels }}
 									</div>
 
 									<div class="col-md-12">

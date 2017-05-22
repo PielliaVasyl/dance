@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from algoritms.entity_schedule import entity_schedule
 from classes.forms import DanceClassFilterForm
@@ -40,3 +40,17 @@ def classes_show(request, archive=False):
     }
 
     return render(request, 'classes/classes.html', context)
+
+
+def class_show(request, class_id):
+    dance_class = get_object_or_404(DanceClass, pk=class_id)
+    title = '%s' % (dance_class.title,)
+
+    form = DanceClassFilterForm(request.POST or None)
+
+    context = {
+        'title': title,
+        'class': dance_class,
+        'form': form
+    }
+    return render(request, 'classes/class-single.html', context)

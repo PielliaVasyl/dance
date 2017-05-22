@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^classes/', include([
         url(r'^$', classes_views.classes_show),
         url(r'^archive/$', classes_views.classes_show, {'archive': True}),
+        url(r'^(?:class-(?P<class_id>\d+)/)?$', classes_views.class_show),
     ])),
     url(r'^articles/', include([
         url(r'^$', articles_views.article_list_show),
