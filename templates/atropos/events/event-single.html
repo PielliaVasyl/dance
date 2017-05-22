@@ -105,8 +105,10 @@
 							<hr style="margin: 20px 0"/><!-- divider -->
 							{% endif %}
 
+							{% if event.description %}
 							<p class="lead text-center">Описание мероприятия</p>
 							{{ event.description|linebreaks }}
+							{% endif %}
 
 							{% if event.links.all %}
 							<p>Источник:
