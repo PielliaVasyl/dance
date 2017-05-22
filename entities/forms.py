@@ -1,5 +1,7 @@
 # coding: utf-8
 import datetime
+
+import re
 from django import forms
 from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, DanceClass, Article, \
     VisitorMessage, DanceHallPhoto, DanceHall, DanceShopPhoto, DanceShop, Contacts, Socials, SocialLinkFB, \
@@ -174,11 +176,35 @@ class PlaceInMapMapCoordinatesForm(forms.ModelForm):
         model = PlaceInMapMapCoordinates
         fields = ["lat", 'lng', "author"]
 
+    def clean(self):
+        cleaned_data = super(PlaceInMapMapCoordinatesForm, self).clean()
+        lat = cleaned_data.get("lat")
+        lng = cleaned_data.get("lng")
+
+        if lat and not re.match(r'^(-?\d+(\.\d+)?)$', lat):
+            raise forms.ValidationError("Проверьте lat. Разрешены только 0-9 и .")
+        if lng and not re.match(r'^(-?\d+(\.\d+)?)$', lng):
+            raise forms.ValidationError("Проверьте lng. Разрешены только 0-9 и .")
+
+        return cleaned_data
+
 
 class DanceStudioMapCoordinatesForm(forms.ModelForm):
     class Meta:
         model = DanceStudioMapCoordinates
         fields = ["lat", 'lng', "author"]
+
+    def clean(self):
+        cleaned_data = super(DanceStudioMapCoordinatesForm, self).clean()
+        lat = cleaned_data.get("lat")
+        lng = cleaned_data.get("lng")
+
+        if lat and not re.match(r'^(-?\d+(\.\d+)?)$', lat):
+            raise forms.ValidationError("Проверьте lat. Разрешены только 0-9 и .")
+        if lng and not re.match(r'^(-?\d+(\.\d+)?)$', lng):
+            raise forms.ValidationError("Проверьте lng. Разрешены только 0-9 и .")
+
+        return cleaned_data
 
 
 class DanceHallMapCoordinatesForm(forms.ModelForm):
@@ -186,11 +212,35 @@ class DanceHallMapCoordinatesForm(forms.ModelForm):
         model = DanceHallMapCoordinates
         fields = ["lat", 'lng', "author"]
 
+    def clean(self):
+        cleaned_data = super(DanceHallMapCoordinatesForm, self).clean()
+        lat = cleaned_data.get("lat")
+        lng = cleaned_data.get("lng")
+
+        if lat and not re.match(r'^(-?\d+(\.\d+)?)$', lat):
+            raise forms.ValidationError("Проверьте lat. Разрешены только 0-9 и .")
+        if lng and not re.match(r'^(-?\d+(\.\d+)?)$', lng):
+            raise forms.ValidationError("Проверьте lng. Разрешены только 0-9 и .")
+
+        return cleaned_data
+
 
 class DanceShopMapCoordinatesForm(forms.ModelForm):
     class Meta:
         model = DanceShopMapCoordinates
         fields = ["lat", 'lng', "author"]
+
+    def clean(self):
+        cleaned_data = super(DanceShopMapCoordinatesForm, self).clean()
+        lat = cleaned_data.get("lat")
+        lng = cleaned_data.get("lng")
+
+        if lat and not re.match(r'^(-?\d+(\.\d+)?)$', lat):
+            raise forms.ValidationError("Проверьте lat. Разрешены только 0-9 и .")
+        if lng and not re.match(r'^(-?\d+(\.\d+)?)$', lng):
+            raise forms.ValidationError("Проверьте lng. Разрешены только 0-9 и .")
+
+        return cleaned_data
 
 
 class PlaceInMapLocationForm(forms.ModelForm):
