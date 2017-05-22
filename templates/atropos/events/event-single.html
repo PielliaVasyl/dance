@@ -5,11 +5,8 @@
 
 		<!-- WRAPPER -->
 		<div id="wrapper">
-
 			<div class="container magazine top-no-header">
-
 				<div class="row">
-
 					<!-- center column -->
 					<div class="col-md-12">
 
@@ -23,7 +20,6 @@
 							<small class="block styleCoor fsize20">
 								<span class="label label-{{ event.status_label_color }}" title="Статус мероприятия"><i class="fa {{ event.status_icon }}"></i> {{ event.status_show }}</span>
 							</small>
-
 						</header>
 
 						<div class="divider half-margins"><!-- divider -->
@@ -35,11 +31,9 @@
 
 			<section class="container">
 				<div class="row">
-
 					<!-- center column -->
-					<div class="col-md-12">
+					<div class="col-md-9">
 						<div class="white-row">
-
 							<!-- PROPERTY FEATURES -->
 							<h3 class="page-header margin-bottom40" style="text-align:center">
 								<strong class="styleColor">Основная информация</strong>
@@ -102,6 +96,15 @@
 
 							<hr style="margin: 20px 0"/><!-- divider -->
 
+							{% if event.image %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1" style="margin-bottom: 10px; text-align: left;">
+									<img src="{{ event.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+								</div>
+							</div>
+							<hr style="margin: 20px 0"/><!-- divider -->
+							{% endif %}
+
 							<p class="lead text-center">Описание мероприятия</p>
 							{{ event.description|linebreaks }}
 
@@ -113,17 +116,64 @@
 							</p>
 							{% endif %}
 
-
+							{% if event.video %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div style="width: 100%; position: relative; padding: 0;">
+										<iframe src="{{ event.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
+									</div>
+								</div>
+							</div>
+							{% endif %}
 						</div><!-- /.white-row -->
-
 					</div>
 
+					<!-- side column -->
+					<div class="col-md-3">
+						<form method="post" class="white-row" action="/events/">
+							{% csrf_token %}
+							<!-- FILTER / SEARCH -->
+							<h3 class="page-header nomargin-top margin-bottom40">
+								Найти <strong class="styleColor">мероприятия</strong>
+							</h3>
+
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12 col-sm-6">
+										<label>Типы мероприятий</label>
+										{{ form.event_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>Стили танцев</label>
+										{{ form.dance_styles }}
+									</div>
+									<div class="col-md-12 col-sm-6">
+										<label>Города</label>
+										{{ form.cities }}
+									</div>
+
+									<div class="col-md-12">
+										<label>&nbsp;</label>
+										<button class="btn btn-primary fullwidth">Найти</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- SOCIALS -->
+						<h3 class="page-header">
+							<i class="fa fa-twitter"></i>
+							<strong class="styleColor">Следите</strong> за нами
+						</h3>
+						<a href="#" class="social fa fa-facebook"></a>
+						<a href="#" class="social fa fa-twitter"></a>
+						<a href="#" class="social fa fa-google-plus"></a>
+						<a href="#" class="social fa fa-linkedin"></a>
+						<a href="#" class="social fa fa-pinterest"></a>
+						<a href="#" class="social fa fa-flickr"></a>
+					</div>
 				</div>
-
 			</section>
-
 		</div>
 		<!-- /WRAPPER -->
-
-
 {% endblock %}

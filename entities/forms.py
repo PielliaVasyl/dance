@@ -232,8 +232,8 @@ class PlaceInMapForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ["title", 'description', "note", "status", 'start_date', 'end_date', "event_types", "dance_styles",
-                  "locations", 'links', "author"]
+        fields = ["title", 'description', "note", 'image', 'video', "status", 'start_date', 'end_date', "event_types",
+                  "dance_styles", "locations", 'links', "author"]
 
     class Media:
         js = ('//code.jquery.com/jquery-1.11.0.min.js', 'js/end_date_onchange.js')

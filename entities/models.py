@@ -507,9 +507,27 @@ class AbstractLocation(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        if self.city:
+        if self.city and self.address:
             return '%s, %s' % (self.address, self.city.city)
-        return '%s' % (self.address,)
+        if self.address:
+            return '%s' % (self.address,)
+        if self.city:
+            return '%s' % (self.city,)
+        if self.note:
+            return '%s' % (self.note,)
+        return 'Неизвестное место'
+
+    def title_show(self):
+        if self.city and self.address:
+            return '%s, %s' % (self.address, self.city.city)
+        if self.address:
+            return '%s' % (self.address,)
+        if self.city:
+            return '%s' % (self.city,)
+        if self.note:
+            return '%s' % (self.note,)
+        return 'Неизвестное место'
+
 
     class Meta:
         ordering = ('created',)
@@ -623,6 +641,8 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     note = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+    video = models.URLField(blank=True)
 
     @property
     def short_description(self):

@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from algoritms.entity_schedule import entity_schedule
@@ -7,9 +8,8 @@ from event_scheme.forms import EventsFilterForm
 
 def events_show(request, archive=False):
     title = 'Расписание мероприятий'
-
+    # request.POST = request.session.get('_old_post')
     filters = None
-
     form = EventsFilterForm(request.POST or None)
     if form.is_valid():
         event_types = form.cleaned_data.get('event_types')
@@ -37,9 +37,12 @@ def events_show(request, archive=False):
 def event_show(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     title = '%s' % (event.title,)
+
+    form = EventsFilterForm(request.POST or None)
+
     context = {
         'title': title,
-        'event': event
-
+        'event': event,
+        'form': form
     }
     return render(request, 'events/event-single.html', context)

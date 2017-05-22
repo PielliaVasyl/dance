@@ -312,7 +312,7 @@ admin.site.register(PlaceInMap, PlaceInMapAdmin)
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ["title", "note", "status", 'start_date', 'end_date', 'duration', "get_event_types",
+    list_display = ["title", "note", 'image', 'video', "status", 'start_date', 'end_date', 'duration', "get_event_types",
                     "get_dance_styles", "get_locations", 'get_links', "author", 'created', 'updated']
     form = EventForm
 
