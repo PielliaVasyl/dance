@@ -74,9 +74,15 @@ class EventsFilterForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        events = Event.objects.all()
+        dance_styles = DanceStyle.objects.all()
+
         # first call parent's constructor
         super(EventsFilterForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
         self.fields['event_types'].required = False
+        self.fields['event_types'].choices = _get_event_types_choices(events)
         self.fields['dance_styles'].required = False
+        self.fields['dance_styles'].choices = _get_dance_styles_choices(dance_styles, events)
         self.fields['cities'].required = False
+        self.fields['cities'].choices = _get_cities_choices(events)
