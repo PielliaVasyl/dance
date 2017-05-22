@@ -87,7 +87,7 @@ class DanceClassFilterForm(forms.Form):
 
     DANCE_CLASS_TYPES_CHOICES = _get_dance_class_types_choices(dance_classes)
     dance_class_types = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите типы..."}),
         choices=DANCE_CLASS_TYPES_CHOICES
@@ -95,7 +95,7 @@ class DanceClassFilterForm(forms.Form):
 
     DANCE_STYLES_CHOICES = _get_dance_styles_choices(dance_styles, dance_classes)
     dance_styles = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите танцевальные стили..."}),
         choices=DANCE_STYLES_CHOICES
@@ -103,7 +103,7 @@ class DanceClassFilterForm(forms.Form):
 
     PRICE_TYPES_CHOICES = _get_price_types_choices(dance_classes)
     price_types = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите типы стоимости..."}),
         choices=PRICE_TYPES_CHOICES
@@ -111,7 +111,7 @@ class DanceClassFilterForm(forms.Form):
 
     DANCE_STUDIOS_CHOICES = _get_dance_studios_choices(dance_classes)
     dance_studios = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите школы..."}),
         choices=DANCE_STUDIOS_CHOICES
@@ -119,7 +119,7 @@ class DanceClassFilterForm(forms.Form):
 
     EXPERIENCE_LEVELS_CHOICES = _get_experience_levels_choices(dance_classes)
     experience_levels = forms.MultipleChoiceField(
-        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 210px; width: 100%',
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите уровень опыта..."}),
         choices=EXPERIENCE_LEVELS_CHOICES
