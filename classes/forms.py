@@ -82,47 +82,47 @@ def _get_experience_levels_choices(dance_classes):
 
 
 class DanceClassFilterForm(forms.Form):
-    dance_classes = DanceClass.objects.all()
-    dance_styles = DanceStyle.objects.all()
-
-    DANCE_CLASS_TYPES_CHOICES = _get_dance_class_types_choices(dance_classes)
+    # dance_classes = DanceClass.objects.all()
+    # dance_styles = DanceStyle.objects.all()
+    #
+    # DANCE_CLASS_TYPES_CHOICES = _get_dance_class_types_choices(dance_classes)
     dance_class_types = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите типы..."}),
-        choices=DANCE_CLASS_TYPES_CHOICES
+        # choices=DANCE_CLASS_TYPES_CHOICES
     )
 
-    DANCE_STYLES_CHOICES = _get_dance_styles_choices(dance_styles, dance_classes)
+    # DANCE_STYLES_CHOICES = _get_dance_styles_choices(dance_styles, dance_classes)
     dance_styles = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите танцевальные стили..."}),
-        choices=DANCE_STYLES_CHOICES
+        # choices=DANCE_STYLES_CHOICES
     )
 
-    PRICE_TYPES_CHOICES = _get_price_types_choices(dance_classes)
+    # PRICE_TYPES_CHOICES = _get_price_types_choices(dance_classes)
     price_types = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите типы стоимости..."}),
-        choices=PRICE_TYPES_CHOICES
+        # choices=PRICE_TYPES_CHOICES
     )
 
-    DANCE_STUDIOS_CHOICES = _get_dance_studios_choices(dance_classes)
+    # DANCE_STUDIOS_CHOICES = _get_dance_studios_choices(dance_classes)
     dance_studios = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите школы..."}),
-        choices=DANCE_STUDIOS_CHOICES
+        # choices=DANCE_STUDIOS_CHOICES
     )
 
-    EXPERIENCE_LEVELS_CHOICES = _get_experience_levels_choices(dance_classes)
+    # EXPERIENCE_LEVELS_CHOICES = _get_experience_levels_choices(dance_classes)
     experience_levels = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
                                            'data-placeholder': "Выберите уровень опыта..."}),
-        choices=EXPERIENCE_LEVELS_CHOICES
+        # choices=EXPERIENCE_LEVELS_CHOICES
     )
 
     def __init__(self, *args, **kwargs):

@@ -14,7 +14,9 @@
 							<h1 style="text-align: center">{{ class.title }}</h1>
 							<div class="pull-right">
 								<small class="block styleCoor fsize20">
-									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ class.date_show }} | {{ class.duration_show }}</span>
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ class.date_show }}
+										{% if class.schedule_week_days %} | {{ class.schedule_show }}{% endif %}
+									</span>
 								</small>
 							</div>
 							<small class="block styleCoor fsize20">
@@ -66,16 +68,50 @@
 										</div>
 									</div>
 									{% endif %}
+									{% if class.experience_levels.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-signal" title="Опыт"></i>
+												{% for experience_level in class.experience_levels.all %}
+												<span class="label label-success" title="Опыт">{{ experience_level.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
 								</div>
 								<!-- col 2 -->
 								<div class="col-md-5 col-sm-6 col-md-offset-1">
-									{% if class.locations.all %}
+									{% if class.dance_studio %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-graduation-cap" title="Танцевальная школа"></i>
+												<span class="label label-info" title="Танцевальная школа">{{ class.dance_studio }}</span>
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if class.dance_studio.locations.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-globe" title="Места проведения"></i>
-												{% for location in class.locations.all %}
+												{% for location in class.dance_studio.locations.all %}
 												<span class="label label-info" title="Место проведения">{{ location.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if class.price_types.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-money" title="Типы стоимости"></i>
+												{% for price_type in class.price_types.all %}
+												<span class="label label-default" title="Тип стоимости">{{ price_type.title_show }}</span>
 												{% endfor %}
 											</small>
 										</div>

@@ -356,8 +356,8 @@ admin.site.register(DanceClassExperienceLevel, DanceClassExperienceLevelAdmin)
 
 
 class DanceClassAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'get_dance_class_types', 'get_price_types',
-                    'get_experience_levels', 'start_date', 'end_date',
+    list_display = ["title", 'short_description', 'note', 'image', 'video', "status", 'get_dance_class_types',
+                    'get_price_types', 'get_experience_levels', 'start_date', 'end_date',
                     'get_schedule_week_days', 'dance_studio', 'get_dance_styles', 'get_instructors', 'get_links',
                     "author", 'created', 'updated']
     form = DanceClassForm

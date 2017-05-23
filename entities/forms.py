@@ -342,7 +342,7 @@ class DanceClassExperienceLevelForm(forms.ModelForm):
 class DanceClassForm(forms.ModelForm):
     class Meta:
         model = DanceClass
-        fields = ["title", 'description', 'dance_class_types', 'price_types',
+        fields = ["title", 'description', 'note', 'image', 'video', "status", 'dance_class_types', 'price_types',
                   'experience_levels', 'start_date', 'end_date',
                   'schedule_week_days', 'dance_studio', 'dance_styles', 'instructors', 'links', "author"]
 

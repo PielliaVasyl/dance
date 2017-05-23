@@ -523,11 +523,10 @@ class AbstractLocation(models.Model):
         if self.address:
             return '%s' % (self.address,)
         if self.city:
-            return '%s' % (self.city,)
+            return '%s' % (self.city.city,)
         if self.note:
             return '%s' % (self.note,)
         return 'Неизвестное место'
-
 
     class Meta:
         ordering = ('created',)
@@ -983,12 +982,75 @@ class DanceClassExperienceLevel(models.Model):
 
 
 class DanceClass(models.Model):
+    # bad solution - check how status are signed
+    @classmethod
+    def from_db(cls, db, field_names, values):
+        if len(values) != len(cls._meta.concrete_fields):
+            values = list(values)
+            values.reverse()
+            from django.db.models.base import DEFERRED
+            values = [values.pop() if f.attname in field_names else DEFERRED for f in cls._meta.concrete_fields]
+        try:
+            values = change_status_value_in_values(values, field_names)
+        except:
+            pass
+        new = cls(*values)
+        new._state.adding = False
+        new._state.db = db
+        return new
+
+    def save(self, *args, **kwargs):
+        self.status = get_current_status(self.status, self.start_date, self.end_date)
+        super().save()
+
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    note = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+    video = models.URLField(blank=True)
 
     @property
     def short_description(self):
         return truncatechars(self.description, 100)
+
+    PLANNED = 'PL'
+    DENIED = 'DN'
+    POSTPONED = 'PP'
+    HELD = 'HL'
+    COMPLETED = 'CL'
+
+    STATUS_CHOICES = (
+        (PLANNED, 'Запланировано'),
+        (DENIED, 'Отменено'),
+        (POSTPONED, 'Перенесено'),
+        (HELD, 'Проводится'),
+        (COMPLETED, 'Завершено')
+    )
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PLANNED, blank=True)
+
+    def status_show(self):
+        status_choices_dict = {k: v for k, v in self.STATUS_CHOICES}
+        return "%s" % status_choices_dict.get(self.status, 'Статус неизвестен')
+
+    def status_icon(self, planned=PLANNED, denied=DENIED, postponed=POSTPONED, held=HELD, completed=COMPLETED):
+        status_icon_dict = {
+            planned: 'fa-calendar-check-o',
+            denied: 'fa-times',
+            postponed: 'fa-clock-o',
+            held: 'fa-play',
+            completed: 'fa-check'
+        }
+        return "%s" % status_icon_dict.get(self.status, 'fa-dot-circle-o')
+
+    def status_label_color(self, planned=PLANNED, denied=DENIED, postponed=POSTPONED, held=HELD, completed=COMPLETED):
+        status_label_color_dict = {
+            planned: 'info',
+            denied: 'danger',
+            postponed: 'warning',
+            held: 'success',
+            completed: 'primary'
+        }
+        return "%s" % status_label_color_dict.get(self.status, 'default')
 
     dance_class_types = models.ManyToManyField(DanceClassType, blank=True)
 
@@ -1030,38 +1092,17 @@ class DanceClass(models.Model):
     def date_show(self):
         return _get_date_show(self) or 'Неизвестно'
 
-    @staticmethod
-    def day_show(number_days):
-        return {
-            '1': 'день',
-            '2': 'дня',
-            '3': 'дня',
-            '4': 'дня',
-            '5': 'дней',
-            '6': 'дней',
-            '7': 'дней',
-            '8': 'дней',
-            '9': 'дней',
-            '10': 'дней',
-            '11': 'дней',
-            '12': 'дней',
-            '13': 'дней',
-            '14': 'дней',
-        }.get(str(number_days), 'день')
-
-    def duration_show(self):
-        if self.start_date and self.end_date:
-            number_days = int((self.end_date - self.start_date).days) + 1
-            return '%s %s' % (str(number_days),
-                              self.day_show(number_days),)
-        return 'продолжительность неизвестна'
-
     schedule_week_days = models.ManyToManyField(WeekDay, blank=True)
 
     def get_schedule_week_days(self):
         if self.schedule_week_days.all():
             return "\n".join([p.day for p in self.schedule_week_days.all()])
         return ''
+
+    def schedule_show(self):
+        if self.schedule_week_days.all():
+            return ", ".join([WeekDay.DAY_DICT.get(p.day, p.day) for p in self.schedule_week_days.all()])
+        return 'Расписание неизвестно'
 
     dance_studio = models.ForeignKey(DanceStudio, on_delete=models.CASCADE, null=True, blank=True)
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)

@@ -19,7 +19,15 @@ class WeekDay(models.Model):
         (SATURDAY, 'Суббота'),
         (SUNDAY, 'Воскресенье'),
     )
-
+    DAY_DICT = {
+        'MON': 'Пн',
+        'TUE': 'Вт',
+        'WED': 'Ср',
+        'THU': 'Чт',
+        'FRI': 'Пт',
+        'SAT': 'Сб',
+        'SUN': 'Вс'
+    }
     day = models.CharField(max_length=3, choices=DAY_CHOICES, blank=True)
 
     def week_day_show(self):
