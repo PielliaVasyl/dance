@@ -11,7 +11,7 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
     VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
     PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist, DanceClassType, DanceClassPriceType, \
-    DanceClassExperienceLevel
+    DanceClassExperienceLevel, PlaceType
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -24,7 +24,7 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
     AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
     VideoWikiPlaylistForm, AudioWikiPlaylistForm, DanceClassTypeForm, DanceClassPriceTypeForm, \
-    DanceClassExperienceLevelForm
+    DanceClassExperienceLevelForm, PlaceTypeForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -238,6 +238,13 @@ class DanceClassTypeAdmin(admin.ModelAdmin):
     form = DanceClassTypeForm
 
 admin.site.register(DanceClassType, DanceClassTypeAdmin)
+
+
+class PlaceTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = PlaceTypeForm
+
+admin.site.register(PlaceType, PlaceTypeAdmin)
 
 
 class PlaceInMapMapCoordinatesAdmin(admin.ModelAdmin):
