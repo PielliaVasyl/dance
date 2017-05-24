@@ -27,7 +27,7 @@
 				<div class="row">
 
 					<!-- center column -->
-					<div class="col-md-12">
+					<div class="col-md-9">
 
 						<!-- CATEGORY TITLE -->
 						<h3 class="page-header nomargin-top">
@@ -113,6 +113,49 @@
 
 						<hr /><!-- final separator -->
 
+					</div>
+
+					<!-- side column -->
+					<div class="col-md-3">
+						<form method="post" class="white-row" action="/locations/?location={{ request.GET.location }}">
+							{% csrf_token %}
+							<!-- FILTER / SEARCH -->
+							<h3 class="page-header nomargin-top margin-bottom40">
+								Найти <strong class="styleColor">места</strong>
+							</h3>
+
+							<input type="hidden" name="city" value="{{ select_city_form.city.value }}">
+
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.place_types.label }}</label>
+										{{ form.place_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.dance_styles.label }}</label>
+										{{ form.dance_styles }}
+									</div>
+
+									<div class="col-md-12">
+										<label>&nbsp;</label>
+										<button class="btn btn-primary fullwidth">Найти</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- SOCIALS -->
+						<h3 class="page-header">
+							<i class="fa fa-twitter"></i>
+							<strong class="styleColor">Следите</strong> за нами
+						</h3>
+						<a href="#" class="social fa fa-facebook"></a>
+						<a href="#" class="social fa fa-twitter"></a>
+						<a href="#" class="social fa fa-google-plus"></a>
+						<a href="#" class="social fa fa-linkedin"></a>
+						<a href="#" class="social fa fa-pinterest"></a>
+						<a href="#" class="social fa fa-flickr"></a>
 					</div>
 				</div>
 			</section>

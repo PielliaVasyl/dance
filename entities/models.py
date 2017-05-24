@@ -452,16 +452,16 @@ class PlaceType(AbstractType):
     OPENAIR_DANCE_PLACE = 'OADP'
 
     PLACE_TYPE_CHOICES = (
-        (OPENAIR_DANCE_PLACE, 'Open air вечеринки'),
+        (OPENAIR_DANCE_PLACE, 'Open air'),
     )
-    EVENT_TYPE_DICT = {
-        OPENAIR_DANCE_PLACE: 'Open air вечеринки',
+    PLACE_TYPE_DICT = {
+        OPENAIR_DANCE_PLACE: 'Open air',
     }
     title = models.CharField(max_length=4, choices=PLACE_TYPE_CHOICES, default=PLACE_TYPE_CHOICES)
 
     def title_show(self):
         title_show_dict = {
-            self.PLACE_TYPE_CHOICES: 'Open air вечеринки',
+            self.OPENAIR_DANCE_PLACE: 'Open air',
         }
         return "%s" % title_show_dict.get(self.title, self.title)
 

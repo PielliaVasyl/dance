@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+
+		<!-- WRAPPER -->
+		<div id="wrapper">
+			<div class="container magazine top-no-header">
+				<div class="row">
+					<!-- center column -->
+					<div class="col-md-12">
+
+						<header class="page-title">
+							<h1 style="text-align: center">{{ place.title }}</h1>
+							<!--<div class="pull-right">
+								<small class="block styleCoor fsize20">
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ place.date_show }} | {{ place.duration_show }}</span>
+								</small>
+							</div>
+							<small class="block styleCoor fsize20">
+								<span class="label label-{{ place.status_label_color }}" title="Статус мероприятия"><i class="fa {{ place.status_icon }}"></i> {{ place.status_show }}</span>
+							</small>-->
+						</header>
+
+						<div class="divider half-margins"><!-- divider -->
+							<i class="fa fa-star"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<section class="container">
+				<div class="row">
+					<!-- center column -->
+					<div class="col-md-9">
+						<div class="white-row">
+							<!-- PROPERTY FEATURES -->
+							<h3 class="page-header margin-bottom40" style="text-align:center">
+								<strong class="styleColor">Основная информация</strong>
+							</h3>
+
+							<div class="row">
+								<!-- col 1 -->
+								<div class="col-md-5 col-sm-6 col-md-offset-1">
+									{% if place.place_types.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-list-alt" title="Типы мероприятий"></i>
+												{% for place_type in place.place_types.all %}
+												<span class="label label-primary" title="Тип мероприятия">{{ place_type.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if place.dance_styles.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-reorder" title="Стиль танца"></i>
+												{% for dance_style in place.dance_styles.all %}
+												<span class="label label-success" title="Стиль танца">{{ dance_style.title }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+								<!-- col 2 -->
+								<div class="col-md-5 col-sm-6 col-md-offset-1">
+									{% if place.locations.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-globe" title="Места проведения"></i>
+												{% for location in place.locations.all %}
+												<span class="label label-info" title="Место проведения">{{ location.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if place.note %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-exclamation-circle" title="Обратите внимание"></i>
+												<span class="label label-default" title="Обратите внимание">{{ place.note }}</span>
+											</small>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<hr style="margin: 20px 0"/><!-- divider -->
+
+							{% if place.image %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1" style="margin-bottom: 10px; text-align: left;">
+									<img src="{{ place.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+								</div>
+							</div>
+							<hr style="margin: 20px 0"/><!-- divider -->
+							{% endif %}
+
+							{% if place.description %}
+							<p class="lead text-center">Описание места</p>
+							{{ place.description|linebreaks }}
+							{% endif %}
+
+							{% if place.links.all %}
+							<p>Источник:
+								{% for link in place.links.all %}
+								<a href="{{ link.link }}">Перейти</a>
+								{% endfor %}
+							</p>
+							{% endif %}
+
+							{% if place.video %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div style="width: 100%; position: relative; padding: 0;">
+										<iframe src="{{ place.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						</div><!-- /.white-row -->
+					</div>
+
+					<!-- side column -->
+					<div class="col-md-3">
+						<form method="post" class="white-row" action="/locations/?location=place">
+							{% csrf_token %}
+							<!-- FILTER / SEARCH -->
+							<h3 class="page-header nomargin-top margin-bottom40">
+								Найти <strong class="styleColor">места</strong>
+							</h3>
+
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.place_types.label }}</label>
+										{{ form.place_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.dance_styles.label }}</label>
+										{{ form.dance_styles }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.city.label }}</label>
+										<select class="chosen-select" data-placeholder="Выберите города..." id="id_city" name="city" style="min-width: 172px; width: 100%;" tabindex="0" required="">
+											{% for x,y in form.fields.city.choices %}
+												<option value="{{ x }}" {% if x == city_num %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>
+
+									<div class="col-md-12">
+										<label>&nbsp;</label>
+										<button class="btn btn-primary fullwidth">Найти</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- SOCIALS -->
+						<h3 class="page-header">
+							<i class="fa fa-twitter"></i>
+							<strong class="styleColor">Следите</strong> за нами
+						</h3>
+						<a href="#" class="social fa fa-facebook"></a>
+						<a href="#" class="social fa fa-twitter"></a>
+						<a href="#" class="social fa fa-google-plus"></a>
+						<a href="#" class="social fa fa-linkedin"></a>
+						<a href="#" class="social fa fa-pinterest"></a>
+						<a href="#" class="social fa fa-flickr"></a>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

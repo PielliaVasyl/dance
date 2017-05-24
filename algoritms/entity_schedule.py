@@ -43,6 +43,10 @@ def _get_filtered_instances(instances, filters=None):
             if key == 'experience_levels':
                 instances = [i for i in instances
                              if not set([str(j.pk) for j in i.experience_levels.all()]).isdisjoint(value)]
+
+            if key == 'place_types':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.place_types.all()]).isdisjoint(value)]
     return instances
 
 
