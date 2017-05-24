@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^locations/', include([
         url(r'^$', locations_views.locations_show),
         url(r'^(?:place-(?P<place_id>\d+)/)?$', locations_views.place_show),
+        url(r'^(?:studio-(?P<studio_id>\d+)/)?$', locations_views.studio_show),
     ])),
     url(r'^events/', include([
         url(r'^$', events_views.events_show),
