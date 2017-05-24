@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^dance-party-calendar/$', static_pages_views.dance_party_calendar_show),
     url(r'^locations/', include([
         url(r'^$', locations_views.locations_show),
+        url(r'^(?:place-(?P<place_id>\d+)/)?$', locations_views.place_show),
     ])),
     url(r'^events/', include([
         url(r'^$', events_views.events_show),
