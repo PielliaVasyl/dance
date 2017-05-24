@@ -426,11 +426,6 @@ class EventType(AbstractType):
         return "%s" % title_show_dict.get(self.title, self.title)
 
 
-# PAID = 'PAID'
-# FREE = 'FREE'
-# SHAREWARE = 'SHWR'
-# FIRST_LESSON_FREE = 'FLRF'
-
 class DanceClassType(AbstractType):
     GROUP_CLASSES = 'GRUP'
     OPEN_LESSON = 'OPLS'
@@ -449,6 +444,24 @@ class DanceClassType(AbstractType):
         title_show_dict = {
             self.GROUP_CLASSES: 'Групповые занятия',
             self.OPEN_LESSON: 'Открытый урок'
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
+
+
+class PlaceType(AbstractType):
+    OPENAIR_DANCE_PLACE = 'OADP'
+
+    PLACE_TYPE_CHOICES = (
+        (OPENAIR_DANCE_PLACE, 'Open air вечеринки'),
+    )
+    EVENT_TYPE_DICT = {
+        OPENAIR_DANCE_PLACE: 'Open air вечеринки',
+    }
+    title = models.CharField(max_length=4, choices=PLACE_TYPE_CHOICES, default=PLACE_TYPE_CHOICES)
+
+    def title_show(self):
+        title_show_dict = {
+            self.PLACE_TYPE_CHOICES: 'Open air вечеринки',
         }
         return "%s" % title_show_dict.get(self.title, self.title)
 
@@ -557,6 +570,7 @@ class PlaceInMap(models.Model):
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)
     locations = models.ManyToManyField(PlaceInMapLocation, blank=True)
+    place_types = models.ManyToManyField(PlaceType, blank=True)
 
     def get_locations(self):
         if self.locations.all():
@@ -567,6 +581,11 @@ class PlaceInMap(models.Model):
         if self.locations.all():
             return [p.address for p in self.locations.all()]
         return []
+
+    def get_place_types(self):
+        if self.place_types.all():
+            return "\n".join([p.title for p in self.place_types.all()])
+        return ''
 
     @property
     def short_description(self):
