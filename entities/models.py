@@ -816,6 +816,7 @@ class Event(models.Model):
 class Instructor(models.Model):
     name = models.CharField(max_length=100)
 
+    @property
     def title(self):
         return self.name
 
