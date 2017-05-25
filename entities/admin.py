@@ -11,7 +11,7 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
     VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
     PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist, DanceClassType, DanceClassPriceType, \
-    DanceClassExperienceLevel, PlaceType
+    DanceClassExperienceLevel, PlaceType, ShopType
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -24,7 +24,7 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
     AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
     VideoWikiPlaylistForm, AudioWikiPlaylistForm, DanceClassTypeForm, DanceClassPriceTypeForm, \
-    DanceClassExperienceLevelForm, PlaceTypeForm
+    DanceClassExperienceLevelForm, PlaceTypeForm, ShopTypeForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -247,6 +247,13 @@ class PlaceTypeAdmin(admin.ModelAdmin):
 admin.site.register(PlaceType, PlaceTypeAdmin)
 
 
+class ShopTypeAdmin(admin.ModelAdmin):
+    list_display = ["title", 'short_description', "author", 'created', 'updated']
+    form = ShopTypeForm
+
+admin.site.register(ShopType, ShopTypeAdmin)
+
+
 class PlaceInMapMapCoordinatesAdmin(admin.ModelAdmin):
     list_display = ["lat", 'lng', "author", 'created', 'updated']
     form = PlaceInMapMapCoordinatesForm
@@ -395,7 +402,7 @@ admin.site.register(DanceShopPhoto, DanceShopPhotoAdmin)
 
 
 class DanceShopAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'count_photos', 'get_locations', 'get_links', 'contacts', "author",
+    list_display = ["title", 'short_description', 'get_shop_types', 'count_photos', 'get_locations', 'get_links', 'contacts', "author",
                     'created', 'updated']
     form = DanceShopForm
 

@@ -47,7 +47,7 @@ def _get_filtered_instances(instances, filters=None):
             if key == 'place_types':
                 instances = [i for i in instances
                              if not set([str(j.pk) for j in i.place_types.all()]).isdisjoint(value)]
-    return instances
+    return set(instances)
 
 
 def entity_schedule(entity, archive=False, filters=None):

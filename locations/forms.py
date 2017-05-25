@@ -1,6 +1,6 @@
 from django import forms
 
-from entities.models import City, PlaceInMap, DanceStyle, PlaceType, DanceStudio
+from entities.models import City, PlaceInMap, DanceStyle, PlaceType, DanceStudio, DanceShop, ShopType
 
 
 class CityForm(forms.ModelForm):
@@ -19,8 +19,8 @@ def _get_cities_choices(instances):
     return all_cities
 
 
-def _get_default_kyiv_or_another_city(places):
-    choices = _get_cities_choices(places)
+def _get_default_kyiv_or_another_city(instances):
+    choices = _get_cities_choices(instances)
     try:
         kyiv = City.objects.get(city='Киев')
         if (kyiv.pk, kyiv.city) in choices:
@@ -40,8 +40,8 @@ class SelectCityPlaceForm(forms.Form):
     CITIES_CHOICES = _get_cities_choices(places)
     city = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 200px',
-                                           'tabindex': '0',
-                                           'data-placeholder': "Выберите город...",
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город...",
                                    'onchange': 'this.form.submit();'}),
         choices=CITIES_CHOICES
     )
@@ -62,21 +62,43 @@ class SelectCityStudioForm(forms.Form):
 
     city = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 200px',
-                                           'tabindex': '0',
-                                           'data-placeholder': "Выберите город...",
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город...",
                                    'onchange': 'this.form.submit();'}),
         choices=_get_cities_choices(studios)
     )
 
     def __init__(self, *args, **kwargs):
-        places = PlaceInMap.objects.all()
+        studios = DanceStudio.objects.all()
 
         # first call parent's constructor
         super(SelectCityStudioForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
         self.fields['city'].required = False
-        self.fields['city'].choices = _get_cities_choices(places)
-        self.initial['city'] = _get_default_kyiv_or_another_city(places)
+        self.fields['city'].choices = _get_cities_choices(studios)
+        self.initial['city'] = _get_default_kyiv_or_another_city(studios)
+
+
+class SelectCityShopForm(forms.Form):
+    shops = DanceShop.objects.all()
+
+    city = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 200px',
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город...",
+                                   'onchange': 'this.form.submit();'}),
+        choices=_get_cities_choices(shops)
+    )
+
+    def __init__(self, *args, **kwargs):
+        shops = DanceShop.objects.all()
+        print(111,shops)
+        # first call parent's constructor
+        super(SelectCityShopForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['city'].required = False
+        self.fields['city'].choices = _get_cities_choices(shops)
+        self.initial['city'] = _get_default_kyiv_or_another_city(shops)
 
 
 def _get_place_types_choices(places):
@@ -92,6 +114,21 @@ def _get_place_types_choices(places):
     place_types_choices = tuple(set(place_types_choices))
 
     return place_types_choices
+
+
+def _get_shop_types_choices(shops):
+    shop_type_dict = ShopType.SHOP_TYPE_DICT
+
+    shop_types_per_events = [[(shop_type.pk, shop_type_dict.get(shop_type.title, shop_type.title))
+                               for shop_type in shop.shop_types.all()]
+                              for shop in shops]
+    print(44,shop_types_per_events)
+    shop_types_choices = []
+    for shop_types_per_event in shop_types_per_events:
+        shop_types_choices.extend(shop_types_per_event)
+    shop_types_choices = tuple(set(shop_types_choices))
+
+    return shop_types_choices
 
 
 def _get_dance_styles_choices(dance_styles, instances):
@@ -158,13 +195,6 @@ class StudiosFilterForm(forms.Form):
     studios = DanceStudio.objects.all()
     dance_styles = DanceStyle.objects.all()
 
-    # studio_types = forms.MultipleChoiceField(
-    #     widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
-    #                                        'tabindex': '0',
-    #                                        'data-placeholder': "Выберите типы..."}),
-    #     choices=_get_studio_types_choices(studios)
-    # )
-
     dance_styles = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
                                            'tabindex': '0',
@@ -186,11 +216,38 @@ class StudiosFilterForm(forms.Form):
         # first call parent's constructor
         super(StudiosFilterForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
-        # self.fields['place_types'].required = False
-        # self.fields['place_types'].label = 'Типы мест'
-        # self.fields['place_types'].choices = _get_place_types_choices(places)
         self.fields['dance_styles'].required = False
         self.fields['dance_styles'].label = 'Танцевальные стили'
         self.fields['dance_styles'].choices = _get_dance_styles_choices(dance_styles, studios)
         self.fields['city'].label = 'Город'
         self.fields['city'].choices = _get_cities_choices(studios)
+
+
+class ShopsFilterForm(forms.Form):
+    shops = DanceShop.objects.all()
+
+    shop_types = forms.MultipleChoiceField(
+        widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
+                                           'tabindex': '0',
+                                           'data-placeholder': "Выберите типы..."}),
+        choices=_get_shop_types_choices(shops)
+    )
+
+    city = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город..."}),
+        choices=_get_cities_choices(shops)
+    )
+
+    def __init__(self, *args, **kwargs):
+        shops = DanceShop.objects.all()
+
+        # first call parent's constructor
+        super(ShopsFilterForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['shop_types'].required = False
+        self.fields['shop_types'].label = 'Типы магазинов'
+        self.fields['shop_types'].choices = _get_shop_types_choices(shops)
+        self.fields['city'].label = 'Город'
+        self.fields['city'].choices = _get_cities_choices(shops)

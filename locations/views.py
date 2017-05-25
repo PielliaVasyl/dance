@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 
 from algoritms.entity_schedule import _get_filtered_instances
 from entities.models import DanceHall, DanceStudio, DanceShop, PlaceInMap
-from locations.forms import SelectCityPlaceForm, PlacesFilterForm, SelectCityStudioForm, StudiosFilterForm
+from locations.forms import SelectCityPlaceForm, PlacesFilterForm, SelectCityStudioForm, StudiosFilterForm, \
+    SelectCityShopForm, ShopsFilterForm
 
 
 def locations_show(request):
@@ -40,13 +41,15 @@ def locations_show(request):
         select_city_form = {
             'place': SelectCityPlaceForm,
             'studio': SelectCityStudioForm,
-            # 'shop': SelectCityShopForm,
+            'shop': SelectCityShopForm,
             # 'hall_for_rent': SelectCityHallForm
         }.get(location, '')
 
         form = {
             'place': PlacesFilterForm,
-            'studio': StudiosFilterForm
+            'studio': StudiosFilterForm,
+            'shop': ShopsFilterForm,
+            # 'hall_for_rent': HallsFilterForm
         }.get(location, '')
 
         if entity and select_city_form and form:
@@ -56,7 +59,7 @@ def locations_show(request):
                 instances = entity.objects.filter(locations__city=int(request.POST['city'][0]))
             except:
                 if select_city_form.initial['city']:
-                    instances = entity.objects.filter(locations__city=select_city_form.initial['city'])
+                    instances = entity.objects.filter(locations__city=select_city_form.initial['city']).distinct()
                 else:
                     instances = None
             filters = None
@@ -70,6 +73,24 @@ def locations_show(request):
                             filters['place_types'] = place_types
                         if dance_styles:
                             filters['dance_styles'] = dance_styles
+
+                if location == 'studio':
+                    dance_styles = form.cleaned_data.get('dance_styles')
+                    if dance_styles:
+                        filters = {}
+                        if dance_styles:
+                            filters['dance_styles'] = dance_styles
+
+                if location == 'shop':
+                    place_types = form.cleaned_data.get('place_types')
+                    dance_styles = form.cleaned_data.get('dance_styles')
+                    if place_types or dance_styles:
+                        filters = {}
+                        if place_types:
+                            filters['place_types'] = place_types
+                        if dance_styles:
+                            filters['dance_styles'] = dance_styles
+
             instances = _get_filtered_instances(instances, filters)
         else:
             is_wrong_location = True
@@ -128,3 +149,23 @@ def studio_show(request, studio_id):
         'city_num': city_num
     }
     return render(request, 'locations/studio-single.html', context)
+
+
+def shop_show(request, shop_id):
+    shop = get_object_or_404(DanceShop, pk=shop_id)
+    title = '%s' % (shop.title,)
+
+    form = ShopsFilterForm(request.POST or None)
+    city_num = 1
+    try:
+        city_num = shop.locations.all()[0].city.pk
+    except:
+        pass
+
+    context = {
+        'title': title,
+        'shop': shop,
+        'form': form,
+        'city_num': city_num
+    }
+    return render(request, 'locations/shop-single.html', context)

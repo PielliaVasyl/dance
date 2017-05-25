@@ -457,11 +457,33 @@ class PlaceType(AbstractType):
     PLACE_TYPE_DICT = {
         OPENAIR_DANCE_PLACE: 'Open air',
     }
-    title = models.CharField(max_length=4, choices=PLACE_TYPE_CHOICES, default=PLACE_TYPE_CHOICES)
+    title = models.CharField(max_length=4, choices=PLACE_TYPE_CHOICES, default=OPENAIR_DANCE_PLACE)
 
     def title_show(self):
         title_show_dict = {
             self.OPENAIR_DANCE_PLACE: 'Open air',
+        }
+        return "%s" % title_show_dict.get(self.title, self.title)
+
+
+class ShopType(AbstractType):
+    INTERNET_SHOP = 'INSH'
+    ORDINARY_SHOP = 'ORSH'
+
+    SHOP_TYPE_CHOICES = (
+        (INTERNET_SHOP, 'Интернет-магазин'),
+        (ORDINARY_SHOP, 'Магазин'),
+    )
+    SHOP_TYPE_DICT = {
+        INTERNET_SHOP: 'Интернет-магазин',
+        ORDINARY_SHOP: 'Магазин'
+    }
+    title = models.CharField(max_length=4, choices=SHOP_TYPE_CHOICES, default=ORDINARY_SHOP)
+
+    def title_show(self):
+        title_show_dict = {
+            self.INTERNET_SHOP: 'Интернет-магазин',
+            self.ORDINARY_SHOP: 'Магазин',
         }
         return "%s" % title_show_dict.get(self.title, self.title)
 
@@ -1235,6 +1257,14 @@ class DanceShopPhoto(models.Model):
 class DanceShop(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+
+    shop_types = models.ManyToManyField(ShopType, blank=True)
+
+    def get_shop_types(self):
+        if self.shop_types.all():
+            return "\n".join([p.title for p in self.shop_types.all()])
+        return ''
+
 
     @property
     def short_description(self):

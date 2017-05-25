@@ -134,6 +134,12 @@
 										{{ form.place_types }}
 									</div>
 									{% endif %}
+									{% if form.shop_types %}
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.shop_types.label }}</label>
+										{{ form.shop_types }}
+									</div>
+									{% endif %}
 
 									<div class="col-md-12 col-sm-6">
 										<label>{{ form.dance_styles.label }}</label>
