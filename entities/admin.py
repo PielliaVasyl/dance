@@ -11,7 +11,7 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
     VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
     PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist, DanceClassType, DanceClassPriceType, \
-    DanceClassExperienceLevel, PlaceType, ShopType
+    DanceClassExperienceLevel, PlaceType, ShopType, InstructorLocation
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -24,7 +24,7 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
     AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
     VideoWikiPlaylistForm, AudioWikiPlaylistForm, DanceClassTypeForm, DanceClassPriceTypeForm, \
-    DanceClassExperienceLevelForm, PlaceTypeForm, ShopTypeForm
+    DanceClassExperienceLevelForm, PlaceTypeForm, ShopTypeForm, InstructorLocationForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -301,6 +301,13 @@ class DanceStudioLocationAdmin(admin.ModelAdmin):
     form = DanceStudioLocationForm
 
 admin.site.register(DanceStudioLocation, DanceStudioLocationAdmin)
+
+
+class InstructorLocationAdmin(admin.ModelAdmin):
+    list_display = ["address", "city", "author", 'created', 'updated']
+    form = InstructorLocationForm
+
+admin.site.register(InstructorLocation, InstructorLocationAdmin)
 
 
 class DanceHallLocationAdmin(admin.ModelAdmin):

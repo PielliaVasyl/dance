@@ -12,7 +12,7 @@ from .models import Event, EventType, DanceStyle, Instructor, DanceStudio, Dance
     PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, VideoWikiTag, AudioWikiTag, VideoWiki, \
     AudioWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, PhotoWiki, VideoWikiPlaylist, \
     AudioWikiPlaylist, PhotoWikiAlbum, DanceClassType, DanceClassPriceType, DanceClassExperienceLevel, PlaceType, \
-    ShopType
+    ShopType, InstructorLocation
 
 
 class SocialLinkVKForm(forms.ModelForm):
@@ -272,6 +272,12 @@ class DanceStudioLocationForm(forms.ModelForm):
     class Meta:
         model = DanceStudioLocation
         fields = ["address", "city", "note", 'coordinates', "author"]
+
+
+class InstructorLocationForm(forms.ModelForm):
+    class Meta:
+        model = InstructorLocation
+        fields = ["address", "city", "note", "author"]
 
 
 class DanceHallLocationForm(forms.ModelForm):

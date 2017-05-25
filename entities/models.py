@@ -579,6 +579,10 @@ class DanceStudioLocation(AbstractLocation):
     coordinates = models.ForeignKey(DanceStudioMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
 
 
+class InstructorLocation(AbstractLocation):
+    pass
+
+
 class DanceHallLocation(AbstractLocation):
     coordinates = models.ForeignKey(DanceHallMapCoordinates, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -823,10 +827,21 @@ class Instructor(models.Model):
 
     image = models.ImageField(blank=True)
 
+    locations = models.ManyToManyField(InstructorLocation, blank=True)
     dance_styles = models.ManyToManyField(DanceStyle, blank=True)
     events = models.ManyToManyField(Event, blank=True)
     links = models.ManyToManyField(InstructorLink, blank=True)
     contacts = models.ForeignKey('Contacts', on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_locations(self):
+        if self.locations.all():
+            return "\n".join([p.address for p in self.locations.all()])
+        return ''
+
+    def get_locations_address_list(self):
+        if self.locations.all():
+            return [p.address for p in self.locations.all()]
+        return []
 
     def get_dance_styles(self):
         if self.dance_styles.all():
