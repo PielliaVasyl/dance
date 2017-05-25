@@ -30,6 +30,13 @@ def locations_show(request):
         'hall': 'Танцевальные залы для аренды'
     }.get(location, 'Неверно указан тип локаций')
 
+    find_location_title = {
+        'place': 'места',
+        'studio': 'школы',
+        'shop': 'магазины',
+        'hall': 'залы'
+    }.get(location, 'Неверно указан тип локаций')
+
     if not is_wrong_location:
         entity = {
             'place': PlaceInMap,
@@ -108,6 +115,7 @@ def locations_show(request):
         'is_wrong_location': is_wrong_location,
         'instances': instances,
         'location_title': location_title,
+        'find_location_title': find_location_title,
         'select_city_form': select_city_form,
         'form': form
     }

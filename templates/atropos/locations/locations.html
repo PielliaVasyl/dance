@@ -121,7 +121,7 @@
 							{% csrf_token %}
 							<!-- FILTER / SEARCH -->
 							<h3 class="page-header nomargin-top margin-bottom40">
-								Найти <strong class="styleColor">места</strong>
+								Найти <strong class="styleColor">{{ find_location_title }}</strong>
 							</h3>
 
 							<input type="hidden" name="city" value="{{ select_city_form.city.value }}">
