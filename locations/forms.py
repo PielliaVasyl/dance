@@ -1,6 +1,6 @@
 from django import forms
 
-from entities.models import City, PlaceInMap, DanceStyle, PlaceType, DanceStudio, DanceShop, ShopType
+from entities.models import City, PlaceInMap, DanceStyle, PlaceType, DanceStudio, DanceShop, ShopType, DanceHall
 
 
 class CityForm(forms.ModelForm):
@@ -92,7 +92,6 @@ class SelectCityShopForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         shops = DanceShop.objects.all()
-        print(111,shops)
         # first call parent's constructor
         super(SelectCityShopForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
@@ -101,16 +100,37 @@ class SelectCityShopForm(forms.Form):
         self.initial['city'] = _get_default_kyiv_or_another_city(shops)
 
 
+class SelectCityHallForm(forms.Form):
+    halls = DanceHall.objects.all()
+
+    city = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 200px',
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город...",
+                                   'onchange': 'this.form.submit();'}),
+        choices=_get_cities_choices(halls)
+    )
+
+    def __init__(self, *args, **kwargs):
+        halls = DanceHall.objects.all()
+        # first call parent's constructor
+        super(SelectCityHallForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['city'].required = False
+        self.fields['city'].choices = _get_cities_choices(halls)
+        self.initial['city'] = _get_default_kyiv_or_another_city(halls)
+
+
 def _get_place_types_choices(places):
     place_type_dict = PlaceType.PLACE_TYPE_DICT
 
-    place_types_per_events = [[(place_type.pk, place_type_dict.get(place_type.title, place_type.title))
+    place_types_per_places = [[(place_type.pk, place_type_dict.get(place_type.title, place_type.title))
                                for place_type in place.place_types.all()]
                               for place in places]
 
     place_types_choices = []
-    for place_types_per_event in place_types_per_events:
-        place_types_choices.extend(place_types_per_event)
+    for place_types_per_place in place_types_per_places:
+        place_types_choices.extend(place_types_per_place)
     place_types_choices = tuple(set(place_types_choices))
 
     return place_types_choices
@@ -119,13 +139,12 @@ def _get_place_types_choices(places):
 def _get_shop_types_choices(shops):
     shop_type_dict = ShopType.SHOP_TYPE_DICT
 
-    shop_types_per_events = [[(shop_type.pk, shop_type_dict.get(shop_type.title, shop_type.title))
-                               for shop_type in shop.shop_types.all()]
-                              for shop in shops]
-    print(44,shop_types_per_events)
+    shop_types_per_shops = [[(shop_type.pk, shop_type_dict.get(shop_type.title, shop_type.title))
+                              for shop_type in shop.shop_types.all()]
+                             for shop in shops]
     shop_types_choices = []
-    for shop_types_per_event in shop_types_per_events:
-        shop_types_choices.extend(shop_types_per_event)
+    for shop_types_per_shop in shop_types_per_shops:
+        shop_types_choices.extend(shop_types_per_shop)
     shop_types_choices = tuple(set(shop_types_choices))
 
     return shop_types_choices
@@ -136,8 +155,8 @@ def _get_dance_styles_choices(dance_styles, instances):
     all_directions = set([dance_style.direction for dance_style in dance_styles])
 
     styles_per_instance = [[(dance_style.direction, dance_style.pk, dance_style.title)
-                         for dance_style in instance.dance_styles.all()]
-                        for instance in instances]
+                            for dance_style in instance.dance_styles.all()]
+                           for instance in instances]
     all_dance_styles = []
     for j in styles_per_instance:
         all_dance_styles.extend(j)
@@ -242,7 +261,6 @@ class ShopsFilterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         shops = DanceShop.objects.all()
-
         # first call parent's constructor
         super(ShopsFilterForm, self).__init__(*args, **kwargs)
         # there's a `fields` property now
@@ -251,3 +269,32 @@ class ShopsFilterForm(forms.Form):
         self.fields['shop_types'].choices = _get_shop_types_choices(shops)
         self.fields['city'].label = 'Город'
         self.fields['city'].choices = _get_cities_choices(shops)
+
+
+class HallsFilterForm(forms.Form):
+    halls = DanceHall.objects.all()
+
+    # shop_types = forms.MultipleChoiceField(
+    #     widget=forms.SelectMultiple(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
+    #                                        'tabindex': '0',
+    #                                        'data-placeholder': "Выберите типы..."}),
+    #     choices=_get_hall_types_choices(halls)
+    # )
+
+    city = forms.ChoiceField(
+        widget=forms.Select(attrs={'class': 'chosen-select', 'style': 'min-width: 172px; width: 100%',
+                                   'tabindex': '0',
+                                   'data-placeholder': "Выберите город..."}),
+        choices=_get_cities_choices(halls)
+    )
+
+    def __init__(self, *args, **kwargs):
+        halls = DanceHall.objects.all()
+        # first call parent's constructor
+        super(HallsFilterForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        # self.fields['shop_types'].required = False
+        # self.fields['shop_types'].label = 'Типы магазинов'
+        # self.fields['shop_types'].choices = _get_shop_types_choices(shops)
+        self.fields['city'].label = 'Город'
+        self.fields['city'].choices = _get_cities_choices(halls)

@@ -3,14 +3,14 @@ from django.shortcuts import render, get_object_or_404
 from algoritms.entity_schedule import _get_filtered_instances
 from entities.models import DanceHall, DanceStudio, DanceShop, PlaceInMap
 from locations.forms import SelectCityPlaceForm, PlacesFilterForm, SelectCityStudioForm, StudiosFilterForm, \
-    SelectCityShopForm, ShopsFilterForm
+    SelectCityShopForm, ShopsFilterForm, HallsFilterForm, SelectCityHallForm
 
 
 def locations_show(request):
     location = request.GET.get('location', '')
 
     instances = ''
-    location_set = {'place', 'studio', 'shop', 'hall_for_rent'}
+    location_set = {'place', 'studio', 'shop', 'hall'}
 
     is_wrong_location = location not in location_set
     select_city_form = SelectCityPlaceForm(None)
@@ -20,14 +20,14 @@ def locations_show(request):
         'place': 'Танцевальные места на карте',
         'studio': 'Танцевальные школы на карте',
         'shop': 'Магазины танцевальной одежды на карте',
-        'hall_for_rent': 'Танцевальные залы для аренды'
+        'hall': 'Танцевальные залы для аренды'
     }.get(location, 'Неверно указан тип локаций')
 
     location_title = {
         'place': 'Танцевальные места',
         'studio': 'Танцевальные школы',
         'shop': 'Магазины танцевальной одежды',
-        'hall_for_rent': 'Танцевальные залы для аренды'
+        'hall': 'Танцевальные залы для аренды'
     }.get(location, 'Неверно указан тип локаций')
 
     if not is_wrong_location:
@@ -35,21 +35,21 @@ def locations_show(request):
             'place': PlaceInMap,
             'studio': DanceStudio,
             'shop': DanceShop,
-            'hall_for_rent': DanceHall
+            'hall': DanceHall
         }.get(location, '')
 
         select_city_form = {
             'place': SelectCityPlaceForm,
             'studio': SelectCityStudioForm,
             'shop': SelectCityShopForm,
-            # 'hall_for_rent': SelectCityHallForm
+            'hall': SelectCityHallForm
         }.get(location, '')
 
         form = {
             'place': PlacesFilterForm,
             'studio': StudiosFilterForm,
             'shop': ShopsFilterForm,
-            # 'hall_for_rent': HallsFilterForm
+            'hall': HallsFilterForm
         }.get(location, '')
 
         if entity and select_city_form and form:
@@ -82,14 +82,17 @@ def locations_show(request):
                             filters['dance_styles'] = dance_styles
 
                 if location == 'shop':
-                    place_types = form.cleaned_data.get('place_types')
+                    shop_types = form.cleaned_data.get('shop_types')
                     dance_styles = form.cleaned_data.get('dance_styles')
-                    if place_types or dance_styles:
+                    if shop_types or dance_styles:
                         filters = {}
-                        if place_types:
-                            filters['place_types'] = place_types
+                        if shop_types:
+                            filters['shop_types'] = shop_types
                         if dance_styles:
                             filters['dance_styles'] = dance_styles
+
+                if location == 'hall':
+                    pass
 
             instances = _get_filtered_instances(instances, filters)
         else:
@@ -169,3 +172,23 @@ def shop_show(request, shop_id):
         'city_num': city_num
     }
     return render(request, 'locations/shop-single.html', context)
+
+
+def hall_show(request, hall_id):
+    hall = get_object_or_404(DanceHall, pk=hall_id)
+    title = '%s' % (hall.title,)
+
+    form = HallsFilterForm(request.POST or None)
+    city_num = 1
+    try:
+        city_num = hall.locations.all()[0].city.pk
+    except:
+        pass
+
+    context = {
+        'title': title,
+        'hall': hall,
+        'form': form,
+        'city_num': city_num
+    }
+    return render(request, 'locations/hall-single.html', context)
