@@ -11,14 +11,14 @@
 					<div class="col-md-12">
 
 						<header class="page-title">
-							<h1 style="text-align: center">{{ studio.title }}</h1>
+							<h1 style="text-align: center">{{ instructor.title }}</h1>
 							<!--<div class="pull-right">
 								<small class="block styleCoor fsize20">
-									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ studio.date_show }} | {{ studio.duration_show }}</span>
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ instructor.date_show }} | {{ instructor.duration_show }}</span>
 								</small>
 							</div>
 							<small class="block styleCoor fsize20">
-								<span class="label label-{{ studio.status_label_color }}" title="Статус мероприятия"><i class="fa {{ studio.status_icon }}"></i> {{ studio.status_show }}</span>
+								<span class="label label-{{ instructor.status_label_color }}" title="Статус мероприятия"><i class="fa {{ instructor.status_icon }}"></i> {{ instructor.status_show }}</span>
 							</small>-->
 						</header>
 
@@ -42,24 +42,24 @@
 							<div class="row">
 								<!-- col 1 -->
 								<div class="col-md-5 col-sm-6 col-md-offset-1">
-									{% if studio.studio_types.all %}
+									{% if instructor.instructor_types.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-list-alt" title="Типы мероприятий"></i>
-												{% for studio_type in studio.studio_types.all %}
-												<span class="label label-primary" title="Тип мероприятия">{{ studio_type.title_show }}</span>
+												{% for instructor_type in instructor.instructor_types.all %}
+												<span class="label label-primary" title="Тип мероприятия">{{ instructor_type.title_show }}</span>
 												{% endfor %}
 											</small>
 										</div>
 									</div>
 									{% endif %}
-									{% if studio.dance_styles.all %}
+									{% if instructor.dance_styles.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-reorder" title="Стиль танца"></i>
-												{% for dance_style in studio.dance_styles.all %}
+												{% for dance_style in instructor.dance_styles.all %}
 												<span class="label label-success" title="Стиль танца">{{ dance_style.title }}</span>
 												{% endfor %}
 											</small>
@@ -69,24 +69,24 @@
 								</div>
 								<!-- col 2 -->
 								<div class="col-md-5 col-sm-6 col-md-offset-1">
-									{% if studio.locations.all %}
+									{% if instructor.locations.all %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-globe" title="Места проведения"></i>
-												{% for location in studio.locations.all %}
+												{% for location in instructor.locations.all %}
 												<span class="label label-info" title="Место проведения">{{ location.title_show }}</span>
 												{% endfor %}
 											</small>
 										</div>
 									</div>
 									{% endif %}
-									{% if studio.note %}
+									{% if instructor.note %}
 									<div class="row">
 										<div class="col-md-12">
 											<small class="block styleCoor fsize20">
 												<i class="fa fa-exclamation-circle" title="Обратите внимание"></i>
-												<span class="label label-default" title="Обратите внимание">{{ studio.note }}</span>
+												<span class="label label-default" title="Обратите внимание">{{ instructor.note }}</span>
 											</small>
 										</div>
 									</div>
@@ -96,33 +96,33 @@
 
 							<hr style="margin: 20px 0"/><!-- divider -->
 
-							{% if studio.image %}
+							{% if instructor.image %}
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1" style="margin-bottom: 10px; text-align: left;">
-									<img src="{{ studio.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+									<img src="{{ instructor.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
 								</div>
 							</div>
 							<hr style="margin: 20px 0"/><!-- divider -->
 							{% endif %}
 
-							{% if studio.description %}
-							<p class="lead text-center">Описание школы</p>
-							{{ studio.description|linebreaks }}
+							{% if instructor.description %}
+							<p class="lead text-center">Кратко про инструктора</p>
+							{{ instructor.description|linebreaks }}
 							{% endif %}
 
-							{% if studio.links.all %}
+							{% if instructor.links.all %}
 							<p>Источник:
-								{% for link in studio.links.all %}
+								{% for link in instructor.links.all %}
 								<a href="{{ link.link }}">Перейти</a>
 								{% endfor %}
 							</p>
 							{% endif %}
 
-							{% if studio.video %}
+							{% if instructor.video %}
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1">
 									<div style="width: 100%; position: relative; padding: 0;">
-										<iframe src="{{ studio.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
+										<iframe src="{{ instructor.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
 									</div>
 								</div>
 							</div>
@@ -142,8 +142,8 @@
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-12 col-sm-6">
-										<label>{{ form.studio_types.label }}</label>
-										{{ form.studio_types }}
+										<label>{{ form.instructor_types.label }}</label>
+										{{ form.instructor_types }}
 									</div>
 
 									<div class="col-md-12 col-sm-6">

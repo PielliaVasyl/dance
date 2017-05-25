@@ -11,7 +11,7 @@ def locations_show(request):
 
     instances = ''
     instances_2 = ''
-    dance_school, dance_shop = False, False
+    dance_studio, dance_shop = False, False
     location_set = {'place', 'studio', 'shop', 'hall'}
 
     is_wrong_location = location not in location_set
@@ -133,7 +133,7 @@ def locations_show(request):
             }
             return render(request, 'locations/locations.html', context)
     if location == 'studio':
-        dance_school = True
+        dance_studio = True
     if location == 'shop':
         dance_shop = True
     context = {
@@ -141,7 +141,7 @@ def locations_show(request):
         'is_wrong_location': is_wrong_location,
         'instances': instances,
         'instances_2': instances_2,
-        'dance_school': dance_school,
+        'dance_studio': dance_studio,
         'dance_shop': dance_shop,
         'location_title': location_title,
         'find_location_title': find_location_title,
@@ -190,6 +190,25 @@ def studio_show(request, studio_id):
     }
     return render(request, 'locations/studio-single.html', context)
 
+
+def instructor_show(request, instructor_id):
+    instructor = get_object_or_404(Instructor, pk=instructor_id)
+    title = '%s' % (instructor.title,)
+
+    form = StudiosFilterForm(request.POST or None)
+    city_num = 1
+    try:
+        city_num = instructor.locations.all()[0].city.pk
+    except:
+        pass
+
+    context = {
+        'title': title,
+        'instructor': instructor,
+        'form': form,
+        'city_num': city_num
+    }
+    return render(request, 'locations/instructor-single.html', context)
 
 def shop_show(request, shop_id):
     shop = get_object_or_404(DanceShop, pk=shop_id)
