@@ -347,8 +347,8 @@ admin.site.register(Event, EventAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ["name", 'short_description', 'get_dance_styles', 'get_events', 'get_links', 'contacts', "author",
-                    'created', 'updated']
+    list_display = ["name", 'short_description', 'get_locations', 'get_dance_styles', 'get_events', 'get_links',
+                    'contacts', "author", 'created', 'updated']
     form = InstructorForm
 
 admin.site.register(Instructor, InstructorAdmin)

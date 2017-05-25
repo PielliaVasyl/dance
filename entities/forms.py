@@ -336,7 +336,7 @@ class EventForm(forms.ModelForm):
 class InstructorForm(forms.ModelForm):
     class Meta:
         model = Instructor
-        fields = ["name", 'description', 'dance_styles', 'links', 'contacts', 'events', "author"]
+        fields = ["name", 'description', 'locations', 'dance_styles', 'links', 'contacts', 'events', "author"]
 
 
 class DanceStudioForm(forms.ModelForm):

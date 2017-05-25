@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from algoritms.entity_schedule import _get_filtered_instances
-from entities.models import DanceHall, DanceStudio, DanceShop, PlaceInMap
+from entities.models import DanceHall, DanceStudio, DanceShop, PlaceInMap, ShopType, Instructor
 from locations.forms import SelectCityPlaceForm, PlacesFilterForm, SelectCityStudioForm, StudiosFilterForm, \
     SelectCityShopForm, ShopsFilterForm, HallsFilterForm, SelectCityHallForm
 
@@ -10,6 +10,8 @@ def locations_show(request):
     location = request.GET.get('location', '')
 
     instances = ''
+    instances_2 = ''
+    dance_school, dance_shop = False, False
     location_set = {'place', 'studio', 'shop', 'hall'}
 
     is_wrong_location = location not in location_set
@@ -27,7 +29,7 @@ def locations_show(request):
         'place': 'Танцевальные места',
         'studio': 'Танцевальные школы',
         'shop': 'Магазины танцевальной одежды',
-        'hall': 'Танцевальные залы для аренды'
+        'hall': 'Танцевальные залы'
     }.get(location, 'Неверно указан тип локаций')
 
     find_location_title = {
@@ -101,7 +103,28 @@ def locations_show(request):
                 if location == 'hall':
                     pass
 
+            if location == 'shop':
+                try:
+                    internet_shop_type = ShopType.objects.get(title=ShopType.INTERNET_SHOP)
+                    ordinary_shop_type = ShopType.objects.get(title=ShopType.ORDINARY_SHOP)
+                    instances_2 = DanceShop.objects.filter(shop_types=internet_shop_type)
+                    instances = _get_filtered_instances(instances, {'shop_types': [str(ordinary_shop_type.pk)]})
+                except:
+                    pass
+
+            if location == 'studio':
+                try:
+                    instances_2 = Instructor.objects.filter(locations__city=int(request.POST['city'][0]))
+                except:
+                    if select_city_form.initial['city']:
+                        instances_2 = Instructor.objects.filter(locations__city=select_city_form.initial['city']).distinct()
+                    else:
+                        instances_2 = None
+
             instances = _get_filtered_instances(instances, filters)
+            if location == 'studio' and instances_2:
+                instances_2 = _get_filtered_instances(instances_2, filters)
+
         else:
             is_wrong_location = True
             context = {
@@ -109,15 +132,21 @@ def locations_show(request):
                 'is_wrong_location': is_wrong_location,
             }
             return render(request, 'locations/locations.html', context)
-
+    if location == 'studio':
+        dance_school = True
+    if location == 'shop':
+        dance_shop = True
     context = {
         'title': title,
         'is_wrong_location': is_wrong_location,
         'instances': instances,
+        'instances_2': instances_2,
+        'dance_school': dance_school,
+        'dance_shop': dance_shop,
         'location_title': location_title,
         'find_location_title': find_location_title,
         'select_city_form': select_city_form,
-        'form': form
+        'form': form,
     }
     return render(request, 'locations/locations.html', context)
 

@@ -40,6 +40,40 @@
 							</span>
 						</h3>
 
+{% if dance_shop or dance_school %}
+						<div class="tabs nomargin-top">
+
+							<!-- tabs -->
+							<ul class="nav nav-tabs">
+								<li class="{% if instances or not instances and not instances_2 %}active{% endif %}">
+									<a href="#tab1" data-toggle="tab">
+										{% if dance_shop %}
+										<i class="fa fa-shopping-bag"></i> Магазины на карте
+										{% endif %}
+										{% if dance_school %}
+										<i class="fa fa-building"></i> Школы
+										{% endif %}
+									</a>
+								</li>
+								<li class="{% if not instances and instances_2 %}active{% endif %}">
+									<a href="#tab2" data-toggle="tab">
+										{% if dance_shop %}
+										<i class="fa fa-info-circle"></i> Интернет-магазины
+										{% endif %}
+										{% if dance_school %}
+										<i class="fa fa-user"></i> Инструкторы
+										{% endif %}
+									</a>
+								</li>
+							</ul>
+
+							<!-- tabs content -->
+							<div class="tab-content">
+
+								<div id="tab1" class="tab-pane {% if instances or not instances and not instances_2 %}active{% endif %}">
+
+{% endif %}
+
                         {% for instance in instances %}
 
 						<!-- article summary -->
@@ -110,6 +144,92 @@
 						{% if not forloop.last %}<hr class="half-margins" /><!-- separator -->{% endif %}
 
                         {% endfor %}
+
+
+								</div>
+
+
+
+								<div id="tab2" class="tab-pane {% if not instances and instances_2 %}active{% endif %}">
+
+						{% for instance in instances_2 %}
+
+						<!-- article summary -->
+						<div class="row">
+							<div class="col-md-3 text-center">
+								{% if instance.image %}
+								<img alt="{{ instance.title }}" class="img-responsive" src="{{ instance.image.url }}" />
+								{% endif %}
+							</div>
+							<div class="col-md-9">
+								 <div class="row">
+									 <div class="col-sm-5">
+									 	<h4><a class="styleColor" href="{{request.GET.location}}-{{ instance.pk }}">{{ instance.title }}</a></h4>
+									 </div>
+									 <div class="col-sm-4">
+										 {% for address in instance.get_locations_address_list %}{{ address }} <br />{% endfor %}
+									 </div>
+									 <div class="col-sm-3">
+									 	<p><small class="block styleSecondColor fsize17">
+											{% for link in instance.get_links_list %}
+												<a href="{{ link }}">Перейти на сайт</a>
+											{% endfor %}
+										</small></p>
+									 </div>
+								 </div>
+								<div class="row">
+									<div class="col-sm-6">
+										{% for dance_style in instance.get_dance_styles_list %}{{ dance_style }}{% if not forloop.last %}, {% endif %}{% endfor %}
+									</div>
+									<div class="col-sm-6">
+										<p>
+											<span class="fsize20 pull-right">
+												{% for phone_number in instance.contacts.phone_numbers.all %}
+												<i class="fa fa-phone" title="Телефон"></i> {{ phone_number.phone_number }} <br />
+												{% endfor %}
+												{% for fb in instance.contacts.socials.fb.all %}
+												<a href="{{ fb.link }}">
+													<i class="fa fa-facebook-square" title="FB" ></i>
+												</a>
+												{% endfor %}
+												{% for vk in instance.contacts.socials.vk.all %}
+												<a href="{{ vk.link }}">
+													<i class="fa fa-vk" title="VK" ></i>
+												</a>
+												{% endfor %}
+												{% for instagram in instance.contacts.socials.instagram.all %}
+												<a href="{{ instagram.link }}">
+													<i class="fa fa-instagram" title="Instagram" ></i>
+												</a>
+												{% endfor %}
+												{% for twitter in instance.contacts.socials.twitter.all %}
+												<a href="{{ twitter.link }}">
+													<i class="fa fa-twitter" title="Twitter" ></i>
+												</a>
+												{% endfor %}
+												<!--<i class="bed-ico" title="beds"></i> 3 ,
+												<i class="garage-ico" title="garage"></i> 1 ,
+												<i class="furnished-ico" title="furnished"></i>-->
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /article summary -->
+
+
+						{% if not forloop.last %}<hr class="half-margins" /><!-- separator -->{% endif %}
+
+                        {% endfor %}
+
+
+								</div>
+							</div>
+
+						</div>
+
+
 
 						<hr /><!-- final separator -->
 
