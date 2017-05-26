@@ -22,15 +22,11 @@
 				</div>
 			</header>
 
-
 			<section class="container">
-
 				<div class="row">
-
-					<div class="col-md-12">
+					<div class="col-md-9">
 
 						<h2><strong>Найдите самый подходящий </strong> <small class="font300">танцевальный стиль для себя</small></h2>
-
 
                         <div class="toogle">
 
@@ -73,10 +69,59 @@
 
 					</div>
 
+                    					<!-- side column -->
+					<div class="col-md-3">
+						<form method="post" class="white-row" action="/locations/?location={{ request.GET.location }}">
+							{% csrf_token %}
+							<!-- FILTER / SEARCH -->
+							<h3 class="page-header nomargin-top margin-bottom40">
+								Найти <strong class="styleColor">свой стиль</strong>
+							</h3>
+
+							<input type="hidden" name="city" value="{{ select_city_form.city.value }}">
+
+							<div class="row">
+								<div class="form-group">
+									{% if form.place_types %}
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.place_types.label }}</label>
+										{{ form.place_types }}
+									</div>
+									{% endif %}
+									{% if form.shop_types %}
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.shop_types.label }}</label>
+										{{ form.shop_types }}
+									</div>
+									{% endif %}
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.dance_styles.label }}</label>
+										{{ form.dance_styles }}
+									</div>
+
+									<div class="col-md-12">
+										<label>&nbsp;</label>
+										<button class="btn btn-primary fullwidth">Найти</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- SOCIALS -->
+						<h3 class="page-header">
+							<i class="fa fa-twitter"></i>
+							<strong class="styleColor">Следите</strong> за нами
+						</h3>
+						<a href="#" class="social fa fa-facebook"></a>
+						<a href="#" class="social fa fa-twitter"></a>
+						<a href="#" class="social fa fa-google-plus"></a>
+						<a href="#" class="social fa fa-linkedin"></a>
+						<a href="#" class="social fa fa-pinterest"></a>
+						<a href="#" class="social fa fa-flickr"></a>
+					</div>
+					<!-- /side column -->
 				</div>
-
 			</section>
-
 		</div>
 		<!-- /WRAPPER -->
 {% endblock %}

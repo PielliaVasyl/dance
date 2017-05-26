@@ -13,4 +13,4 @@ def dance_styles_show(request):
         'title': title,
         'styles_directions': styles_directions
     }
-    return render(request, 'dance_styles/dance_styles.html', context)
+    return render(request, 'dance_styles/dance-styles.html', context)
