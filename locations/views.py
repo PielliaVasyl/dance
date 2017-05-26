@@ -67,9 +67,12 @@ def locations_show(request):
             try:
                 instances = entity.objects.filter(locations__city=int(request.POST['city'][0]))
             except:
-                if select_city_form.initial['city']:
-                    instances = entity.objects.filter(locations__city=select_city_form.initial['city']).distinct()
-                else:
+                try:
+                    if select_city_form.initial['city']:
+                        instances = entity.objects.filter(locations__city=select_city_form.initial['city']).distinct()
+                    else:
+                        instances = None
+                except:
                     instances = None
             filters = None
             if form.is_valid():
@@ -116,9 +119,12 @@ def locations_show(request):
                 try:
                     instances_2 = Instructor.objects.filter(locations__city=int(request.POST['city'][0]))
                 except:
-                    if select_city_form.initial['city']:
-                        instances_2 = Instructor.objects.filter(locations__city=select_city_form.initial['city']).distinct()
-                    else:
+                    try:
+                        if select_city_form.initial['city']:
+                            instances_2 = Instructor.objects.filter(locations__city=select_city_form.initial['city']).distinct()
+                        else:
+                            instances_2 = None
+                    except:
                         instances_2 = None
 
             instances = _get_filtered_instances(instances, filters)

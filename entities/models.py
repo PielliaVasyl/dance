@@ -318,7 +318,7 @@ class DanceStyleDirection(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s - %s' % (self.direction, self.title)
+        return '%s' % (self.DIRECTION_SHOW.get(self.title, self.title))
 
     class Meta:
         ordering = ('title',)
@@ -334,7 +334,7 @@ class DanceStyle(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s - %s' % (self. direction, self.title)
+        return '%s - %s' % (self.direction.title, self.title)
 
     class Meta:
         ordering = ('title',)
@@ -343,10 +343,6 @@ class DanceStyle(models.Model):
 class DanceStyleInSection(models.Model):
     title = models.CharField(max_length=50)
     dance_style = models.OneToOneField(DanceStyle)
-
-    def __init__(self, *args, **kwargs):
-        super(models.Model, self).__init__(self, *args, **kwargs)
-        self.title = self.dance_style.title
 
     def save(self, *args, **kwargs):
         self.title = self.dance_style.title
@@ -405,7 +401,7 @@ class DanceStyleInSection(models.Model):
 
     def get_attendee_ages(self):
         if self.attendee_ages.all():
-            return "\n".join([p.price for p in self.attendee_ages.all()])
+            return "\n".join([p.attendee_age for p in self.attendee_ages.all()])
         return ''
 
     ATTENDEE_AGE_CHOICES = DanceStyleInSectionAttendeeAge.ATTENDEE_AGE_CHOICES
@@ -421,7 +417,7 @@ class DanceStyleInSection(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s - %s' % (self.direction, self.title)
+        return '%s' % (self.title,)
 
     class Meta:
         ordering = ('title',)

@@ -1,5 +1,5 @@
 from django import forms
-from entities.models import EventType, Event, DanceStyle
+from entities.models import EventType, Event, DanceStyle, DanceStyleDirection
 
 
 def _get_event_types_choices(events):
@@ -18,7 +18,7 @@ def _get_event_types_choices(events):
 
 
 def _get_dance_styles_choices(dance_styles, events):
-    direction_dict = DanceStyle.DIRECTION_SHOW
+    direction_dict = DanceStyleDirection.DIRECTION_SHOW
     all_directions = set([dance_style.direction for dance_style in dance_styles])
 
     styles_per_event = [[(dance_style.direction, dance_style.pk, dance_style.title)

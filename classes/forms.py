@@ -1,7 +1,8 @@
 from django import forms
 
 from classes.models import WeekDay
-from entities.models import DanceClassType, DanceClass, DanceStyle, DanceClassPriceType, DanceClassExperienceLevel
+from entities.models import DanceClassType, DanceClass, DanceStyle, DanceClassPriceType, DanceClassExperienceLevel, \
+    DanceStyleDirection
 
 
 class WeekDayForm(forms.ModelForm):
@@ -26,7 +27,7 @@ def _get_dance_class_types_choices(dance_classes):
 
 
 def _get_dance_styles_choices(dance_styles, dance_classes):
-    direction_dict = DanceStyle.DIRECTION_SHOW
+    direction_dict = DanceStyleDirection.DIRECTION_SHOW
     all_directions = set([dance_style.direction for dance_style in dance_styles])
 
     styles_per_dance_classes = [[(dance_style.direction, dance_style.pk, dance_style.title)
