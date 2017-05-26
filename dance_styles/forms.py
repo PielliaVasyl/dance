@@ -1,21 +1,29 @@
 from django import forms
 
-from dance_styles.models import CountType, BetweenPartnersDistance, AveragePrice
+from dance_styles.models import DanceStyleInSectionCountType, DanceStyleInSectionBetweenPartnersDistance, \
+    DanceStyleInSectionAveragePrice, \
+    DanceStyleInSectionAttendeeAge
 
 
-class CountTypeForm(forms.ModelForm):
+class DanceStyleInSectionCountTypeForm(forms.ModelForm):
     class Meta:
-        model = CountType
+        model = DanceStyleInSectionCountType
         fields = ["count_type"]
 
 
-class BetweenPartnersDistanceForm(forms.ModelForm):
+class DanceStyleInSectionBetweenPartnersDistanceForm(forms.ModelForm):
     class Meta:
-        model = BetweenPartnersDistance
+        model = DanceStyleInSectionBetweenPartnersDistance
         fields = ["distance"]
 
 
-class AveragePriceForm(forms.ModelForm):
+class DanceStyleInSectionAveragePriceForm(forms.ModelForm):
     class Meta:
-        model = AveragePrice
+        model = DanceStyleInSectionAveragePrice
         fields = ["price"]
+
+
+class DanceStyleInSectionAttendeeAgeForm(forms.ModelForm):
+    class Meta:
+        model = DanceStyleInSectionAttendeeAge
+        fields = ["attendee_age"]

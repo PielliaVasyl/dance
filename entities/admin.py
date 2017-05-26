@@ -11,7 +11,7 @@ from .models import UserProfile, Event, EventType, DanceStyle, Instructor, Dance
     OrganizationShouldKnowLink, LinkShouldKnow, PersonShouldKnow, OrganizationShouldKnow, VideoWikiLink, AudioWikiLink, \
     VideoWikiTag, AudioWikiTag, AudioWiki, VideoWiki, AudioWikiPlaylistLink, VideoWikiPlaylistLink, PhotoWikiTag, \
     PhotoWiki, PhotoWikiAlbum, VideoWikiPlaylist, AudioWikiPlaylist, DanceClassType, DanceClassPriceType, \
-    DanceClassExperienceLevel, PlaceType, ShopType, InstructorLocation
+    DanceClassExperienceLevel, PlaceType, ShopType, InstructorLocation, DanceStyleDirection, DanceStyleInSection
 from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, DanceStudioForm, \
     DanceClassForm, ArticleForm, VisitorMessageForm, DanceHallPhotoForm, DanceHallForm, \
     DanceShopPhotoForm, DanceShopForm, ContactsForm, SocialsForm, SocialLinkVKForm, SocialLinkFBForm, \
@@ -24,7 +24,8 @@ from .forms import EventForm, EventTypeForm, DanceStyleForm, InstructorForm, Dan
     VideoWikiLinkForm, AudioWikiLinkForm, VideoWikiTagForm, AudioWikiTagForm, AudioWikiForm, VideoWikiForm, \
     AudioWikiPlaylistLinkForm, VideoWikiPlaylistLinkForm, PhotoWikiTagForm, PhotoWikiForm, PhotoWikiAlbumForm, \
     VideoWikiPlaylistForm, AudioWikiPlaylistForm, DanceClassTypeForm, DanceClassPriceTypeForm, \
-    DanceClassExperienceLevelForm, PlaceTypeForm, ShopTypeForm, InstructorLocationForm
+    DanceClassExperienceLevelForm, PlaceTypeForm, ShopTypeForm, InstructorLocationForm, DanceStyleDirectionForm, \
+    DanceStyleInSectionForm
 
 
 class UserProfileInline(admin.StackedInline):
@@ -217,13 +218,27 @@ class OrganizationShouldKnowAdmin(admin.ModelAdmin):
 admin.site.register(OrganizationShouldKnow, OrganizationShouldKnowAdmin)
 
 
+class DanceStyleDirectionAdmin(admin.ModelAdmin):
+    list_display = ["title", "author", 'created', 'updated']
+    form = DanceStyleDirectionForm
+
+admin.site.register(DanceStyleDirection, DanceStyleDirectionAdmin)
+
+
 class DanceStyleAdmin(admin.ModelAdmin):
-    list_display = ["title", 'short_description', 'image', 'direction', 'get_count_types',
-                    'get_between_partners_distances', 'get_average_prices', 'for_children', "author", 'created',
-                    'updated']
+    list_display = ["title", 'direction', "author", 'created', 'updated']
     form = DanceStyleForm
 
 admin.site.register(DanceStyle, DanceStyleAdmin)
+
+
+class DanceStyleInSectionAdmin(admin.ModelAdmin):
+    list_display = ["title", 'dance_style', 'short_description', 'image', 'video', 'get_count_types',
+                    'get_between_partners_distances', 'get_average_prices', 'get_attendee_ages',
+                    "author", 'created', 'updated']
+    form = DanceStyleInSectionForm
+
+admin.site.register(DanceStyleInSection, DanceStyleInSectionAdmin)
 
 
 class EventTypeAdmin(admin.ModelAdmin):

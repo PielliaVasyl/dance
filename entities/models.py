@@ -13,7 +13,8 @@ from django.dispatch import receiver
 from django.template.defaultfilters import truncatechars
 
 from classes.models import WeekDay
-from dance_styles.models import CountType, BetweenPartnersDistance, AveragePrice
+from dance_styles.models import DanceStyleInSectionCountType, DanceStyleInSectionBetweenPartnersDistance, \
+    DanceStyleInSectionAveragePrice, DanceStyleInSectionAttendeeAge
 
 
 class UserProfile(models.Model):
@@ -292,14 +293,7 @@ class OrganizationShouldKnow(AbstractShouldKnow):
         return ''
 
 
-class DanceStyle(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField(blank=True)
-    image = models.ImageField(blank=True)
-
-    @property
-    def short_description(self):
-        return truncatechars(self.description, 100)
+class DanceStyleDirection(models.Model):
 
     BALLET = 'BAL'
     LATINA = 'LAT'
@@ -313,22 +307,70 @@ class DanceStyle(models.Model):
         (BALLET, 'Балет'),
         (LATINA, 'Латина'),
     )
-    direction = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=LATINA)
+    title = models.CharField(max_length=3, choices=DIRECTION_CHOICES, default=LATINA)
 
     def direction_show(self):
         direction_choices_dict = {k: v for k, v in self.DIRECTION_CHOICES}
         return "%s" % direction_choices_dict.get(self.direction, self.direction)
 
-    count_types = models.ManyToManyField(CountType, blank=True)
-    between_partners_distances = models.ManyToManyField(BetweenPartnersDistance, blank=True)
-    average_prices = models.ManyToManyField(AveragePrice, blank=True)
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s - %s' % (self.direction, self.title)
+
+    class Meta:
+        ordering = ('title',)
+
+
+class DanceStyle(models.Model):
+    title = models.CharField(max_length=50)
+
+    direction = models.ForeignKey('DanceStyleDirection', on_delete=models.CASCADE, null=True)
+
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return '%s - %s' % (self. direction, self.title)
+
+    class Meta:
+        ordering = ('title',)
+
+
+class DanceStyleInSection(models.Model):
+    title = models.CharField(max_length=50)
+    dance_style = models.OneToOneField(DanceStyle)
+
+    def __init__(self, *args, **kwargs):
+        super(models.Model, self).__init__(self, *args, **kwargs)
+        self.title = self.dance_style.title
+
+    def save(self, *args, **kwargs):
+        self.title = self.dance_style.title
+        super().save()
+
+    description = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+    video = models.URLField(blank=True)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 100)
+
+    count_types = models.ManyToManyField(DanceStyleInSectionCountType, blank=True)
+    between_partners_distances = models.ManyToManyField(DanceStyleInSectionBetweenPartnersDistance, blank=True)
+    average_prices = models.ManyToManyField(DanceStyleInSectionAveragePrice, blank=True)
+    attendee_ages = models.ManyToManyField(DanceStyleInSectionAttendeeAge, blank=True)
 
     def get_count_types(self):
         if self.count_types.all():
             return "\n".join([p.count_type for p in self.count_types.all()])
         return ''
 
-    COUNT_TYPE_CHOICES = CountType.COUNT_TYPE_CHOICES
+    COUNT_TYPE_CHOICES = DanceStyleInSectionCountType.COUNT_TYPE_CHOICES
 
     def get_count_types_list(self):
         if self.count_types.all():
@@ -341,7 +383,7 @@ class DanceStyle(models.Model):
             return "\n".join([p.distance for p in self.between_partners_distances.all()])
         return ''
 
-    DISTANCE_CHOICES = BetweenPartnersDistance.DISTANCE_CHOICES
+    DISTANCE_CHOICES = DanceStyleInSectionBetweenPartnersDistance.DISTANCE_CHOICES
 
     def get_between_partners_distances_list(self):
         if self.between_partners_distances.all():
@@ -354,21 +396,32 @@ class DanceStyle(models.Model):
             return "\n".join([p.price for p in self.average_prices.all()])
         return ''
 
-    PRICE_CHOICES = AveragePrice.PRICE_CHOICES
+    PRICE_CHOICES = DanceStyleInSectionAveragePrice.PRICE_CHOICES
 
     def get_average_prices_list(self):
         if self.average_prices.all():
             return [{k: v for k, v in self.PRICE_CHOICES}.get(p.price, p.price) for p in self.average_prices.all()]
         return []
 
-    for_children = models.BooleanField(blank=True, default=False)
+    def get_attendee_ages(self):
+        if self.attendee_ages.all():
+            return "\n".join([p.price for p in self.attendee_ages.all()])
+        return ''
+
+    ATTENDEE_AGE_CHOICES = DanceStyleInSectionAttendeeAge.ATTENDEE_AGE_CHOICES
+
+    def get_attendee_ages_list(self):
+        if self.attendee_ages.all():
+            return [{k: v for k, v in self.ATTENDEE_AGE_CHOICES}.get(p.attendee_age, p.attendee_age)
+                    for p in self.attendee_ages.all()]
+        return []
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-        return '%s - %s' % (self. direction, self.title)
+        return '%s - %s' % (self.direction, self.title)
 
     class Meta:
         ordering = ('title',)

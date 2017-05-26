@@ -1,25 +1,34 @@
 from django.contrib import admin
 
-from dance_styles.forms import CountTypeForm, BetweenPartnersDistanceForm, AveragePriceForm
-from dance_styles.models import CountType, BetweenPartnersDistance, AveragePrice
+from dance_styles.forms import DanceStyleInSectionCountTypeForm, DanceStyleInSectionBetweenPartnersDistanceForm, \
+    DanceStyleInSectionAveragePriceForm, DanceStyleInSectionAttendeeAgeForm
+from dance_styles.models import DanceStyleInSectionCountType, DanceStyleInSectionBetweenPartnersDistance, \
+    DanceStyleInSectionAveragePrice, DanceStyleInSectionAttendeeAge
 
 
-class CountTypeAdmin(admin.ModelAdmin):
+class DanceStyleInSectionCountTypeAdmin(admin.ModelAdmin):
     list_display = ["count_type"]
-    form = CountTypeForm
+    form = DanceStyleInSectionCountTypeForm
 
-admin.site.register(CountType, CountTypeAdmin)
+admin.site.register(DanceStyleInSectionCountType, DanceStyleInSectionCountTypeAdmin)
 
 
-class BetweenPartnersDistanceAdmin(admin.ModelAdmin):
+class DanceStyleInSectionBetweenPartnersDistanceAdmin(admin.ModelAdmin):
     list_display = ["distance"]
-    form = BetweenPartnersDistanceForm
+    form = DanceStyleInSectionBetweenPartnersDistanceForm
 
-admin.site.register(BetweenPartnersDistance, BetweenPartnersDistanceAdmin)
+admin.site.register(DanceStyleInSectionBetweenPartnersDistance, DanceStyleInSectionBetweenPartnersDistanceAdmin)
 
 
-class AveragePriceAdmin(admin.ModelAdmin):
+class DanceStyleInSectionAveragePriceAdmin(admin.ModelAdmin):
     list_display = ["price"]
-    form = AveragePriceForm
+    form = DanceStyleInSectionAveragePriceForm
 
-admin.site.register(AveragePrice, AveragePriceAdmin)
+admin.site.register(DanceStyleInSectionAveragePrice, DanceStyleInSectionAveragePriceAdmin)
+
+
+class DanceStyleInSectionAttendeeAgeAdmin(admin.ModelAdmin):
+    list_display = ["attendee_age"]
+    form = DanceStyleInSectionAttendeeAgeForm
+
+admin.site.register(DanceStyleInSectionAttendeeAge, DanceStyleInSectionAttendeeAgeAdmin)
