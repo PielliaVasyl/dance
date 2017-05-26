@@ -1,7 +1,7 @@
 from django import forms
 
 from entities.models import City, PlaceInMap, DanceStyle, PlaceType, DanceStudio, DanceShop, ShopType, DanceHall, \
-    Instructor
+    Instructor, DanceStyleDirection
 
 
 class CityForm(forms.ModelForm):
@@ -162,29 +162,30 @@ def _get_shop_types_choices(shops):
 
 
 def _get_dance_styles_choices(dance_styles, instances, instances_2=None):
-    direction_dict = DanceStyle.DIRECTION_SHOW
-    all_directions = set([dance_style.direction for dance_style in dance_styles])
-
-    styles_per_instance = [[(dance_style.direction, dance_style.pk, dance_style.title)
-                            for dance_style in instance.dance_styles.all()]
-                           for instance in instances]
-    styles_per_instance_2 = []
-    if instances_2:
-        styles_per_instance_2 = [[(dance_style.direction, dance_style.pk, dance_style.title)
-                                for dance_style in instance.dance_styles.all()]
-                               for instance in instances_2]
-    all_dance_styles = []
-    for j in styles_per_instance:
-        all_dance_styles.extend(j)
-    if instances_2:
-        for j in styles_per_instance_2:
-            all_dance_styles.extend(j)
-    all_dance_styles = tuple(set(all_dance_styles))
-
-    dance_styles_choices = ([(direction_dict.get(dance_direction, dance_direction),
-                              tuple([(i[1], i[2]) for i in [dance_style for dance_style in all_dance_styles]
-                                     if i[0] == dance_direction])) for dance_direction in all_directions][0],)
-    return dance_styles_choices
+    return []
+    # direction_dict = DanceStyleDirection.DIRECTION_SHOW
+    # all_directions = set([dance_style.direction.title for dance_style in dance_styles])
+    #
+    # styles_per_instance = [[(dance_style.direction.title, dance_style.pk, dance_style.title)
+    #                         for dance_style in instance.dance_styles.all()]
+    #                        for instance in instances]
+    # styles_per_instance_2 = []
+    # if instances_2:
+    #     styles_per_instance_2 = [[(dance_style.direction.title, dance_style.pk, dance_style.title)
+    #                             for dance_style in instance.dance_styles.all()]
+    #                            for instance in instances_2]
+    # all_dance_styles = []
+    # for j in styles_per_instance:
+    #     all_dance_styles.extend(j)
+    # if instances_2:
+    #     for j in styles_per_instance_2:
+    #         all_dance_styles.extend(j)
+    # all_dance_styles = tuple(set(all_dance_styles))
+    #
+    # dance_styles_choices = ([(direction_dict.get(dance_direction, dance_direction),
+    #                           tuple([(i[1], i[2]) for i in [dance_style for dance_style in all_dance_styles]
+    #                                  if i[0] == dance_direction])) for dance_direction in all_directions][0],)
+    # return dance_styles_choices
 
 
 class PlacesFilterForm(forms.Form):
