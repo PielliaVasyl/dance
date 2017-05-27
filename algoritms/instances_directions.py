@@ -1,7 +1,8 @@
+from algoritms.entity_schedule import _get_filtered_instances
 from entities.models import DanceStyleDirection
 
 
-def instances_directions(entity, directions=None, direction_show=None):
+def instances_directions(entity, directions=None, direction_show=None, filters=None):
     if entity.objects.first():
         instances = entity.objects.all()
         if directions is None:
@@ -12,6 +13,9 @@ def instances_directions(entity, directions=None, direction_show=None):
         my_instances_directions = []
         for direction in directions:
             instances_for_particular_direction = instances.filter(dance_style__direction__title=direction)
+
+            instances_for_particular_direction = _get_filtered_instances(instances_for_particular_direction, filters)
+
             if instances_for_particular_direction:
                 instances_direction = {'direction': direction_show.get(direction, direction),
                                        'instances': instances_for_particular_direction}

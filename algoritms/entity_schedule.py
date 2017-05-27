@@ -51,6 +51,21 @@ def _get_filtered_instances(instances, filters=None):
             if key == 'shop_types':
                 instances = [i for i in instances
                              if not set([str(j.pk) for j in i.shop_types.all()]).isdisjoint(value)]
+
+            if key == 'titles':
+                instances = [i for i in instances if i.pk and str(i.pk) in value]
+            if key == 'directions':
+                instances = [i for i in instances
+                             if i.dance_style.direction and str(i.dance_style.direction.pk) in value]
+            if key == 'count_types':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.count_types.all()]).isdisjoint(value)]
+            if key == 'between_partners_distances':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.between_partners_distances.all()]).isdisjoint(value)]
+            if key == 'average_prices':
+                instances = [i for i in instances
+                             if not set([str(j.pk) for j in i.average_prices.all()]).isdisjoint(value)]
     if instances:
         instances = set(instances)
     return instances

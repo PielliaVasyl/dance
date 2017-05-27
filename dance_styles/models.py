@@ -6,6 +6,12 @@ class DanceStyleInSectionCountType(models.Model):
     PARTNER = 'PRN'
     GROUP = 'GRP'
 
+    COUNT_TYPE_SHOW = {
+        SOLO: 'Одиночный',
+        PARTNER: 'Парный',
+        GROUP: 'Групповой'
+    }
+
     COUNT_TYPE_CHOICES = (
         (SOLO, 'Одиночный'),
         (PARTNER, 'Парный'),
@@ -20,12 +26,18 @@ class DanceStyleInSectionCountType(models.Model):
 
 class DanceStyleInSectionBetweenPartnersDistance(models.Model):
     CLOSE = 'CLS'
-    AREVAGE = 'AVG'
+    AVERAGE = 'AVG'
     DISTANT = 'DIS'
+
+    DISTANCE_SHOW = {
+        CLOSE: 'Близкая',
+        AVERAGE: 'Средняя',
+        DISTANT: 'Далекая'
+    }
 
     DISTANCE_CHOICES = (
         (CLOSE, 'Близкая'),
-        (AREVAGE, 'Средняя'),
+        (AVERAGE, 'Средняя'),
         (DISTANT, 'Далекая')
     )
 
@@ -39,6 +51,12 @@ class DanceStyleInSectionAveragePrice(models.Model):
     LOW = 'LOW'
     AVERAGE = 'AVG'
     HIGH = 'HIG'
+
+    PRICE_SHOW = {
+        LOW: 'Низкий',
+        AVERAGE: 'Средний',
+        HIGH: 'Высокий'
+    }
 
     PRICE_CHOICES = (
         (LOW, 'Низкий'),

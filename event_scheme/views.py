@@ -8,7 +8,7 @@ from event_scheme.forms import EventsFilterForm
 
 def events_show(request, archive=False):
     title = 'Расписание мероприятий'
-    # request.POST = request.session.get('_old_post')
+
     filters = None
     form = EventsFilterForm(request.POST or None)
     if form.is_valid():

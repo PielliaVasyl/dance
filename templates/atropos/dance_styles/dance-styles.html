@@ -43,7 +43,7 @@
                                                     <th>Одиночный/парный/групповой</th>
                                                     <th>Дистанция между партнерами</th>
                                                     <th>Уровень цен</th>
-                                                    <th>Возрастная категория</th>
+                                                    <!--<th>Возрастная категория</th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -53,7 +53,7 @@
                                                     <td>{% for count_type in dance_style.get_count_types_list %}{{ count_type }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                                                     <td>{% for distance in dance_style.get_between_partners_distances_list %}{{ distance }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                                                     <td>{% for price in dance_style.get_average_prices_list %}{{ price }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
-                                                    <td>{% for age in dance_style.get_attendee_ages_list %}{{ age }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                                    <!--<td>{% for age in dance_style.get_attendee_ages_list %}{{ age }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>-->
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -71,34 +71,51 @@
 
                     					<!-- side column -->
 					<div class="col-md-3">
-						<form method="post" class="white-row" action="/locations/?location={{ request.GET.location }}">
+						<form method="post" class="white-row">
 							{% csrf_token %}
 							<!-- FILTER / SEARCH -->
 							<h3 class="page-header nomargin-top margin-bottom40">
-								Найти <strong class="styleColor">свой стиль</strong>
+								Найти <strong class="styleColor">стиль</strong>
 							</h3>
 
 							<input type="hidden" name="city" value="{{ select_city_form.city.value }}">
 
 							<div class="row">
 								<div class="form-group">
-									{% if form.place_types %}
 									<div class="col-md-12 col-sm-6">
-										<label>{{ form.place_types.label }}</label>
-										{{ form.place_types }}
+										<label>{{ form.titles.label }}</label>
+										{{ form.titles }}
 									</div>
-									{% endif %}
-									{% if form.shop_types %}
-									<div class="col-md-12 col-sm-6">
-										<label>{{ form.shop_types.label }}</label>
-										{{ form.shop_types }}
-									</div>
-									{% endif %}
 
 									<div class="col-md-12 col-sm-6">
-										<label>{{ form.dance_styles.label }}</label>
-										{{ form.dance_styles }}
+										<label>{{ form.directions.label }}</label>
+										{{ form.directions }}
 									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.count_types.label }}</label>
+										{{ form.count_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.between_partners_distances.label }}</label>
+										{{ form.between_partners_distances }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.average_prices.label }}</label>
+										{{ form.average_prices }}
+									</div>
+
+									<!--<div class="col-md-12 col-sm-6">
+										<label>{{ form.attendee_ages.label }}</label>
+										{{ form.attendee_ages }}
+									</div> -->
+
+									<!--<div class="col-md-12 col-sm-6">
+										<label>{{ form.cities.label }}</label>
+										{{ form.cities }}
+									</div> -->
 
 									<div class="col-md-12">
 										<label>&nbsp;</label>
