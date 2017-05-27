@@ -20,6 +20,10 @@ class DanceStyleInSectionCountType(models.Model):
 
     count_type = models.CharField(max_length=3, choices=COUNT_TYPE_CHOICES, blank=True)
 
+    def title_show(self):
+        title_choices_dict = {k: v for k, v in self.COUNT_TYPE_CHOICES}
+        return "%s" % title_choices_dict.get(self.count_type, self.count_type)
+
     def __str__(self):
         return '%s' % self.count_type
 
@@ -42,6 +46,10 @@ class DanceStyleInSectionBetweenPartnersDistance(models.Model):
     )
 
     distance = models.CharField(max_length=3, choices=DISTANCE_CHOICES, blank=True)
+
+    def title_show(self):
+        title_choices_dict = {k: v for k, v in self.DISTANCE_CHOICES}
+        return "%s" % title_choices_dict.get(self.distance, self.distance)
 
     def __str__(self):
         return '%s' % self.distance
@@ -66,6 +74,10 @@ class DanceStyleInSectionAveragePrice(models.Model):
 
     price = models.CharField(max_length=3, choices=PRICE_CHOICES, blank=True)
 
+    def title_show(self):
+        title_choices_dict = {k: v for k, v in self.PRICE_CHOICES}
+        return "%s" % title_choices_dict.get(self.price, self.price)
+
     def __str__(self):
         return '%s' % self.price
 
@@ -82,6 +94,10 @@ class DanceStyleInSectionAttendeeAge(models.Model):
     )
 
     attendee_age = models.CharField(max_length=3, choices=ATTENDEE_AGE_CHOICES, blank=True)
+
+    def title_show(self):
+        title_choices_dict = {k: v for k, v in self.ATTENDEE_AGE_CHOICES}
+        return "%s" % title_choices_dict.get(self.attendee_age, self.attendee_age)
 
     def __str__(self):
         return '%s' % self.attendee_age

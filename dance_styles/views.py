@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from algoritms.instances_directions import instances_directions
 from dance_styles.forms import DanceStyleFilterForm
@@ -40,3 +40,23 @@ def dance_styles_show(request):
         'form': form,
     }
     return render(request, 'dance_styles/dance-styles.html', context)
+
+
+def dance_style_show(request, dance_style_id):
+    dance_style = get_object_or_404(DanceStyleInSection, pk=dance_style_id)
+    title = '%s' % (dance_style.title,)
+
+    form = DanceStyleFilterForm(request.POST or None)
+    # city_num = 1
+    # try:
+    #     city_num = dance_style.locations.all()[0].city.pk
+    # except:
+    #     pass
+
+    context = {
+        'title': title,
+        'dance_style': dance_style,
+        'form': form,
+        # 'city_num': city_num
+    }
+    return render(request, 'dance_styles/dance-style-single.html', context)

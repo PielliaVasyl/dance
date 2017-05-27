@@ -49,7 +49,7 @@
                                             <tbody>
                                             {% for dance_style in styles_direction.instances %}
                                                 <tr>
-                                                    <td>{{ dance_style.title }}</td>
+                                                    <td><a class="styleColor" href="/dance-styles/dance-style-{{ dance_style.pk }}">{{ dance_style.title }}</a></td>
                                                     <td>{% for count_type in dance_style.get_count_types_list %}{{ count_type }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                                                     <td>{% for distance in dance_style.get_between_partners_distances_list %}{{ distance }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                                                     <td>{% for price in dance_style.get_average_prices_list %}{{ price }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>

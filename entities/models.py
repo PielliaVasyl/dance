@@ -311,7 +311,7 @@ class DanceStyleDirection(models.Model):
 
     def direction_show(self):
         direction_choices_dict = {k: v for k, v in self.DIRECTION_CHOICES}
-        return "%s" % direction_choices_dict.get(self.direction, self.direction)
+        return "%s" % direction_choices_dict.get(self.title, self.title)
 
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)

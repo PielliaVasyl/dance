@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - {% endblock %}
+
+{% block wrapper %}
+
+		<!-- WRAPPER -->
+		<div id="wrapper">
+			<div class="container magazine top-no-header">
+				<div class="row">
+					<!-- center column -->
+					<div class="col-md-12">
+
+						<header class="page-title">
+							<h1 style="text-align: center">{{ dance_style.title }}</h1>
+							<!--<div class="pull-right">
+								<small class="block styleCoor fsize20">
+									<span class="label label-default" title="Даты проведения и длительность мероприятия">{{ dance_style.date_show }} | {{ dance_style.duration_show }}</span>
+								</small>
+							</div>
+							<small class="block styleCoor fsize20">
+								<span class="label label-{{ dance_style.status_label_color }}" title="Статус мероприятия"><i class="fa {{ dance_style.status_icon }}"></i> {{ dance_style.status_show }}</span>
+							</small>-->
+						</header>
+
+						<div class="divider half-margins"><!-- divider -->
+							<i class="fa fa-star"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<section class="container">
+				<div class="row">
+					<!-- center column -->
+					<div class="col-md-9">
+						<div class="white-row">
+							<!-- PROPERTY FEATURES -->
+							<h3 class="page-header margin-bottom40" style="text-align:center">
+								<strong class="styleColor">Основная информация</strong>
+							</h3>
+
+							<div class="row">
+								<!-- col 1 -->
+								<div class="col-md-5 col-sm-6 col-md-offset-1">
+
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-arrows" title="Направление танца"></i>
+												<span class="label label-primary" title="Направление танца">{{ dance_style.dance_style.direction.direction_show }}</span>
+											</small>
+										</div>
+									</div>
+
+									{% if dance_style.count_types.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-reorder" title="Количество танцующих"></i>
+												{% for count_types in dance_style.count_types.all %}
+												<span class="label label-success" title="Количество танцующих">{{ count_types.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+
+									{% if dance_style.between_partners_distances.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-reorder" title="Дистанция между партнерами"></i>
+												{% for distance in dance_style.between_partners_distances.all %}
+												<span class="label label-success" title="Дистанция между партнерами">{{ distance.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+
+								</div>
+								<!-- col 2 -->
+								<div class="col-md-5 col-sm-6 col-md-offset-1">
+									{% if dance_style.attendee_ages.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-reorder" title="Возрастная группа"></i>
+												{% for age in dance_style.attendee_ages.all %}
+												<span class="label label-info" title="Возрастная группа">{{ age.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if dance_style.average_prices.all %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-money" title="Уровень цен"></i>
+												{% for prices in dance_style.average_prices.all %}
+												<span class="label label-success" title="Уровень цен">{{ prices.title_show }}</span>
+												{% endfor %}
+											</small>
+										</div>
+									</div>
+									{% endif %}
+									{% if dance_style.note %}
+									<div class="row">
+										<div class="col-md-12">
+											<small class="block styleCoor fsize20">
+												<i class="fa fa-exclamation-circle" title="Обратите внимание"></i>
+												<span class="label label-default" title="Обратите внимание">{{ dance_style.note }}</span>
+											</small>
+										</div>
+									</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<hr style="margin: 20px 0"/><!-- divider -->
+
+							{% if dance_style.image %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1" style="margin-bottom: 10px; text-align: left;">
+									<img src="{{ dance_style.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+								</div>
+							</div>
+							<hr style="margin: 20px 0"/><!-- divider -->
+							{% endif %}
+
+							{% if dance_style.description %}
+							<p class="lead text-center">Описание места</p>
+							{{ dance_style.description|linebreaks }}
+							{% endif %}
+
+							{% if dance_style.links.all %}
+							<p>Источник:
+								{% for link in dance_style.links.all %}
+								<a href="{{ link.link }}">Перейти</a>
+								{% endfor %}
+							</p>
+							{% endif %}
+
+							{% if dance_style.video %}
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div style="width: 100%; position: relative; padding: 0;">
+										<iframe src="{{ dance_style.video }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0;" width="800" height="450"></iframe>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						</div><!-- /.white-row -->
+					</div>
+
+					<!-- side column -->
+					<div class="col-md-3">
+						<form method="post" class="white-row" action="/dance-styles/">
+							{% csrf_token %}
+							<!-- FILTER / SEARCH -->
+							<h3 class="page-header nomargin-top margin-bottom40">
+								Найти <strong class="styleColor">места</strong>
+							</h3>
+
+							<div class="row">
+								<div class="form-group">
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.titles.label }}</label>
+										{{ form.titles }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.directions.label }}</label>
+										{{ form.directions }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.count_types.label }}</label>
+										{{ form.count_types }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.between_partners_distances.label }}</label>
+										{{ form.between_partners_distances }}
+									</div>
+
+									<div class="col-md-12 col-sm-6">
+										<label>{{ form.average_prices.label }}</label>
+										{{ form.average_prices }}
+									</div>
+
+									<!--<div class="col-md-12 col-sm-6">
+										<label>{{ form.city.label }}</label>
+										<select class="chosen-select" data-placeholder="Выберите города..." id="id_city" name="city" style="min-width: 172px; width: 100%;" tabindex="0" required="">
+											{% for x,y in form.fields.city.choices %}
+												<option value="{{ x }}" {% if x == city_num %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>-->
+
+									<div class="col-md-12">
+										<label>&nbsp;</label>
+										<button class="btn btn-primary fullwidth">Найти</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- SOCIALS -->
+						<h3 class="page-header">
+							<i class="fa fa-twitter"></i>
+							<strong class="styleColor">Следите</strong> за нами
+						</h3>
+						<a href="#" class="social fa fa-facebook"></a>
+						<a href="#" class="social fa fa-twitter"></a>
+						<a href="#" class="social fa fa-google-plus"></a>
+						<a href="#" class="social fa fa-linkedin"></a>
+						<a href="#" class="social fa fa-pinterest"></a>
+						<a href="#" class="social fa fa-flickr"></a>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- /WRAPPER -->
+{% endblock %}

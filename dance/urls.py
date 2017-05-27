@@ -65,6 +65,7 @@ urlpatterns = [
     url(r'^photos/$', photos_views.photos_show),
     url(r'^dance-styles/', include([
         url(r'^$', dance_styles_views.dance_styles_show),
+        url(r'^(?:dance-style-(?P<dance_style_id>\d+)/)?$', dance_styles_views.dance_style_show),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
